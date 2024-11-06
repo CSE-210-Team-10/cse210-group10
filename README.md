@@ -1,1 +1,1 @@
-# cse210-fa24-group10
+# CSE 210 Group 10 Project Repository
