@@ -28,4 +28,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ./dist --project-name=ci-cd-test --branch=release --commit-hash=${{ github.sha }}
+          command: pages deploy ./dist --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }} --branch=release --commit-hash=${{ github.sha }}
