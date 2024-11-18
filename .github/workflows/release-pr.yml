@@ -1,0 +1,52 @@
+# .github/workflows/release-pr.yml  # More specific name
+name: Release PR Deployment
+
+on:
+  pull_request:
+    branches: [release]
+    types: [opened, synchronize]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci # clean install
+
+      - name: Run Tests
+        id: tests
+        run: npm test
+
+  deploy:
+    needs: test
+    if: startsWith(github.head_ref, 'dev/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy ./dist --project-name=ci-cd-test --branch=${{ github.head_ref }} --commit-hash=${{ github.sha }} --commit-message="${{ github.event.pull_request.title }}"
