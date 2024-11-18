@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "scripts": {
+    "build": "bash ./scripts/build.sh",
+    "serve": "npx live-server src --port=3000 --no-browser",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "./node_modules/.bin/jest --watch",
+    "start": "npm run build && npx live-server dist --port=3000 --no-browser",
+    "start:dev": "npm run serve"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "live-server": "^1.2.2"
+  }
+}
