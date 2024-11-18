@@ -2,7 +2,7 @@
 
 The CI/CD pipeline is designed to ensure safe integration practices, along with proper developer practices for this project. The general design will include unit testing, integration testing, and linting. Enforcement of these critical tools will be done using GitHub Actions. As a reference, the CI/CD diagram gives a end-to-end view of how the pipeline will operate.
 
-![CI/CD Pipeline](cicd.drawio.png)
+![CI/CD Pipeline](cicd.png)
 
 ## Current Functionality
 
