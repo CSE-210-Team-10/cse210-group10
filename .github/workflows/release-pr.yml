@@ -29,6 +29,9 @@ jobs:
     needs: test
     if: startsWith(github.head_ref, 'dev/')
     runs-on: ubuntu-latest
+    permissions: # to add permissions to write on PR
+      pull-requests: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
