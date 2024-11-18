@@ -53,11 +53,12 @@ jobs:
 
       - name: Get deployment URL
         id: get-url
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deployment list --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }} >> deployments.txt
+        run: |
+          OUTPUT=$(cloudflare/wrangler-action@v3 \
+            --apiToken=${{ secrets.CLOUDFLARE_API_TOKEN }} \
+            --accountId=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} \
+            --command="pages deployment list --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }}")
+          echo "$OUTPUT" > deployments.txt
 
       - name: Extract URL
         id: extract-url
