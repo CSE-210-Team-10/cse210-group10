@@ -1,12 +1,3 @@
----
-name: Pull request issue template
-about: This is a template that will be used for all pull requests in the future.
-title: ''
-labels: ''
-assignees: ''
-
----
-
 ## Feature/Change Description
 {fill in here / okay if bulleted list below}
 
