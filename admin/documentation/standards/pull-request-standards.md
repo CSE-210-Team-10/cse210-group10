@@ -23,3 +23,28 @@ Developer Contributions: {fill in who worked on what}
 
 Dependencies {fill in any features that are dependent on these changes and any special considerations that need to be made because of this}
 ```
+
+## Example
+
+An example pull request can be seen below to demonstrate an effective use of the system:
+
+Title: 
+```
+"implement-hover-functionality-shayan"
+```
+
+Content:
+```
+Feature/Change Description:
+* Added hover functionality to footnotes
+* Added fail safe press feature for mobile use case
+
+Developer Contributions:
+* Shayan - Added hover functionality
+* David - Added fail safe press feature for mobile use case
+
+Dependencies 
+* Group footnote functionality is dependent, however design ensures that these changes will automatically be updated to group
+* Considerations may be needed to make sure overlapping footnotes in groups are accounted for
+```
+
