@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-The team needed to decide the best way to lint Javascript files as part of the CI/CD pipeline.
+The team needed to decide the best way to lint HTML files as part of the CI/CD pipeline.
 ## Considered Options
 
 * HTMLHint
