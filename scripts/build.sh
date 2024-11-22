@@ -16,7 +16,7 @@ fi
 rm -rf ./dist
 mkdir ./dist
 
-cd ./src
+cd ./tmp
 
 create_parent_dirs_in_dist() {
     local file="$1"
@@ -47,7 +47,7 @@ done
 # 3. Minify and copy all index.js files
 # Note: Requires npx to be installed
 echo "Minifying JS files..."
-find . -name "index.js" | while read -r file; do
+find . -name "*.js" | while read -r file; do
     file_without_prefix="${file#./}"  # Remove leading ./ from the path
     create_parent_dirs_in_dist "$file_without_prefix"
     npx terser "$file"  -c -m -o "../dist/$file_without_prefix"
@@ -55,5 +55,7 @@ find . -name "index.js" | while read -r file; do
 done
 
 cd ..
+
+rm -rf ./tmp
 
 echo "Build complete! Files are in dist/"

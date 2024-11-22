@@ -11,7 +11,7 @@ fi
 rm -rf ./dist
 mkdir ./dist
 
-cd ./src
+cd ./tmp
 
 create_parent_dirs_in_dist() {
     local file="$1"
@@ -40,7 +40,7 @@ done
 
 # 3. Copy all index.js files while maintaining structure
 echo "Copying JS files..."
-find . -name "index.js" | while read -r file; do
+find . -name "*.js" | while read -r file; do
 	file_without_prefix="${file#./}"
     create_parent_dirs_in_dist "$file_without_prefix"
     cp "$file" "../dist/$file_without_prefix"
@@ -48,5 +48,7 @@ find . -name "index.js" | while read -r file; do
 done
 
 cd ..
+
+rm -rf ./tmp
 
 echo "Build complete! Files are in dist/"
