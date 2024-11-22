@@ -1,21 +1,26 @@
 {
   "type": "module",
   "scripts": {
-    "build": "bash ./scripts/build.sh",
-    "serve": "npx live-server src --port=3000 --no-browser",
+    "build": "python3 ./scripts/build.py && bash ./scripts/build.sh",
+    "build:dev": "python3 ./scripts/build.py && bash ./scripts/dev-build.sh",
+    "serve": "npx live-server dist --port=3000 --no-browser",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "./node_modules/.bin/jest --watch",
-    "start": "npm run build && npx live-server dist --port=3000 --no-browser",
-    "start:dev": "npm run serve",
+    "start": "npm run build && npm run dev",
+    "dev": "npm run build:dev && concurrently \"npm run serve\" \"npm run watch\"",
     "lint": "eslint src test",
-    "lint:fix": "eslint src test --fix"
+    "lint:fix": "eslint src test --fix",
+    "clean": "rm -rf ./dist/*",
+    "watch": "onchange 'src/**/*' -- npm run build:dev"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "concurrently": "^9.1.0",
     "eslint": "^9.15.0",
     "eslint-plugin-jsdoc": "^50.5.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "onchange": "^7.1.0"
   }
 }
