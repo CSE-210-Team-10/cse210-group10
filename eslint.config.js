@@ -7,6 +7,21 @@ export default [
     plugins: {
       jsdoc: jsdoc,
     },
+    languageOptions: {
+      globals: {
+        // Jest globals
+        describe: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        jest: 'readonly',
+      },
+      ecmaVersion: 2022,
+      sourceType: 'module',
+    },
     rules: {
       // Variables
       'no-unused-vars': 'error', // Prevent unused variables
