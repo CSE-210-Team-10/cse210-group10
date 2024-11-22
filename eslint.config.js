@@ -9,6 +9,30 @@ export default [
     },
     languageOptions: {
       globals: {
+        // Browser globals
+        window: 'readonly',
+        document: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        fetch: 'readonly',
+        navigator: 'readonly',
+        location: 'readonly',
+        history: 'readonly',
+        console: 'readonly', // Added for console
+        HTMLElement: 'readonly', // Added for web components
+        CSSStyleSheet: 'readonly', // Added for constructable stylesheets
+        CustomEvent: 'readonly', // Added for custom events
+        customElements: 'readonly', // Added for custom elements registry
+
+        // ES2021 globals
+        Promise: 'readonly',
+        Set: 'readonly',
+        Map: 'readonly',
+        WeakSet: 'readonly',
+        WeakMap: 'readonly',
+        BigInt: 'readonly',
+        globalThis: 'readonly',
+
         // Jest globals
         describe: 'readonly',
         test: 'readonly',
