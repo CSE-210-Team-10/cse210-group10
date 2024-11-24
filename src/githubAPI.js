@@ -1,9 +1,9 @@
 // const fetch = import('node-fetch');
 import fetch from 'node-fetch';
-import { GITHUB_TOKEN } from './constants.js'
+import { GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO } from './constants.js'
 
-const owner = 'CSE-210-Team-10'; //owner is organization name in this case
-const repo = 'group10-esc012'; //repo
+const owner = GITHUB_OWNER; 
+const repo = GITHUB_REPO; 
 
 const token = GITHUB_TOKEN// Fill with own, you can also just run without but rate limited
 
