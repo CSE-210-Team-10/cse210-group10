@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: linear-gradient(to right, #00bcd4, #00796b);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 1rem;
+            gap: 1rem;
+        }
+        /* Left Sidebar */
+        .sidebar {
+            width: 21%;
+            background: #e0f7fa;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 4rem);
+        }
+        .section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: #00bcd4;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .section a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .section a:hover {
+            text-decoration: underline;
+        }
+        .video-container iframe {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .link-button {
+    display: block;
+    background-color: #fff;
+    color: #000 !important;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+        /* Right Main Content */
+        .main-content {
+            width: 65%;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        /* Global styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Deadlines Section */
+.deadlines {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.deadlines h2 {
+    font-size: 1.8rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid #34d4c0;
+    padding-bottom: 15px;
+}
+
+/* Deadline Card */
+.deadline-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.deadline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+.deadline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.deadline-header h4 {
+    font-size: 1 rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    letter-spacing: 0.4px;
+}
+
+.tags {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.tag {
+    background-color: #34d4c0;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.priority {
+    background-color: #ff4d4d;
+}
+
+.date {
+    background-color: #f9a825;
+}
+
+.icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.add-icon,
+.tick-icon {
+    font-size: 1.6rem;
+    color: #34d4c0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.add-icon:hover,
+.tick-icon:hover {
+    color: #007bff;
+}
+
+.add-icon:active,
+.tick-icon:active {
+    color: #ff6347;
+}
+
+/* Task Description */
+.task-description {
+    margin-top: 15px;
+    color: #555;
+    font-size: 1rem;
+    line-height: 1;
+    letter-spacing: 0.4px;
+}
+
+/* Task Link */
+.task-link {
+    margin-top: 12px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.task-link:hover {
+    color: #34d4c0;
+    text-decoration: underline;
+}
+
+.task-link:active {
+    color: #ff6347;
+}
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: white;
+            background: #64b5f6;
+        }
+        .tag.priority.high{
+            background: #e57373;
+        }
+        .tag.priority.medium{
+            background: #f6ea03;
+        }
+        .tag.priority.low{
+            background: #00796b
+        }
+        .tag.date {
+            background: #81c784;
+        }
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .tabs button {
+            padding: 0.7rem 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #00acc1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .tabs button:hover {
+            background-color: #00796b;
+        }
+        .tabs button.active {
+            background-color: #00796b;
+        }
+        .search-filter {
+            margin-left: auto;
+            display: flex;
+            gap: 0.5rem;
+        }
+        .search-filter input {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            flex-grow: 1;
+        }
+        .search-filter button {
+            padding: 0.5rem 1rem;
+            background: #00acc1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .tab-content {
+            display: none;
+            margin-top: 1rem;
+        }
+        .tab-section {
+            max-height: 300px; /* Restricts height */
+            overflow-y: auto; /* Adds vertical scrollbar when needed */
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .task-card {
+            background: #f9f9f9;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 6px solid #00bcd4;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .sidebar, .main-content {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Student Dashboard
+    </header>
+    <main>
+        <div class="sidebar">
+            <div class="section">
+                <h3>Links</h3>
+                <a href="#" class="link-button">GitHub</a>
+                <a href="#" class="link-button">Linkedin</a>
+                <a href="#" class="link-button">Canva</a>
+                <a href="#" class="link-button">Piazza</a>
+            </div>
+            <div class="section video-container">
+                <h3>Video Tutorials</h3>
+                <iframe width="560" height="200" src="https://www.youtube.com/embed/tRZGeaHPoaw?mute=0&amp;showinfo=0&amp;controls=0&amp;start=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <h3>Git Tutorials</h3>
+                <iframe width="560" height="200" src="https://www.youtube.com/embed/tRZGeaHPoaw?mute=0&amp;showinfo=0&amp;controls=0&amp;start=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <h3>Mobile dev Tutorials</h3>
+                <iframe width="560" height="200" src="https://www.youtube.com/embed/tRZGeaHPoaw?mute=0&amp;showinfo=0&amp;controls=0&amp;start=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <h3>Wed dev Tutorials</h3>
+
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="deadlines">
+                <h2>Upcoming Deadlines</h2>
+                <div class="tab-section">
+                    <div class="deadline-card">
+                        <div class="deadline-header">
+                            <h4>SE Project Submission</h4>
+                            <div class="tags">
+                                <span class="tag priority high">High</span>
+                                <span class="tag date">Dec 10, 2024</span>
+                                <span class="tag">Math</span>
+                            </div>
+                            <div class="icons">
+                                <span class="add-icon">+</span>
+                                <span class="tick-icon">✔</span>
+                            </div>
+                        </div>
+                        <p class="task-description">Complete the final project and submit online.</p>
+                        <a href="#" class="task-link">Go to task</a>
+                    </div>
+                    <div class="deadline-card">
+                        <div class="deadline-header">
+                            <h4>258 Assignment Submission</h4>
+                            <div class="tags">
+                                <span class="tag priority medium">Medium</span>
+                                <span class="tag date">Dec 1, 2024</span>
+                                <span class="tag">258</span>
+                            </div>
+                            <div class="icons">
+                                <span class="add-icon">+</span>
+                                <span class="tick-icon">✔</span>
+                            </div>
+                        </div>
+                        <p class="task-description">Complete the assignment.</p>
+                        <a href="#" class="task-link">Go to task</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <button class="active" onclick="switchTab('tasks')">Tasks</button>
+                <button onclick="switchTab('calendar')">Calendar</button>
+                <div class="search-filter">
+                    <input type="text" placeholder="Search...">
+                    <button>View</button>
+                    <button>Priority</button>
+                    <button>Filter</button>
+                </div>
+            </div>
+            <div id="tasks" class="tab-content active">
+                <h3>GitHub Tasks</h3>
+                <div class="tab-section">
+                    <div class="deadline-card">
+                        <div class="deadline-header">
+                            <h4>Project Submission</h4>
+                            <div class="tags">
+                                <span class="tag priority high">High</span>
+                                <span class="tag date">Dec 1, 2024</span>
+                                <span class="tag">Math</span>
+                            </div>
+                            <div class="icons">
+                                <span class="add-icon">+</span>
+                                <span class="tick-icon">✔</span>
+                            </div>
+                        </div>
+                        <p class="task-description">Complete the final project and submit online.</p>
+                        <a href="#" class="task-link">Go to task</a>
+                    </div>
+                    <div class="deadline-card">
+                        <div class="deadline-header">
+                            <h4>Project Submission</h4>
+                            <div class="tags">
+                                <span class="tag priority medium">Medium</span>
+                                <span class="tag date">Dec 1, 2024</span>
+                                <span class="tag">Math</span>
+                            </div>
+                            <div class="icons">
+                                <span class="add-icon">+</span>
+                                <span class="tick-icon">✔</span>
+                            </div>
+                        </div>
+                        <p class="task-description">Complete the final project and submit online.</p>
+                        <a href="#" class="task-link">Go to task</a>
+                    </div>
+                    <div class="deadline-card">
+                        <div class="deadline-header">
+                            <h4>Project Submission</h4>
+                            <div class="tags">
+                                <span class="tag priority low">Low</span>
+                                <span class="tag date">Dec 1, 2024</span>
+                                <span class="tag">Math</span>
+                            </div>
+                            <div class="icons">
+                                <span class="add-icon">+</span>
+                                <span class="tick-icon">✔</span>
+                            </div>
+                        </div>
+                        <p class="task-description">Complete the final project and submit online.</p>
+                        <a href="#" class="task-link">Go to task</a>
+                    </div>
+                    <div class="deadline-card">
+                        <div class="deadline-header">
+                            <h4>Project Submission</h4>
+                            <div class="tags">
+                                <span class="tag priority low">Low</span>
+                                <span class="tag date">Dec 1, 2024</span>
+                                <span class="tag">Math</span>
+                            </div>
+                            <div class="icons">
+                                <span class="add-icon">+</span>
+                                <span class="tick-icon">✔</span>
+                            </div>
+                        </div>
+                        <p class="task-description">Complete the final project and submit online.</p>
+                        <a href="#" class="task-link">Go to task</a>
+                    </div>
+                </div>
+                <h3>Tasks</h3>
+                <div class="deadline-card">
+                    <div class="deadline-header">
+                        <h4>Project Submission</h4>
+                        <div class="tags">
+                            <span class="tag priority">High</span>
+                            <span class="tag date">Dec 1, 2024</span>
+                            <span class="tag">Math</span>
+                        </div>
+                        <div class="icons">
+                            <span class="add-icon">+</span>
+                            <span class="tick-icon">✔</span>
+                        </div>
+                    </div>
+                    <p class="task-description">Complete the final project and submit online.</p>
+                    <a href="#" class="task-link">Go to task</a>
+                </div>
+            </div>
+            <div id="calendar" class="tab-content">
+                <div class="task-card">
+                    <h4>Team Meeting</h4>
+                    <p>Dec 10, 2024 - Discuss project updates.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function switchTab(tab) {
+            const contents = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tabs button');
+            contents.forEach(content => content.classList.remove('active'));
+            buttons.forEach(button => button.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            document.querySelector(`button[onclick="switchTab('${tab}')"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>
