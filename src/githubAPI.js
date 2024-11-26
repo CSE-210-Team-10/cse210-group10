@@ -15,7 +15,7 @@ export async function getIssues() {
 
   const response = await fetch(url, {
     headers: {
-      'Authorization': `token ${token}`,
+      'Authorization': `${token}`,
       'X-GitHub-Api-Version': '2022-11-28'
     }
   });
@@ -32,7 +32,7 @@ export async function getIssues() {
     return {'error': `Retry after: ${retryAfter}`};
   }
 
-  const filteredIssues = filterIssuesByAssignee(issues, username);
+  const filteredIssues = filterIssuesByAssignee(issues, "mottur");
 
   return JSON.stringify(filteredIssues, null, 2);
 }
@@ -43,18 +43,31 @@ export async function getPullRequests() {
   
     const response = await fetch(url, {
       headers: {
-        'Authorization': `token ${token}`,
+        'Authorization': `${token}`,
         'X-GitHub-Api-Version': '2022-11-28'
       }
     });
-    const issues = await response.json()
-    console.log(JSON.stringify(issues, null, 2))
-  }
+    const pulls = await response.json();
+    const headers = await response.headers;
+
+    const rateLimitRemaining = headers.get('x-ratelimit-remaining');
+    if (rateLimitRemaining == '0'){
+      const remainingTime = headers.get('x-ratelimit-reset');
+      const retryAfter = new Date(parseInt(remainingTime, 10) * 1000).toUTCString();
+      console.log(`Github rate limited exceeded. Retry after - ${retryAfter}`);
+      return {'error': `Retry after: ${retryAfter}`};
+    }
+
+    return JSON.stringify(pulls, null, 2)
+}
 
 getIssues().then( output => {
   console.log(output);
 });
 
+getPullRequests().then( output => {
+  console.log(output)
+});
 
 function filterIssuesByAssignee(issues, assigneeUsername) {
   // Filter issues that do not contain the 'pull_request' key

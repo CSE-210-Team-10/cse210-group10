@@ -27,6 +27,20 @@ app.get('/issues', async (req, res) => {
     }
 });
 
+app.get('/pulls', async (req, res) => {
+    try {
+        const pulls = await getPullRequests(); 
+        if (pulls.error) {
+            return res.status(429).json({ error: pulls.error });
+        }
+        res.json(pulls);
+    } catch (error) {
+        // Catch and handle any errors
+        console.error('Error fetching pull requests:', error);
+        res.status(500).json({ error: 'Failed to fetch pull requests' });
+    }
+});
+
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
