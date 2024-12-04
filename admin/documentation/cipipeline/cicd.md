@@ -16,7 +16,7 @@ Currently, our pipeline supports:
 6. Linting: ESLint
 7. End-to-End Tests/Integration Tests: Cypress
 
-Currently, the pipeline supports unit testing for front-end related code (JS, HTML, and CSS). All developers implement new features in developer branches off of the staging environment. 
+Currently, the pipeline supports unit testing for front-end related code (JS). All developers implement new features in developer branches off of the staging environment. 
 
 When a developer creates a pull request, unit tests are run on the new code. If these pass, a built production-ready bundle will be deployed on Cloudflare using Cloudflare CLI. 
 
