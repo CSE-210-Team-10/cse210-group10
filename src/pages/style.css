@@ -20,19 +20,47 @@ body {
 	padding: var(--app-padding);
 	margin: 0 auto;
 	display: grid;
-	grid-template-columns: 1fr 4fr;
+	grid-template-columns: 2fr 7fr;
 	grid-template-rows: 1fr;
 	/* explicitly set one row */
 	column-gap: var(--gap);
 }
 
+body aside, body section {
+	border: 2px solid var(--border-primary);
+	border-radius: var(--border-radius-primary);
+	background: var(--bg-secondary);
+	padding: 1.75rem;
+}
 
 #links {
 	height: fit-content;
-	border: 2px solid var(--border-primary);
-	border-radius: 0.5rem;
+}
+
+#links ul {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+#links li {
+	list-style: none;
+}
+
+#links li a {
+	display: flex;
+	border-radius: var(--border-radius-primary);
 	padding: 1rem;
-	background: var(--bg-secondary);
+	color: var(--text-accent-light);
+	text-decoration: none;
+	justify-content: left;
+	align-items: center;
+	gap: 0.5rem;
+	transition: background-color 0.1s;
+}
+
+#links li a:hover {
+	background-color: var(--bg-accent-light);
 }
 
 main {
@@ -41,16 +69,6 @@ main {
 	gap: var(--gap);
 }
 
-#upcoming-deadlines {
-	border: 2px solid var(--border-primary);
-	border-radius: 0.5rem;
-	padding: 1rem;
-	background: var(--bg-secondary);
-}
+#upcoming-deadlines {}
 
-#all-tasks {
-	border: 2px solid var(--border-primary);
-	border-radius: 0.5rem;
-	padding: 1rem;
-	background: var(--bg-secondary);
-}
+#all-tasks {}
