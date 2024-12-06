@@ -67,7 +67,7 @@ body aside, body section {
 
 main {
 	display: grid;
-	grid-template-rows: 35fr 65fr;
+	grid-template-rows: 25fr 75fr;
 	gap: var(--gap);
 }
 
