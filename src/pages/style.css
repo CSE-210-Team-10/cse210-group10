@@ -1,3 +1,5 @@
+@import '../styles/root.css';
+
 * {
 	margin: 0;
 	padding: 0;
@@ -10,11 +12,11 @@
 }
 
 body {
-	background-color: #f5f5f5;
 	height: 100vh;
 	min-height: 55.546875rem;
 	width: min(67.5rem, 100vw - 2 * var(--app-padding));
 	min-width: 67.5rem;
+	background-color: var(--bg-primary);
 	padding: var(--app-padding);
 	margin: 0 auto;
 	display: grid;
@@ -24,11 +26,13 @@ body {
 	column-gap: var(--gap);
 }
 
+
 #links {
 	height: fit-content;
-	background: white;
+	border: 2px solid var(--border-primary);
 	border-radius: 0.5rem;
 	padding: 1rem;
+	background: var(--bg-secondary);
 }
 
 main {
@@ -38,13 +42,15 @@ main {
 }
 
 #upcoming-deadlines {
-	background: white;
+	border: 2px solid var(--border-primary);
 	border-radius: 0.5rem;
 	padding: 1rem;
+	background: var(--bg-secondary);
 }
 
 #all-tasks {
-	background: white;
+	border: 2px solid var(--border-primary);
 	border-radius: 0.5rem;
 	padding: 1rem;
+	background: var(--bg-secondary);
 }

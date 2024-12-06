@@ -1,0 +1,19 @@
+:root {
+	/* background colors */
+	--bg-primary: #F0FDF4;
+	--bg-secondary: #FFFFFF;
+	--bg-accent: #059669;
+	--bg-accent-light: #D1FAE5;
+
+	/* border colors */
+	--border-primary: #21A97C;
+
+	/* text colors */
+	--text-primary: #059669;
+	--text-secondary: #059669;
+	--text-accent: #FFFFFF;
+	--text-accent-light: #059669;
+
+	/* icon colors */
+	--icon-primary: #059669;
+}
