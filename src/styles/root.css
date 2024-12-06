@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap');
+
 * {
 	font-family: 'Geologica', sans-serif;
 	box-sizing: border-box;
@@ -24,10 +26,4 @@
 
 	/* icon colors */
 	--icon-primary: #059669;
-}
-
-@font-face {
-	font-family: 'Geologica';
-	src: url('path-to-your-font/Geologica-Variable.ttf') format('truetype-variations');
-	font-weight: 100 900;
 }
