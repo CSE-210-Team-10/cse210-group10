@@ -13,10 +13,10 @@ Currently, our pipeline supports:
 3. Documentation generation via Human: JSDocs on VSCode
 4. Packaging (or Bundling for Production) via automation: Terser
 5. Deployment via automation: Cloudflare
-6. Linting: ESLint
+6. Linting: ESLint, HTMLHint
 7. End-to-End Tests/Integration Tests: Cypress
 
-Currently, the pipeline supports unit testing for front-end related code (JS). All developers implement new features in developer branches off of the staging environment. 
+Currently, the pipeline supports unit testing for front-end related code (JS, HTML). All developers implement new features in developer branches off of the staging environment. 
 
 When a developer creates a pull request, unit tests are run on the new code. If these pass, a built production-ready bundle will be deployed on Cloudflare using Cloudflare CLI. 
 
