@@ -1,4 +1,4 @@
-import { standardizeString } from '../src/index.js';
+import { standardizeString } from '../src/js/library.js';
 
 describe('standardizeString', () => {
   test('Should return an empty string when the input is an empty string', () => {
@@ -28,14 +28,14 @@ describe('standardizeString', () => {
   test('standardizeString should throw a TypeError if input is null', () => {
     expect(() => standardizeString(null)).toThrow(TypeError);
     expect(() => standardizeString(null)).toThrow(
-      'Cannot read properties of null (reading \'toLowerCase\')'
+      "Cannot read properties of null (reading 'toLowerCase')"
     );
   });
 
   test('standardizeString should throw a TypeError if input is undefined', () => {
     expect(() => standardizeString(undefined)).toThrow(TypeError);
     expect(() => standardizeString(undefined)).toThrow(
-      'Cannot read properties of undefined (reading \'toLowerCase\')'
+      "Cannot read properties of undefined (reading 'toLowerCase')"
     );
   });
 
