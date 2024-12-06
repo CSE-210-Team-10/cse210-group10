@@ -14,9 +14,12 @@
 	--bg-accent: #059669;
 	--bg-accent-light: #D1FAE5;
 
-	/* border colors */
+	/* border settings */
 	--border-primary: #21A97C;
+	--border-secondary: #D4D4D4;
 	--border-radius-primary: 0.5rem;
+	--border-radius-small: 0.25rem;
+	--border-width: 1.5px;
 
 	/* text colors */
 	--text-primary: #059669;
