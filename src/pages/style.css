@@ -1,0 +1,50 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--app-padding: 1rem;
+	--gap: 1.5rem;
+}
+
+body {
+	background-color: #f5f5f5;
+	height: 100vh;
+	min-height: 55.546875rem;
+	width: min(67.5rem, 100vw - 2 * var(--app-padding));
+	min-width: 67.5rem;
+	padding: var(--app-padding);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr 4fr;
+	grid-template-rows: 1fr;
+	/* explicitly set one row */
+	column-gap: var(--gap);
+}
+
+#links {
+	height: fit-content;
+	background: white;
+	border-radius: 0.5rem;
+	padding: 1rem;
+}
+
+main {
+	display: grid;
+	grid-template-rows: 35fr 65fr;
+	gap: var(--gap);
+}
+
+#upcoming-deadlines {
+	background: white;
+	border-radius: 0.5rem;
+	padding: 1rem;
+}
+
+#all-tasks {
+	background: white;
+	border-radius: 0.5rem;
+	padding: 1rem;
+}
