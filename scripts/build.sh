@@ -33,6 +33,7 @@ if [ "$MODE" == "dev" ]; then
 
     # Copy directories
     cp -r ./tmp/components ./dist/
+    cp -r ./tmp/static ./dist/
     cp -r ./tmp/styles ./dist/
     cp -r ./tmp/js ./dist/
 
@@ -50,8 +51,9 @@ else
         mkdir -p "../dist/$dir"
     }
 
-    # 1. Copy components directory
+    # 1. Copy components and static directory
     cp -r ./components ../dist/
+    cp -r ./static ../dist/
 
     # 2. Copy and process HTML files from pages
     echo "Processing HTML files..."
