@@ -1,0 +1,3 @@
+export const supabaseUrl = 'https://chojlwxbmlpennkymoav.supabase.co';
+export const supabaseAnonKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNob2psd3hibWxwZW5ua3ltb2F2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM1MTEyMDMsImV4cCI6MjA0OTA4NzIwM30.hJdirpygucfARYh-5gBE_HjTh_Q4A85ZLZB1TYt8_To';
