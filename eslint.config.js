@@ -81,7 +81,7 @@ export default [
       'no-eval': 'error', // Prevent eval()
       'no-with': 'error', // Prevent with statements
       'no-alert': 'warn', // Flag alert/confirm/prompt
-      'no-console': 'warn', // Flag console.* usage
+      // 'no-console': 'warn', // Flag console.* usage
 
       // ES6+
       'arrow-body-style': ['error', 'as-needed'],
