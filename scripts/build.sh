@@ -1,6 +1,8 @@
-if ! command -v npx >/dev/null 2>&1; then
-	echo "Warning: npx not found. Please install it"
-	exit 1
+#!/bin/bash
+
+if ! command -v npm >/dev/null 2>&1; then
+    echo "Warning: npm not found. Please install it"
+    exit 1
 fi
 
 # Check script location
@@ -13,48 +15,78 @@ else
     exit 1
 fi
 
+# Parse command line arguments
+MODE="prod"
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --mode) MODE="$2"; shift ;;
+        *) echo "Unknown parameter: $1"; exit 1 ;;
+    esac
+    shift
+done
+
 rm -rf ./dist
 mkdir ./dist
 
-cd ./tmp
+if [ "$MODE" == "dev" ]; then
+    echo "Running development build..."
 
-create_parent_dirs_in_dist() {
-    local file="$1"
-    local dir=$(dirname "$file")
-    mkdir -p "../dist/$dir"
-}
+    # Copy directories
+    cp -r ./tmp/components ./dist/
+    cp -r ./tmp/styles ./dist/
+    cp -r ./tmp/js ./dist/
 
+    # Copy pages content to dist, maintaining directory structure
+    cp -r ./tmp/pages/* ./dist/
 
-# 1. Copy all index.html files while maintaining structure
-echo "Copying HTML files..."
-find . -name "index.html" | while read -r file; do
-	file_without_prefix="${file#./}"  # Remove leading ./ from the path
-    create_parent_dirs_in_dist "$file_without_prefix"
-    cp "$file" "../dist/$file_without_prefix"
-    echo "Copied: $file"
-done
+else
+    echo "Running production build..."
+    cd ./tmp
 
+    # Function to create parent directories in dist
+    create_parent_dirs_in_dist() {
+        local file="$1"
+        local dir=$(dirname "$file")
+        mkdir -p "../dist/$dir"
+    }
 
-# 2. Copy all style.css files while maintaining structure
-echo "Copying CSS files..."
-find . -name "style.css" | while read -r file; do
-	file_without_prefix="${file#./}"  # Remove leading ./ from the path
-    create_parent_dirs_in_dist "$file_without_prefix"
-    cp "$file" "../dist/$file_without_prefix"
-    echo "Copied: $file"
-done
+    # 1. Copy components directory
+    cp -r ./components ../dist/
 
-# 3. Minify and copy all index.js files
-# Note: Requires npx to be installed
-echo "Minifying JS files..."
-find . -name "*.js" | while read -r file; do
-    file_without_prefix="${file#./}"  # Remove leading ./ from the path
-    create_parent_dirs_in_dist "$file_without_prefix"
-    npx terser "$file"  -c -m -o "../dist/$file_without_prefix"
-    echo "Minified: $file"
-done
+    # 2. Copy and process HTML files from pages
+    echo "Processing HTML files..."
+    find ./pages -name "index.html" | while read -r file; do
+        # Remove both ./ and pages/ from the path
+        file_without_pages="${file#./pages/}"
+        create_parent_dirs_in_dist "$file_without_pages"
+        cp "$file" "../dist/$file_without_pages"
+        echo "Copied: $file"
+    done
 
-cd ..
+    # 3. Process each CSS file
+    echo "Processing CSS files..."
+    find ./pages -name "style.css" | while read -r file; do
+        # Remove both ./ and pages/ from the path
+        file_without_pages="${file#./pages/}"
+        create_parent_dirs_in_dist "$file_without_pages"
+        npx rollup "$file" --config ../rollup.config.css.js \
+            --output.file "../dist/${file_without_pages}"
+        echo "Processed: $file"
+    done
+
+    # 4. Process each JS file
+    echo "Processing JS files..."
+    find ./pages -name "index.js" | while read -r file; do
+        # Remove both ./ and pages/ from the path
+        file_without_pages="${file#./pages/}"
+        create_parent_dirs_in_dist "$file_without_pages"
+        npx rollup "$file" --config ../rollup.config.js.js \
+            --output.file "../dist/${file_without_pages}"
+        echo "Processed: $file"
+    done
+
+    cd ..
+fi
 
 rm -rf ./tmp
 

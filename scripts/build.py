@@ -2,7 +2,22 @@ import os
 import shutil
 import re
 import sys
+import argparse
 from pathlib import Path
+
+
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Build script for processing template files."
+    )
+    parser.add_argument(
+        "--mode",
+        choices=["dev", "prod"],
+        default="prod",
+        help="Build mode: 'dev' for development, 'prod' for production",
+    )
+    return parser.parse_args()
 
 
 def check_script_location():
@@ -21,23 +36,23 @@ def check_script_location():
         return False
 
 
-def copy_src_to_dist(src_dir: str, dist_dir: str) -> None:
-    """Copy all contents from src to dist directory."""
-    if os.path.exists(dist_dir):
-        shutil.rmtree(dist_dir)
+def copy_src_to_tmp(src_dir: str, tmp_dir: str) -> None:
+    """Copy all contents from src to tmp directory."""
+    if os.path.exists(tmp_dir):
+        shutil.rmtree(tmp_dir)
 
-    shutil.copytree(src_dir, dist_dir)
-    print(f"Copied src to dist: {src_dir} → {dist_dir}")
+    shutil.copytree(src_dir, tmp_dir)
+    print(f"Copied src to tmp: {src_dir} → {tmp_dir}")
 
 
-def process_template_file(file_path: str, file_type: str) -> None:
-    """Process HTML or CSS template files into JS modules."""
+def process_template_file(file_path: str) -> None:
+    """Process HTML template files into JS modules."""
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
         processed = content.strip().replace("`", "\\`").replace("${", "\\${")
-        var_name = "template" if file_type == "html" else "styles"
+        var_name = "template"
         output = f"const {var_name} = `{processed}`;\nexport default {var_name};"
 
         js_path = f"{file_path}.js"
@@ -55,7 +70,9 @@ def process_js_file(file_path: str) -> None:
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        template_pattern = r"""import\s+(\w+)\s+from\s*['"]([^'"]*(?:template\.html|template\.css))['"]"""
+        template_pattern = (
+            r"""import\s+(\w+)\s+from\s*['"]([^'"]*(?:template\.html))['"]"""
+        )
 
         def replace_import(match):
             import_name = match.group(1)
@@ -73,34 +90,32 @@ def process_js_file(file_path: str) -> None:
         print(f"Error processing {file_path}: {str(e)}")
 
 
-def build():
-    """Build process: copy to dist then transform files."""
+def build(mode: str = "dev"):
+    """Build process: copy to tmp then transform files."""
     if not check_script_location():
         sys.exit(1)
 
     src_dir = "src"
-    dist_dir = "tmp"
+    tmp_dir = "tmp"
 
     if not os.path.exists(src_dir):
         print(f"Error: Source directory not found at {src_dir}")
         return
 
-    print("Starting build process...")
+    print(f"Starting build process in {mode} mode...")
 
-    # Step 1: Copy everything from src to dist
-    copy_src_to_dist(src_dir, dist_dir)
+    # Step 1: Copy everything from src to tmp
+    copy_src_to_tmp(src_dir, tmp_dir)
 
-    # Step 2: Process template files in dist
-    for root, _, files in os.walk(dist_dir):
+    # Step 2: Process template files in tmp
+    for root, _, files in os.walk(tmp_dir):
         for file in files:
             file_path = os.path.join(root, file)
             if file == "template.html":
-                process_template_file(file_path, "html")
-            elif file == "template.css":
-                process_template_file(file_path, "css")
+                process_template_file(file_path)
 
     # Step 3: Update import statements in JS files
-    for root, _, files in os.walk(dist_dir):
+    for root, _, files in os.walk(tmp_dir):
         for file in files:
             if file.endswith(".js") and not (
                 file.endswith(".html.js") or file.endswith(".css.js")
@@ -108,8 +123,9 @@ def build():
                 file_path = os.path.join(root, file)
                 process_js_file(file_path)
 
-    print("Build complete!")
+    print("Build complete! Files are in tmp/")
 
 
 if __name__ == "__main__":
-    build()
+    args = parse_args()
+    build(args.mode)
