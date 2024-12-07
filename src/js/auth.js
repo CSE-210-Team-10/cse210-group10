@@ -1,5 +1,11 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+
 import { supabaseUrl, supabaseAnonKey } from './supabase.js';
+import {
+  getProviderToken,
+  setProviderToken,
+  removeProviderToken,
+} from './local-storage.js';
 
 /** @typedef { import('@supabase/supabase-js').User } User */
 /** @typedef { import('@supabase/supabase-js').AuthError } AuthError */
@@ -10,8 +16,6 @@ import { supabaseUrl, supabaseAnonKey } from './supabase.js';
  * @property { string } avatarUrl - an URL to the user's avatar image
  * @property { string } accessToken - a token to access user's github data
  */
-
-const PROVIDER_TOKEN_KEY = 'github_provider_token';
 
 /**
  * Create a dynamic redirect URL after a successful login
@@ -45,41 +49,27 @@ class AuthService {
     this.user = null;
     this.authStateSubscribers = new Set();
 
-    this.supabase.auth.onAuthStateChange((event, session) => {
-      this.user = session?.user || null;
+    this.supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN') {
+        this.user = session.user;
 
-      if (session?.provider_token)
-        localStorage.setItem(PROVIDER_TOKEN_KEY, session.provider_token);
-      else if (event === 'SIGNED_OUT')
-        localStorage.removeItem(PROVIDER_TOKEN_KEY);
+        if (session.provider_token) {
+          const success = await setProviderToken(session.provider_token);
+
+          if (!success) {
+            this.user = null;
+            removeProviderToken();
+          }
+        }
+      }
+
+      if (event === 'SIGNED_OUT') {
+        this.user = null;
+        removeProviderToken();
+      }
 
       this.notifySubscribers(event);
     });
-  }
-
-  /**
-   * A function that sets up a session with the backend and gets the provider token and user object
-   * @returns { Promise<UserData | null> } returns a promise that resolves to user data returned from the backend
-   */
-  async init() {
-    try {
-      const {
-        data: { session },
-        error,
-      } = await this.supabase.auth.getSession();
-
-      if (error) throw error;
-      if (!session) return null;
-
-      this.user = session.user;
-      if (session.provider_token) {
-        localStorage.setItem(PROVIDER_TOKEN_KEY, session.provider_token);
-      }
-      return this.getGithubData();
-    } catch (error) {
-      console.error('Failed to initialize auth:', error.message);
-      throw error;
-    }
   }
 
   /**
@@ -125,7 +115,6 @@ class AuthService {
     try {
       const { error } = await this.supabase.auth.signOut();
       if (error) throw error;
-      localStorage.removeItem(PROVIDER_TOKEN_KEY);
     } catch (error) {
       console.error('Logout error:', error.message);
       throw error;
@@ -153,14 +142,14 @@ class AuthService {
    * @returns { UserData | null } Object containing GitHub username, avatar URL and access token, or null if no user data
    */
   getGithubData() {
-    if (!this.user?.user_metadata?.user_name) {
+    if (!this.user || !this.user.user_metadata) {
       return null;
     }
 
     return {
       username: this.user.user_metadata.user_name,
       avatarUrl: this.user.user_metadata.avatar_url,
-      accessToken: localStorage.getItem(PROVIDER_TOKEN_KEY),
+      accessToken: getProviderToken(),
     };
   }
 
@@ -184,34 +173,6 @@ class AuthService {
     this.authStateSubscribers.forEach(callback => {
       callback(event, userData);
     });
-  }
-
-  /**
-   * Refresh the current session and update user data
-   * @returns { Promise<UserData | null> } The new session object or null if refresh failed
-   * @throws { Error } If there's an error refreshing the session
-   */
-  async refreshSession() {
-    try {
-      const {
-        data: { session },
-        error,
-      } = await this.supabase.auth.refreshSession();
-
-      if (error) throw error;
-
-      if (!session) return null;
-
-      if (session?.provider_token)
-        localStorage.setItem(PROVIDER_TOKEN_KEY, session.provider_token);
-
-      this.user = session.user;
-
-      return this.getGithubData();
-    } catch (error) {
-      console.error('Failed to refresh session:', error.message);
-      throw error;
-    }
   }
 }
 

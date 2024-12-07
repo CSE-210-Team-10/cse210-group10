@@ -3,20 +3,8 @@ import { standardizeString } from '../js/library.js';
 
 /** @typedef { import('../js/auth.js').UserData } User */
 
-/**
- * Check if the user is authenticated when they land on the page.
- * If not, redirect them to the home page
- * If so, render the page with user data
- */
-async function initAuth() {
-  const user = await authService.init();
-
-  if (user === null) {
-    redirectToLogin();
-  } else {
-    renderPage(authService.getGithubData());
-  }
-}
+console.log(standardizeString('test'));
+authService.subscribeToAuthChanges(authEventHandler);
 
 /**
  * Redirect user to the login page
@@ -33,5 +21,17 @@ function renderPage(user) {
   console.log(user);
 }
 
-console.log(standardizeString('test'));
-initAuth();
+/**
+ * A subscriber to authService to listen to any authentication changes
+ * if signed in and user is valid, render the page
+ * otherwise, redirect to login page
+ * @param { string } event The new state of authentication
+ * @param { User } user The user data passed from authService
+ */
+function authEventHandler(event, user) {
+  if (event === 'SIGNED_IN' && user) {
+    renderPage(authService.getGithubData());
+  } else if (event === 'SIGNED_OUT' || !user) {
+    redirectToLogin();
+  }
+}
