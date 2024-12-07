@@ -8,22 +8,6 @@ const statusMessage = document.getElementById('statusMessage');
 loginButton.addEventListener('click', loginButtonClickHandler);
 authService.subscribeToAuthChanges(authEventHandler);
 
-initAuth();
-
-/**
- * Sets up a session with the backend and gets the provider token and user object
- */
-async function initAuth() {
-  try {
-    const user = await authService.init();
-    if (!user) return;
-    renderSignedIn(user.username);
-  } catch (error) {
-    console.error('Auth initialization failed:', error);
-    renderSignedOut();
-  }
-}
-
 /**
  * Start authentication flow after login button is clicked
  */
@@ -43,9 +27,9 @@ async function loginButtonClickHandler() {
  * @param { User } user The user data passed from authService
  */
 function authEventHandler(event, user) {
-  if (event === 'SIGNED_IN') {
+  if (event === 'SIGNED_IN' && user) {
     renderSignedIn(user.username);
-  } else if (event === 'SIGNED_OUT') {
+  } else if (event === 'SIGNED_OUT' || !user) {
     renderSignedOut();
   }
 }
