@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    // Enables TypeScript's type checker for JavaScript files
+    // This allows VSCode to show type errors and suggestions in .js files
+    "checkJs": true,
+
+    // Tells VSCode how to resolve module imports
+    // "node" means use Node.js style resolution (checking node_modules)
+    "moduleResolution": "node",
+
+    // Specifies which JavaScript features to support
+    // "es2020" allows modern JS features like optional chaining (?.)
+    "target": "ESNext",
+
+    // Specifies what module syntax to use
+    // "es2020" allows import/export syntax
+    "module": "ESNext",
+
+    // Points to additional type definition files
+    // In this case, points to our file that maps ESM.sh to node_modules types
+    "typeRoots": ["types.d.ts"]
+  },
+
+  // Files/folders to not check for types
+  // Improves performance by skipping unnecessary files
+  "exclude": ["node_modules", "dist"]
+}
