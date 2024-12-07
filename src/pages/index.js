@@ -55,7 +55,7 @@ const repo = 'group10-esc012';
  * @param { string } token The SSO token generated
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
- * @return { string } returns the pull requests data in json format
+ * @returns { string } returns the pull requests data in json format
  */
 async function getPullRequests(token, owner, repo) {
   const url = `https://api.github.com/repos/${owner}/${repo}/pulls`;
@@ -85,7 +85,7 @@ async function getPullRequests(token, owner, repo) {
  * @param { string } token The SSO token generated
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
- * @return { string } returns the issues data in json format
+ * @returns { string } returns the issues data in json format
  */
 async function getIssues(token, owner, repo) {
   const url = `https://api.github.com/repos/${owner}/${repo}/issues`;
