@@ -5,7 +5,6 @@ import { standardizeString } from '../js/library.js';
 
 console.log(standardizeString('test'));
 authService.subscribeToAuthChanges(authEventHandler);
-let token = '';
 
 /**
  * Redirect user to the login page
@@ -18,9 +17,15 @@ function redirectToLogin() {
  * Render the page with user data
  * @param { User } user user data from auth service
  */
-function renderPage(user) {  
-  token = user.accessToken;
-  console.log(token);
+async function renderPage(user) {  
+  const token = user.accessToken;
+
+  const dataIssues= await getIssues(token, owner, repo);
+  const dataPulls = await getPullRequests(token, owner, repo);
+
+  //Test whether or not we are fetching the correct data
+  console.log(dataPulls);
+  console.log(dataIssues);
 }
 
 /**
@@ -99,7 +104,3 @@ async function getIssues(token, owner, repo) {
     console.log(error);
   }
 };
-
-//Test if we are actually getting the data, remove when deploy
-const data = await getIssues(token, owner, repo);
-console.log(data);
