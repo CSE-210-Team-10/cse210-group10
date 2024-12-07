@@ -12,6 +12,27 @@
 		"personal-list personal-list";
 }
 
+#all-tasks {
+	/* Add these properties */
+	max-height: 100%;
+	overflow: hidden;
+	/* This prevents the section from expanding beyond its container */
+}
+
+.github-list,
+.personal-list {
+	/* Add these properties */
+	max-height: 100%;
+	overflow-y: auto;
+	/* Changes from scroll to auto to only show scrollbar when needed */
+}
+
+.github-list {
+	/* background-color: #dfdfdf; */
+	/* border-bottom: var(--border-width) solid rgb(170, 170, 170);
+	border-radius: var(--border-radius-primary); */
+}
+
 .controls,
 .github-count,
 .personal-controls {
@@ -128,11 +149,3 @@
 	display: flex;
 	align-items: flex-end;
 }
-
-/* .github-list {
-	background-color: #dfdfdf;
-}
-
-.personal-list {
-	background-color: #dfdfdf;
-} */
