@@ -75,12 +75,18 @@ main {
 }
 
 
-#upcoming-deadlines {
+#upcoming-deadlines, #github-list, #personal-list {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
 	/* Important! Allows flex items to shrink (for scroll) */
 	min-height: 0;
+}
+
+#upcoming-deadlines ul {
+	background-color: #dfdfdf;
+	list-style: none;
+	flex: 1;
 }
 
 .tasks {

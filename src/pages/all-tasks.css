@@ -57,7 +57,7 @@
 	font-weight: normal;
 }
 
-#all-tasks button {
+#all-tasks button.all-tasks-action-btn {
 	border: var(--border-width) solid var(--border-primary);
 	border-radius: var(--border-radius-small);
 	padding: 0.5rem 0.75rem;
@@ -68,12 +68,12 @@
 	transition: background-color 0.1s;
 }
 
-#all-tasks button:hover {
+#all-tasks button.all-tasks-action-btn:hover {
 	background-color: var(--bg-accent-light);
 	color: var(--text-accent-light);
 }
 
-#all-tasks button i {
+#all-tasks button.all-tasks-action-btn i {
 	font-size: 1.2rem;
 }
 
@@ -134,5 +134,5 @@
 }
 
 .personal-list {
-	background-color: #dfdfdf;
+	/* background-color: #dfdfdf; */
 }
