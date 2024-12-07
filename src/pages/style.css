@@ -88,7 +88,7 @@ main {
 }
 
 #upcoming-deadlines ul {
-	background-color: #dfdfdf;
+	/* background-color: #dfdfdf; */
 	list-style: none;
 	flex: 1;
 }

@@ -9,9 +9,12 @@ const DataAttributeSelector = {
   priority: 'data-priority',
   date: 'data-date',
   tags: 'data-tags',
+  interactive: 'interactive',
 };
 
 const UISelector = {
+  slot: 'slot',
+  details: 'details',
   title: '.task-title',
   priority: '.task-priority',
   date: '.task-date',
@@ -19,6 +22,7 @@ const UISelector = {
   editBtn: '.edit-button',
   deleteBtn: '.delete-button',
   completeBtn: '.complete-button',
+  controlBtns: '.task-control-btn',
 };
 
 /**
@@ -55,7 +59,7 @@ export class TaskItem extends HTMLElement {
    */
   attributeChangedCallback() {
     // Only update content if template is already mounted
-    if (this.shadowRoot.querySelector('details')) {
+    if (this.shadowRoot.querySelector(UISelector.details)) {
       this.render();
     }
   }
@@ -79,6 +83,13 @@ export class TaskItem extends HTMLElement {
    */
   get date() {
     return this.getAttribute(DataAttributeSelector.date) || '';
+  }
+
+  /**
+   * @returns {boolean} Whether the task item is interactive
+   */
+  get interactive() {
+    return this.hasAttribute(DataAttributeSelector.interactive);
   }
 
   /**
@@ -106,7 +117,19 @@ export class TaskItem extends HTMLElement {
    */
   render() {
     // Get all attributes
-    const { title, priority, date, tags } = this;
+    const { title, priority, date, tags, interactive } = this;
+    const details = this.shadowRoot.querySelector(UISelector.details);
+
+    /** @type { globalThis.NodeListOf<globalThis.HTMLButtonElement> } */
+    const controls = this.shadowRoot.querySelectorAll(UISelector.controlBtns);
+
+    if (details) {
+      details.classList.toggle('non-interactive', !interactive);
+    }
+
+    controls.forEach(btn => {
+      btn.style.display = interactive ? '' : 'none';
+    });
 
     // Update title
     const titleElement = this.shadowRoot.querySelector(UISelector.title);
@@ -146,11 +169,20 @@ export class TaskItem extends HTMLElement {
    * And check description length for slot changed
    */
   addEventListeners() {
+    /** @type { globalThis.HTMLSlotElement | null } */
+    const slot = this.shadowRoot.querySelector(UISelector.slot);
+    const details = this.shadowRoot.querySelector(UISelector.details);
     const editButton = this.shadowRoot.querySelector(UISelector.editBtn);
     const deleteButton = this.shadowRoot.querySelector(UISelector.deleteBtn);
     const completeButton = this.shadowRoot.querySelector(
       UISelector.completeBtn
     );
+
+    details?.addEventListener('click', e => {
+      if (!this.interactive) {
+        e.preventDefault();
+      }
+    });
 
     editButton?.addEventListener('click', e => {
       e.preventDefault();
@@ -179,7 +211,6 @@ export class TaskItem extends HTMLElement {
       );
     });
 
-    const slot = this.shadowRoot.querySelector('slot');
     slot?.addEventListener('slotchange', () => {
       const nodes = slot.assignedNodes();
       const description = nodes
