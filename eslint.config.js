@@ -1,15 +1,18 @@
 import js from '@eslint/js';
 import jsdoc from 'eslint-plugin-jsdoc';
-import html from 'eslint-plugin-html';
+import html from "@html-eslint/eslint-plugin";
+import htmlParser from "@html-eslint/parser";
 
 export default [
   js.configs.recommended,
   {
+    files: ["**/*.html"],
     plugins: {
       jsdoc: jsdoc,
-      html: html,
+      "@html-eslint": html,
     },
     languageOptions: {
+      parser: htmlParser,
       globals: {
         // Browser globals
         window: 'readonly',
@@ -117,6 +120,11 @@ export default [
       'valid-typeof': 'error',
       'no-implied-eval': 'error',
       'no-new-func': 'error',
+
+      // HTML Rules
+      ...html.configs["flat/recommended"].rules,
+      '@html-eslint/require-closing-tags': 'error',
+      '@html-eslint/indent': 'warn',
     },
     settings: {
       jsdoc: {
