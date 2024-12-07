@@ -1,0 +1,111 @@
+# .github/workflows/release-pr.yml  # More specific name
+name: Release PR Deployment
+
+on:
+  pull_request:
+    branches: [release]
+    types: [opened, synchronize]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci # clean install
+
+      - name: Run Tests
+        id: tests
+        run: npm test
+
+  deploy:
+    needs: test
+    if: startsWith(github.head_ref, 'dev/')
+    runs-on: ubuntu-latest
+    permissions: # to add permissions to write on PR
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy ./dist --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }} --branch=${{ github.head_ref }} --commit-hash=${{ github.sha }} --commit-message="${{ github.event.pull_request.title }}"
+
+      - name: Get Deployment URL
+        id: get-url
+        run: |
+          # Convert branch name from dev/name to dev-name
+          BRANCH_URL=$(echo ${{ github.head_ref }} | sed 's/\//-/g')
+          DEPLOYMENT_URL="https://${BRANCH_URL}.${{ secrets.CLOUDFLARE_PROJECT_NAME }}.pages.dev"
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+
+      - name: Create Deployment comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deployUrl = '${{ steps.get-url.outputs.url }}';
+            const branch = '${{ github.head_ref }}';
+            const sha = '${{ github.sha }}';
+
+            const comment = `
+            ### 🚀 Preview Deployment
+
+            | Environment | Branch | Commit | URL |
+            |------------|--------|--------|-----|
+            | Preview | \`${branch}\` | \`${sha.substring(0,7)}\` | [Visit Preview](${deployUrl}) |
+
+            > 🕒 Deploy time: ${new Date().toUTCString()}
+            `;
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

@@ -1,0 +1,104 @@
+@import '../styles/root.css';
+@import './all-tasks.css';
+@import '../components/task/style.css';
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--app-padding: 1rem;
+	--gap: 1.5rem;
+}
+
+body {
+	height: 100vh;
+	min-height: 55.546875rem;
+	width: min(67.5rem, 100vw - 2 * var(--app-padding));
+	min-width: 67.5rem;
+	background-color: var(--bg-primary);
+	padding: var(--app-padding);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 2fr 7fr;
+	grid-template-rows: 1fr;
+	color: var(--text-accent-light);
+	/* explicitly set one row */
+	column-gap: var(--gap);
+}
+
+body aside, body section {
+	border: var(--border-width) solid var(--border-primary);
+	border-radius: var(--border-radius-primary);
+	background: var(--bg-secondary);
+	padding: 1.25rem;
+}
+
+#links {
+	height: fit-content;
+}
+
+#links ul {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+#links li {
+	list-style: none;
+}
+
+#links li a {
+	display: flex;
+	border-radius: var(--border-radius-primary);
+	padding: 1rem;
+	color: var(--text-accent-light);
+	text-decoration: none;
+	justify-content: left;
+	align-items: center;
+	gap: 0.5rem;
+	transition: background-color 0.1s;
+}
+
+#links li a:hover {
+	background-color: var(--bg-accent-light);
+}
+
+#links img {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+main {
+	display: grid;
+	grid-template-rows: 25fr 75fr;
+	gap: var(--gap);
+	/* Important! Allows flex items to shrink (for scroll) */
+	min-height: 0;
+}
+
+
+#upcoming-deadlines, #github-list, #personal-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	/* Important! Allows flex items to shrink (for scroll) */
+	min-height: 0;
+}
+
+#upcoming-deadlines ul {
+	background-color: #dfdfdf;
+	list-style: none;
+	flex: 1;
+}
+
+.tasks {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	list-style: none;
+	flex: 1;
+	overflow-y: scroll;
+}

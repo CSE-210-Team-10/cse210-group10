@@ -1,0 +1,138 @@
+#all-tasks {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: auto auto 1fr auto 2fr;
+	gap: 1rem;
+	justify-content: space-between;
+	grid-template-areas:
+		"header controls"
+		"github-header github-count"
+		"github-list github-list"
+		"personal-header personal-controls"
+		"personal-list personal-list";
+}
+
+.controls,
+.github-count,
+.personal-controls {
+	justify-self: end;
+}
+
+/* Grid area assignments */
+#all-tasks h2 {
+	grid-area: header;
+}
+
+#all-tasks .controls {
+	grid-area: controls;
+}
+
+#all-tasks .github-header {
+	grid-area: github-header;
+}
+
+#all-tasks .github-count {
+	grid-area: github-count;
+}
+
+#all-tasks .github-list {
+	grid-area: github-list;
+}
+
+#all-tasks .personal-header {
+	grid-area: personal-header;
+}
+
+#all-tasks .personal-controls {
+	grid-area: personal-controls;
+}
+
+#all-tasks .personal-list {
+	grid-area: personal-list;
+}
+
+#all-tasks h3 {
+	display: flex;
+	align-items: end;
+	font-weight: normal;
+}
+
+#all-tasks button.all-tasks-action-btn {
+	border: var(--border-width) solid var(--border-primary);
+	border-radius: var(--border-radius-small);
+	padding: 0.5rem 0.75rem;
+	background-color: var(--bg-accent);
+	color: var(--text-accent);
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.1s;
+}
+
+#all-tasks button.all-tasks-action-btn:hover {
+	background-color: var(--bg-accent-light);
+	color: var(--text-accent-light);
+}
+
+#all-tasks button.all-tasks-action-btn i {
+	font-size: 1.2rem;
+}
+
+#all-tasks input {
+	border: var(--border-width) solid var(--border-secondary);
+	border-radius: var(--border-radius-small);
+	padding: 0.5rem 0.75rem;
+	font-size: 1rem;
+}
+
+#view-toggle {
+	display: flex;
+	flex-direction: row;
+	gap: 0;
+}
+
+#view-toggle button:first-child {
+	border-radius: var(--border-radius-small) 0 0 var(--border-radius-small);
+	border-right: none;
+}
+
+#view-toggle button:last-child {
+	border-radius: 0 var(--border-radius-small) var(--border-radius-small) 0;
+}
+
+#view-toggle button:disabled {
+	background-color: var(--bg-accent-light);
+	color: var(--text-accent-light);
+}
+
+#view-toggle button:disabled:hover {
+	background-color: var(--bg-accent);
+	color: var(--text-accent);
+}
+
+#view-toggle button:not(:disabled):hover {
+	background-color: var(--bg-accent);
+	color: var(--text-accent);
+}
+
+.controls,
+.personal-controls {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+#all-tasks div.count {
+	height: 100%;
+	display: flex;
+	align-items: flex-end;
+}
+
+.github-list {
+	background-color: #dfdfdf;
+}
+
+.personal-list {
+	/* background-color: #dfdfdf; */
+}
