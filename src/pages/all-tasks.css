@@ -24,7 +24,6 @@
 	/* Add these properties */
 	max-height: 100%;
 	overflow-y: auto;
-	/* Changes from scroll to auto to only show scrollbar when needed */
 }
 
 .github-list {

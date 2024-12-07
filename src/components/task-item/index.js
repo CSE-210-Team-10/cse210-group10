@@ -19,9 +19,10 @@ const UISelector = {
   priority: '.task-priority',
   date: '.task-date',
   tags: '.tags',
-  editBtn: '.edit-button',
-  deleteBtn: '.delete-button',
-  completeBtn: '.complete-button',
+  editBtn: '.edit-btn',
+  deleteBtn: '.delete-btn',
+  completeBtn: '.complete-btn',
+  collapseBtn: '.collapse-btn',
   controlBtns: '.task-control-btn',
 };
 
@@ -170,12 +171,13 @@ export class TaskItem extends HTMLElement {
   addEventListeners() {
     /** @type { globalThis.HTMLSlotElement | null } */
     const slot = this.shadowRoot.querySelector(UISelector.slot);
+
+    /** @type { globalThis.HTMLDetailsElement | null } */
     const details = this.shadowRoot.querySelector(UISelector.details);
-    const editButton = this.shadowRoot.querySelector(UISelector.editBtn);
-    const deleteButton = this.shadowRoot.querySelector(UISelector.deleteBtn);
-    const completeButton = this.shadowRoot.querySelector(
-      UISelector.completeBtn
-    );
+    const editBtn = this.shadowRoot.querySelector(UISelector.editBtn);
+    const deleteBtn = this.shadowRoot.querySelector(UISelector.deleteBtn);
+    const completeBtn = this.shadowRoot.querySelector(UISelector.completeBtn);
+    const collapseBtn = this.shadowRoot.querySelector(UISelector.collapseBtn);
 
     details?.addEventListener('click', e => {
       if (!this.interactive) {
@@ -183,7 +185,7 @@ export class TaskItem extends HTMLElement {
       }
     });
 
-    editButton?.addEventListener('click', e => {
+    editBtn?.addEventListener('click', e => {
       e.preventDefault();
       this.dispatchEvent(
         new CustomEvent('task-edit', {
@@ -192,7 +194,7 @@ export class TaskItem extends HTMLElement {
       );
     });
 
-    deleteButton?.addEventListener('click', e => {
+    deleteBtn?.addEventListener('click', e => {
       e.preventDefault();
       this.dispatchEvent(
         new CustomEvent('task-delete', {
@@ -201,13 +203,18 @@ export class TaskItem extends HTMLElement {
       );
     });
 
-    completeButton?.addEventListener('click', e => {
+    completeBtn?.addEventListener('click', e => {
       e.preventDefault();
       this.dispatchEvent(
         new CustomEvent('task-complete', {
           detail: { id: this.getAttribute('id') },
         })
       );
+    });
+
+    collapseBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      details.open = !details.open;
     });
 
     slot?.addEventListener('slotchange', () => {
