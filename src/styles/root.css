@@ -6,6 +6,8 @@
 }
 
 :root {
+	font-size: 12px;
+
 	/* background colors */
 	--bg-primary: #F0FDF4;
 	--bg-secondary: #FFFFFF;
