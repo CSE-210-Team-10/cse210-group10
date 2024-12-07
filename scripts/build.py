@@ -98,8 +98,8 @@ def fix_relative_imports(file_path: str, mode: str) -> None:
         print(f"Fixed imports in: {file_path}")
 
 
-def process_template_file(file_path: str) -> None:
-    """Process HTML template files into JS modules."""
+def process_template_and_style_file(file_path: str) -> None:
+    """Process HTML template and CSS component files into JS modules."""
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
@@ -111,7 +111,10 @@ def process_template_file(file_path: str) -> None:
         js_path = f"{file_path}.js"
         with open(js_path, "w", encoding="utf-8") as f:
             f.write(output)
-        os.remove(file_path)
+
+        if file_path.endswith(".html"):
+            os.remove(file_path)
+
         print(f"Processed: {file_path} → {js_path}")
     except Exception as e:
         print(f"Error processing {file_path}: {str(e)}")
@@ -123,16 +126,20 @@ def process_js_file(file_path: str) -> None:
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        template_pattern = (
-            r"""import\s+(\w+)\s+from\s*['"]([^'"]*(?:template\.html))['"]"""
-        )
-
         def replace_import(match):
             import_name = match.group(1)
             path = match.group(2)
             return f"import {import_name} from '{path}.js'"
 
+        template_pattern = (
+            r"""import\s+(\w+)\s+from\s*['"]([^'"]*(?:template\.html))['"]"""
+        )
         new_content = re.sub(template_pattern, replace_import, content)
+
+        template_pattern = (
+            r"""import\s+(\w+)\s+from\s*['"]([^'"]*(?:component\.css))['"]"""
+        )
+        new_content = re.sub(template_pattern, replace_import, new_content)
 
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(new_content)
@@ -164,8 +171,8 @@ def build(mode: str = "dev"):
     for root, _, files in os.walk(tmp_dir):
         for file in files:
             file_path = os.path.join(root, file)
-            if file == "template.html":
-                process_template_file(file_path)
+            if file == "template.html" or file == "component.css":
+                process_template_and_style_file(file_path)
 
     # Step 3: Fix relative imports in CSS and JS files (only in dev mode)
     if mode == "dev":
