@@ -1,88 +1,115 @@
-import Groq from 'groq-sdk';
-import dotenv from 'dotenv';
+import { ChatGroq } from "@langchain/groq";
+import { Tool } from "langchain/tools";
+import { AgentExecutor, createOpenAIToolsAgent } from "langchain/agents";
+import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 import { getIssues, getPullRequests } from './githubAPI.js';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
-class GroqLLM {
-    constructor() {
-        this.client = new Groq({
-            apiKey: process.env.GROQ_API_KEY
-        });
-    }
+/**
+ * Tool for fetching GitHub issues
+ */
+class GitHubIssuesTool extends Tool {
+    name = "github_issues";
+    description = "Fetches GitHub issues assigned to a specific user. Use this when you need to check GitHub issues.";
 
-    async call(prompt) {
+    async _call() {
         try {
-            const response = await this.client.chat.completions.create({
-                messages: [{ role: "user", content: prompt }],
-                model: "gemma-7b-it",
-                temperature: 0.7,
-                max_tokens: 150
-            });
-            return response.choices[0].message.content.trim();
+            const issues = await getIssues();
+            // console.log(issues);
+            return issues;
         } catch (error) {
-            console.error("Error with Groq LLM:", error);
-            throw new Error("Failed to get response from Groq LLM.");
+            return `Error fetching GitHub issues: ${error.message}`;
         }
     }
 }
 
-// Initialize Groq LLM
-const groqLLM = new GroqLLM();
 
-async function isQueryRelevantToData(query, jsonData) {
-    const prompt = `
-        You are an assistant tasked with determining whether a user query relates to specific JSON data. 
-        JSON data: ${JSON.stringify(jsonData)}
-        Query: "${query}"
-        Does this query relate to the JSON data? Answer with "yes" or "no" only.`;
+/**
+ * Fallback tool for general knowledge queries
+ * Used when no specific tool matches the query
+ */
 
-    const response = await groqLLM.call(prompt);
-    return response.toLowerCase().includes("yes");
-}
+class GeneralKnowledgeTool extends Tool {
+    name = "general_knowledge";
+    description = "Use this tool for general knowledge questions, facts, and information that cant be answered by other tools";
 
-
-async function chat(userQuery) {
-
-    var jsonData = await getIssues();
-    const isRelevant = await isQueryRelevantToData(userQuery, jsonData);
-    var response = "";
-    try{
-
-        if (isRelevant){
-            const prompt = `
-                You are a helpful assistant. Use only the information provided in the following text to answer the user's query. 
-                Do not use any external knowledge unless explicitly asked. Consider each item in the response as a task, issue or pull request 
-
-                Text: "${jsonData}"
-
-                User Query: "${userQuery}"
-            `;
-
-            response = await groqLLM.call(prompt);
-        }else{
-            response = await groqLLM.call(userQuery);
+    async _call(input) {
+        try {
+            // The LLM will use its base knowledge to answer general questions
+            return `I'll help answer your general knowledge question: ${input}`;
+        } catch (error) {
+            return `Error processing general knowledge query: ${error.message}`;
         }
-        return response;
-
-    }
-    catch(error) {
-        console.error('Error:', error);
-        return 'Could not fetch the information required. Please try again!';
     }
 }
 
-// Testing
-async function runConversation() {
+// Create agent executor
+async function createAgent() {
+    const model = new ChatGroq({
+        apiKey: process.env.GROQ_API_KEY,
+        model: "llama-3.3-70b-versatile",
+        temperature: 0.7,
+        max_tokens: 150
+    });
+
+    // Create tools array
+    const tools = [
+        new GitHubIssuesTool(),
+        new GeneralKnowledgeTool()
+    ];
+
+    // Create prompt template
+    const prompt = ChatPromptTemplate.fromMessages([
+        ["system", `You are a helpful student assistant that uses tools to solve problems. 
+            If no specific tool matches the query, use the general knowledge tool as the last option.
+            Only display or output the answer to the user query. Do not mention anything about tools or other analysis.`],
+        ["human", "{input}"],
+        ["assistant", "Let me approach this step by step:"],
+        new MessagesPlaceholder("agent_scratchpad")
+    ]);
+
+    const agent = await createOpenAIToolsAgent({
+        llm: model,
+        tools: tools,
+        prompt: prompt
+    });
+
+    return new AgentExecutor({
+        agent,
+        tools,
+        verbose: false
+    });
+}
+
+
+// Main chat function
+async function chat(input) {
     try {
-        var output = await chat("what is the title of my task, when was it last updated");
-        console.log(output);
-        output = await chat("when was james anderson born");
-        console.log(output);
+        const executor = await createAgent();
+        const result = await executor.invoke({
+            input: input
+        });
+
+        if (result.output && 
+            (result.output.toLowerCase().includes('failed') || 
+             result.output.toLowerCase().includes('error'))) {
+            return "I need a rain check on that question, this question is beyond my current capabilities.";
+        }
+        return result.output;
     } catch (error) {
-        console.error('Conversation error:', error);
+        console.error("Error:", error);
+        return { error: true, message: error.message };
     }
 }
 
+// Example usage
+async function runExample() {
+    var response = await chat("What is graph database");
+    console.log("Response:", response);
+    var result = await chat("how many github issues do i have");
+    console.log("Response:", result);
+}
 
-runConversation();
+runExample();
