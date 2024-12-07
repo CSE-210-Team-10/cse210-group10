@@ -48,7 +48,7 @@ const owner = 'CSE-210-Team-10';
 const repo = 'group10-esc012';
 
 /**
- * Fetch pull request data from specified paramters.
+ * Fetch pull request data from specified parameters.
  * @param { string } token The SSO token generated
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
@@ -77,7 +77,7 @@ async function getPullRequests(token, owner, repo) {
 };
 
 /**
- * Fetch issue data from specified paramters.
+ * Fetch issue data from specified parameters.
  * @param { string } token The SSO token generated
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
