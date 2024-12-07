@@ -17,7 +17,7 @@ function redirectToLogin() {
  * Render the page with user data
  * @param { User } user user data from auth service
  */
-function renderPage(user) {
+async function renderPage(user) {
   console.log(user);
 
   const token = user.accessToken;
