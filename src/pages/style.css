@@ -1,6 +1,5 @@
 @import '../styles/root.css';
 @import './all-tasks.css';
-@import '../components/task/style.css';
 
 * {
 	margin: 0;

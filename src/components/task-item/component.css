@@ -36,6 +36,7 @@ summary::-webkit-details-marker {
 .task-title {
 	color: #2e7d32;
 	font-size: 1rem;
+	font-weight: 400;
 	margin: 0;
 }
 
