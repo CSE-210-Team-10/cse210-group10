@@ -1,5 +1,6 @@
 @import '../styles/root.css';
 @import './all-tasks.css';
+@import '../components/task/style.css';
 
 * {
 	margin: 0;
@@ -65,20 +66,39 @@ body aside, body section {
 	background-color: var(--bg-accent-light);
 }
 
+#links img {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
 main {
 	display: grid;
 	grid-template-rows: 25fr 75fr;
 	gap: var(--gap);
+	/* Important! Allows flex items to shrink (for scroll) */
+	min-height: 0;
 }
 
-#upcoming-deadlines {
+
+#upcoming-deadlines, #github-list, #personal-list {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+	/* Important! Allows flex items to shrink (for scroll) */
+	min-height: 0;
 }
 
 #upcoming-deadlines ul {
 	background-color: #dfdfdf;
 	list-style: none;
 	flex: 1;
+}
+
+.tasks {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	list-style: none;
+	flex: 1;
+	overflow-y: scroll;
 }
