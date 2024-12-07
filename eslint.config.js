@@ -1,11 +1,13 @@
 import js from '@eslint/js';
 import jsdoc from 'eslint-plugin-jsdoc';
+import html from 'eslint-plugin-html';
 
 export default [
   js.configs.recommended,
   {
     plugins: {
       jsdoc: jsdoc,
+      html: html,
     },
     languageOptions: {
       globals: {
