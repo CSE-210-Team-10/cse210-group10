@@ -11,10 +11,12 @@ Currently, our pipeline supports:
 1. Code Quality via Human Review: Pull Requests and Branch Protection
 2. Unit Tests via automation: Jest
 3. Documentation generation via Human: JSDocs on VSCode
-4. Packaging (or Bundling for Production) via automation: Terser (addition)
-5. Deployment via automation: Cloudflare (addition)
+4. Packaging (or Bundling for Production) via automation: Terser
+5. Deployment via automation: Cloudflare
+6. Linting: ESLint and HTMLHint
+7. End-to-End Tests/Integration Tests: Cypress
 
-Currently, the pipeline supports unit testing for front-end related code (JS, HTML, and CSS). All developers implement new features in developer branches off of the staging environment. 
+Currently, the pipeline supports unit testing for front-end related code (JS, HTML). All developers implement new features in developer branches off of the staging environment. 
 
 When a developer creates a pull request, unit tests are run on the new code. If these pass, a built production-ready bundle will be deployed on Cloudflare using Cloudflare CLI. 
 
@@ -28,7 +30,5 @@ Notes: The decisions behind using these technologies are detailed in their respe
 
 In the future, a few key needs have been identified that will be built out. These are listed below in order of priority:
 
-1. Linting: Eslint
-2. End-to-End Tests/Integration Tests: Cypress
-3. Backend Unit Tests for Web Server
-4. Backend Unit Tests for Database
+1. Backend Unit Tests for Web Server
+2. Backend Unit Tests for Database
