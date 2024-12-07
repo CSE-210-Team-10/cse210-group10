@@ -12,7 +12,7 @@ export class TaskItem extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['title', 'priority', 'category', 'date', 'tags', 'description'];
+    return ['data-title', 'data-priority', 'data-date', 'data-tags'];
   }
 
   connectedCallback() {
@@ -37,12 +37,6 @@ export class TaskItem extends HTMLElement {
     const title = this.getAttribute('data-title') || '';
     const priority = this.getAttribute('data-priority') || '';
     const date = this.getAttribute('data-date') || '';
-    const description = this.getAttribute('data-description') || '';
-
-    console.log(title);
-    console.log(priority);
-    console.log(date);
-    console.log(description);
 
     // Update title
     const titleElement = this.shadowRoot.querySelector('.task-title');
@@ -51,11 +45,6 @@ export class TaskItem extends HTMLElement {
     // Update date
     const dateElement = this.shadowRoot.querySelector('.task-date');
     if (dateElement) dateElement.textContent = date;
-
-    // Update description
-    const descriptionElement =
-      this.shadowRoot.querySelector('.task-description');
-    if (descriptionElement) descriptionElement.textContent = description;
 
     // Update tags
     const tagsContainer = this.shadowRoot.querySelector('.tags');
@@ -75,7 +64,6 @@ export class TaskItem extends HTMLElement {
     try {
       /** @type {string[]} */
       const tags = JSON.parse(this.getAttribute('data-tags') || '[]');
-      console.log(tags);
 
       tags.forEach(tag => {
         const tagElement = document.createElement('li');
@@ -119,6 +107,17 @@ export class TaskItem extends HTMLElement {
           detail: { id: this.getAttribute('id') },
         })
       );
+    });
+
+    const slot = this.shadowRoot.querySelector('slot');
+    slot?.addEventListener('slotchange', () => {
+      const nodes = slot.assignedNodes();
+      const description = nodes
+        .map(node => node.textContent)
+        .join('')
+        .trim();
+
+      if (description.length > 500) console.warn('Description is too long');
     });
   }
 }
