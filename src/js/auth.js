@@ -11,13 +11,15 @@ import { supabaseUrl, supabaseAnonKey } from './supabase.js';
  * @property { string } accessToken - a token to access user's github data
  */
 
+const PROVIDER_TOKEN_KEY = 'github_provider_token';
+
 /**
  * Create a dynamic redirect URL after a successful login
  * @returns { string } redirect URL
  */
 function getDynamicRedirectUrl() {
-  const { protocal, host } = window.location;
-  return `${protocal}//${host}/`;
+  const { protocol, host } = window.location;
+  return `${protocol}//${host}/`;
 }
 
 /**
@@ -31,9 +33,6 @@ class AuthService {
   /** @type { User | null } */
   user;
 
-  /** @type { string | null } */
-  providerToken;
-
   /** @type { Set<function(string, UserData | null): void> } */
   authStateSubscribers;
 
@@ -44,13 +43,16 @@ class AuthService {
   constructor() {
     this.supabase = createClient(supabaseUrl, supabaseAnonKey);
     this.user = null;
-    this.providerToken = null;
     this.authStateSubscribers = new Set();
 
-    // Set up auth state change listener to notify subscribers
     this.supabase.auth.onAuthStateChange((event, session) => {
       this.user = session?.user || null;
-      this.providerToken = session?.provider_token || null;
+
+      if (session?.provider_token)
+        localStorage.setItem(PROVIDER_TOKEN_KEY, session.provider_token);
+      else if (event === 'SIGNED_OUT')
+        localStorage.removeItem(PROVIDER_TOKEN_KEY);
+
       this.notifySubscribers(event);
     });
   }
@@ -70,7 +72,9 @@ class AuthService {
       if (!session) return null;
 
       this.user = session.user;
-      this.providerToken = session.provider_token;
+      if (session.provider_token) {
+        localStorage.setItem(PROVIDER_TOKEN_KEY, session.provider_token);
+      }
       return this.getGithubData();
     } catch (error) {
       console.error('Failed to initialize auth:', error.message);
@@ -121,6 +125,7 @@ class AuthService {
     try {
       const { error } = await this.supabase.auth.signOut();
       if (error) throw error;
+      localStorage.removeItem(PROVIDER_TOKEN_KEY);
     } catch (error) {
       console.error('Logout error:', error.message);
       throw error;
@@ -155,7 +160,7 @@ class AuthService {
     return {
       username: this.user.user_metadata.user_name,
       avatarUrl: this.user.user_metadata.avatar_url,
-      accessToken: this.providerToken, // GitHub access token for API calls
+      accessToken: localStorage.getItem(PROVIDER_TOKEN_KEY),
     };
   }
 
@@ -197,8 +202,10 @@ class AuthService {
 
       if (!session) return null;
 
+      if (session?.provider_token)
+        localStorage.setItem(PROVIDER_TOKEN_KEY, session.provider_token);
+
       this.user = session.user;
-      this.providerToken = session.provider_token;
 
       return this.getGithubData();
     } catch (error) {
