@@ -71,3 +71,18 @@ async function chat(userQuery) {
         return 'Could not fetch the information required. Please try again!';
     }
 }
+
+// Testing
+async function runConversation() {
+    try {
+        var output = await chat("what is the title of my task, when was it last updated");
+        console.log(output);
+        output = await chat("when was james anderson born");
+        console.log(output);
+    } catch (error) {
+        console.error('Conversation error:', error);
+    }
+}
+
+
+runConversation();
