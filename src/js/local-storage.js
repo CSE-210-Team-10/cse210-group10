@@ -32,7 +32,7 @@ export function removeProviderToken() {
 
 /**
  * Get Provider Token from localStorage
- * @returns Provider Token from localStorage
+ * @returns { string } Provider Token from localStorage
  */
 export function getProviderToken() {
   return localStorage.getItem(PROVIDER_TOKEN_KEY);
