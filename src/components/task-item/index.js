@@ -18,7 +18,7 @@ const UISelector = {
   title: '.task-title',
   priority: '.task-priority',
   date: '.task-date',
-  tags: '.task-tags',
+  tags: '.tags',
   editBtn: '.edit-button',
   deleteBtn: '.delete-button',
   completeBtn: '.complete-button',
@@ -159,7 +159,6 @@ export class TaskItem extends HTMLElement {
       tagElement.className = 'tag';
       tagElement.textContent = tag;
       tagsContainer.appendChild(tagElement);
-      console.log(tag);
     });
   }
 
