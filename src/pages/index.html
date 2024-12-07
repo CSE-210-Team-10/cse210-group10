@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ByteBoard Layout</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/styles/root.css" />
+  </head>
+  <body>
+    <aside id="links">
+      <!-- TODO: make this dynamic -->
+      <ul>
+        <li>
+          <a href="https://github.com/davidtso1219" target="_blank">
+            <img
+              src="/static/github-mark.svg"
+              alt="Icon description"
+              width="24"
+              height="24"
+            />
+            GitHub
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/davidtso1219" target="_blank">
+            <img
+              src="/static/github-mark.svg"
+              alt="Icon description"
+              width="24"
+              height="24"
+            />
+            GitHub
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/davidtso1219" target="_blank">
+            <img
+              src="/static/github-mark.svg"
+              alt="Icon description"
+              width="24"
+              height="24"
+            />
+            GitHub
+          </a>
+        </li>
+      </ul>
+    </aside>
+    <main>
+      <section id="upcoming-deadlines">
+        <h2>Upcoming Deadline</h2>
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </section>
+      <section id="all-tasks">
+        <h2>All Tasks</h2>
+        <div class="controls">
+          <input
+            type="search"
+            placeholder="Search Tasks..."
+            aria-label="Search tasks"
+          />
+          <div id="view-toggle">
+            <button>
+              <i class="fa-solid fa-list"></i>
+            </button>
+            <button disabled>
+              <i class="fa-solid fa-calendar"></i>
+            </button>
+          </div>
+          <button>
+            <i class="fa-solid fa-filter"></i>
+          </button>
+        </div>
+
+        <h3 class="github-header">GitHub Tasks</h3>
+        <div class="count github-count">
+          <span>
+            <strong>8</strong>
+            done this month
+          </span>
+        </div>
+
+        <ul class="task-list github-list">
+          <!-- GitHub tasks here -->
+        </ul>
+
+        <h3 class="personal-header">Personal Tasks</h3>
+        <div class="personal-controls">
+          <div class="count">
+            <span>
+              <strong>30</strong>
+              done this month
+            </span>
+          </div>
+          <button>Create Task</button>
+        </div>
+
+        <ul class="task-list personal-list">
+          <!-- Personal tasks here -->
+        </ul>
+      </section>
+    </main>
+    <script
+      src="https://kit.fontawesome.com/8082328e3c.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
