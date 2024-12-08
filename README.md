@@ -1,31 +1,32 @@
-## How to Write Tests and Test
+# CSE 210 Group 10 Project Repository
 
-1. Go to `test/` to write sample tests for the new code.
-2. Run `npm run test` to run the unit tests
+# REMEMBER TO UPDATE THESE LINKS ONCE REPO NAME CHANGES
 
-## How to Develop Locally
+## Project Overview
+This repository contains work done by CSE 210 Team 10 for the Fall 2024 Quarter Final Project. After initial design exploration, the team decided to develop a dashboard focused on student developers. Through extensive research, the team found a lack of developer dashboards that specifically focused on students. A student user persona has unique requirements that do not fit the paradigms of a traditional developer dashboard. As such, a specialized dashboard could give student developers the boost in productivity they need. See the [pitch document](https://github.com/CSE-210-Team-10/group10-esc012/blob/main/spec/CSE210_Team10_Pitch.pdf) for more information.
 
-1. Go to `src/` to start your development
-2. Run `npm run start:dev` to start a live server to see new changes in the browser
+## Features
+This implementation focused on features that student developers would find useful. This was found through iteration and feedback from potential users. A final list of features can be seen below:
+- Organizing tasks (grouping, categorizing, filtering, searching)
+- Deadline tracking
+- Urgency indicators (visual urgency through color schema)
+- List view of tasks
+- Interactable links and relevant information which the user can add to their dashboard
+- Calendar view of tasks
+- GitHub Integration (import tasks from Issues and PRs)
+- GitHub SSO Integration for Authentication to the Dashboard
+- The Rubber Duck (a chatbot specialized for [rubber duck debugging](https://rubberduckdebugging.com/))
 
-## How to Build Locally
+## Demo
+The demo for this project can be found hosted [here](dummy). Here is a video of the demo showcasing key functionality:
 
-1. Run `npm run start` to build the bundle to simulate the production build and serve the production build on a live server.
-   - The output of this command should show you how to access the build
+**Video goes here**
 
-## All Together
+## How to Use
+TBA
 
-1. Write tests and see them fail
-2. Start development
-3. Run tests until they all pass
-4. Commit changes and create a Pull Request
-5. Monitor CI results on GitHub Action
-6. If not passed, continue to complete the development
-7. If CI passed and CD go through,
-   1. gather the link that serves the production bundle from GitHub Action
-   2. send it to others to review your changes
-8. New changes will be automatically updated in staging environment once merged into `release` branch
+## Roadmap
+The project roadmap can be found [here](https://github.com/CSE-210-Team-10/group10-esc012/blob/main/spec/supplemental/Project%20Roadmap/CSE210_Team10_ProjectRoadMap.jpg). Below is a summary of the major tasks and status.
 
-- To see the process visually:
 
-<img src="./admin/documentation/cipipeline/cicd.png"></img>
+See the [open issues](https://github.com/CSE-210-Team-10/group10-esc012/issues) for a full list of future changes to be made.
