@@ -51,4 +51,23 @@ function filterTasksByCreationTime(tasks, creationTime, operator = 'on') {
   });
 }
 
-export { filterTasksByType, filterTasksByStatus, filterTasksByCreationTime };
+/**
+ * Sort tasks by creation time from latest to earliest
+ * 
+ * @param {Array} tasks - The array of tasks to be sorted
+ * @returns {Array} Sorted tasks
+ */
+function sortTasksFromLatest(tasks) {
+  return tasks.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+}
+
+/**
+ * Sort tasks by creation time from earliest to latest
+ * @param {Array} tasks - The array of tasks to be sorted
+ * @returns {Array} Sorted tasks
+ */
+function sortTasksFromEarliest(tasks) {
+  return tasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+}
+
+export { filterTasksByType, filterTasksByStatus, filterTasksByCreationTime, sortTasksFromLatest, sortTasksFromEarliest };
