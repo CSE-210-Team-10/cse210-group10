@@ -1,0 +1,51 @@
+#upcoming-deadlines {
+	padding: 0;
+	background-color: transparent;
+	border: none;
+}
+
+.deadlines {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	list-style: none;
+}
+
+.deadline {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5rem;
+	flex: 1;
+	max-height: 10rem;
+	border: var(--border-width) solid var(--border-primary);
+	background-color: var(--bg-secondary);
+	aspect-ratio: 1;
+}
+
+
+.deadline:first-child {
+	margin-right: 20px;
+	border-radius: var(--border-radius-primary);
+}
+
+/* select every child but the first two */
+.deadline:nth-child(n+3) {
+	border-left: none;
+}
+
+.deadline:nth-child(2) {
+	border-radius: var(--border-radius-primary) 0 0 var(--border-radius-primary);
+}
+
+.deadline:last-child {
+	border-radius: 0 var(--border-radius-primary) var(--border-radius-primary) 0;
+}
+
+.deadline-tags {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	list-style-type: none;
+}

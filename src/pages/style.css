@@ -1,4 +1,5 @@
 @import '../styles/root.css';
+@import './upcoming-deadlines.css';
 
 * {
 	margin: 0;
