@@ -12,7 +12,7 @@ dotenv.config();
  */
 class GitHubIssuesTool extends Tool {
     name = "github_issues";
-    description = "Fetches GitHub issues assigned to a specific user. Use this when you need to check GitHub issues.";
+    description = "Fetches GitHub issues assigned to a specific user. Use this when you need to check when the user mentions GitHub issues.";
 
     async _call() {
         try {
@@ -25,6 +25,46 @@ class GitHubIssuesTool extends Tool {
     }
 }
 
+/**
+ * Tool for fetching GitHub pull requests
+ */
+class GitHubPrTool extends Tool {
+    name = "github_pullrequests";
+    description = `Fetches GitHub pullrequests assigned to a specific user. 
+                    Use this when you need to check when the user mentions GitHub pull requests/ pr 
+                    or anything related to github merge queries.`;
+
+    async _call() {
+        try {
+            const pullRequests = await getPullRequests();
+            // console.log(pullRequests);
+            return pullRequests;
+        } catch (error) {
+            return `Error fetching GitHub issues: ${error.message}`;
+        }
+    }
+}
+
+/**
+ * Tool for fetching individual tasks
+ */
+class JSONFileTool extends Tool {
+    name = "json_reader";
+    description = `Reads and answers questions about JSON data stored in local files. Fetches tasks assigned to a specific user. 
+                    Parse it as a list of tasks. Use this when the user queries about tasks`;
+
+    async _call(input) {
+        try {
+            const jsonData = require('./mock/mock-tasks.json');
+            console.log(jsonData);
+            
+            // Return the parsed data for the agent to analyze
+            return JSON.stringify(jsonData, null, 2);
+        } catch (error) {       
+            return `Error reading JSON file: ${error.message}`;
+        }
+    }
+}
 
 /**
  * Fallback tool for general knowledge queries
@@ -48,15 +88,17 @@ class GeneralKnowledgeTool extends Tool {
 // Create agent executor
 async function createAgent() {
     const model = new ChatGroq({
-        apiKey: process.env.GROQ_API_KEY,
+        apiKey: process.env.GROQ_API_KEY, 
         model: "llama-3.3-70b-versatile",
         temperature: 0.7,
-        max_tokens: 150
+        max_tokens: 100
     });
 
     // Create tools array
     const tools = [
         new GitHubIssuesTool(),
+        new GitHubPrTool(),
+        new JSONFileTool(),
         new GeneralKnowledgeTool()
     ];
 
