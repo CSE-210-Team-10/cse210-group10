@@ -164,7 +164,7 @@ export class TaskItem extends HTMLElement {
   }
 
   /**
-   * Add event listenrs to buttons and slots
+   * Add event listeners to buttons and slots
    * Fire custom events for button clicked
    * And check description length for slot changed
    */
