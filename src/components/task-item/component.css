@@ -11,6 +11,10 @@ details {
 	transition: all 0.3s ease;
 }
 
+.non-interactive summary:hover {
+	cursor: default;
+}
+
 summary {
 	display: flex;
 	align-items: center;
@@ -34,8 +38,10 @@ summary::-webkit-details-marker {
 }
 
 .task-title {
+	padding: 0.5rem;
 	color: #2e7d32;
 	font-size: 1rem;
+	font-weight: 400;
 	margin: 0;
 }
 
@@ -90,7 +96,6 @@ summary::-webkit-details-marker {
 
 
 .task-control-btn.complete-btn i {
-	font-size: 1.4rem;
 	font-weight: 400;
 }
 
@@ -107,7 +112,6 @@ details[open] .task-control-btn.collapse-btn {
 }
 
 .task-control-btn.collapse-btn i {
-	font-size: 1.4rem;
 	font-weight: 900;
 }
 
