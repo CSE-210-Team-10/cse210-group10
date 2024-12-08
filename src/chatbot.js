@@ -1,5 +1,18 @@
 
-const API_KEY = '';
+//fetch OPENAI API key
+async function fetchChatbotkey(){
+    const URL = "https://chatbot-key.onrender.com/apikey";
+    try{
+        const response = await fetch(URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = (await response.text()).trim();
+        return data;
+    }catch(error){
+        return "ERROR: OPENAI API KEY is not available. Please try again or contact the owner.";
+    }
+}
 
 
 async function readJsonFile() {
@@ -79,9 +92,11 @@ async function readJsonFile() {
 }
 
 async function chat(userMessage) {
-
+    var API_KEY = await fetchChatbotkey();
+    if (API_KEY.startsWith('ERROR')) {
+        return API_KEY;
+    }
     const jsonData = await readJsonFile();
-    // console.log(tasksString);
     const API_URL = "https://api.openai.com/v1/chat/completions";
   
     // Request payload for the API call
@@ -147,9 +162,9 @@ document.getElementById('submit-button').addEventListener('click', async () => {
   
 
 // Example 
-export async function runExample() {
-    var result = await chat("what is my adr issue");
-    console.log("Response:", result);
-}
+// export async function runExample() {
+//     var result = await chat("what is my adr issue");
+//     console.log("Response:", result);
+// }
 
-runExample();
+// runExample();
