@@ -35,28 +35,28 @@ export async function chat(userMessage) {
   
     // Request payload for the API call
     const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [
-            {
-                role: "system",
-                content: `You are a Student Helper Assistant that answers questions based on the following data, 
-                        but if the information is not present in the data, 
-                        you can use your general knowledge to provide an answer.
-                        For each item in the data the task type can be "issue", "pull_request", or "task".
-                        Be flexible with the syntax and working of "type" field 
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${API_KEY}`,
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+                {
+                    role: "system",
+                    content: `You are a Student Helper Assistant that answers questions based on the following data, 
+                            but if the information is not present in the data, 
+                            you can use your general knowledge to provide an answer.
+                            For each item in the data the task type can be "issue", "pull_request", or "task".
+                            Be flexible with the syntax and working of "type" field 
                             Here is the data: \n ${jsonData}`,
-            },
-            {
-                role: "user",
-                content: userMessage,
-            },
-        ],
+                },
+                {
+                    role: "user",
+                    content: userMessage,
+                },
+            ],
       }),
     };
   
@@ -71,7 +71,7 @@ export async function chat(userMessage) {
         } else {
           throw new Error(data.error?.message || "Unknown error");
         }
-      } catch (error) {
+    } catch (error) {
         console.error("Error:", error);
         return "Oops, something went wrong. Please try again.";  
     }
@@ -91,7 +91,7 @@ document.getElementById('submit-button').addEventListener('click', async () => {
         // Clear input field
         document.getElementById('input-box').value = '';  
         chatBox.scrollTop = chatBox.scrollHeight; 
-      }
+    }
 });
   
 
