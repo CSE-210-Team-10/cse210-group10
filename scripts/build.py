@@ -45,8 +45,61 @@ def copy_src_to_tmp(src_dir: str, tmp_dir: str) -> None:
     print(f"Copied src to tmp: {src_dir} → {tmp_dir}")
 
 
-def process_template_file(file_path: str) -> None:
-    """Process HTML template files into JS modules."""
+def fix_relative_imports(file_path: str, mode: str) -> None:
+    """Fix relative imports in CSS and JS files for dev mode."""
+    if mode != "dev":
+        return
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # Only proceed if file is in pages directory
+    if "/pages/" not in file_path:
+        return
+
+    def replace_import(match):
+        """Replace import paths with the correct relative path."""
+        full_import = match.group(0)  # Full import statement
+        path = match.group(1)  # The path part
+
+        # Count number of parent directory references
+        parent_count = path.count("../")
+        if parent_count == 0:
+            return full_import
+
+        # Get the path after all ../
+        path_parts = path.split("/")
+        actual_path = "/".join(path_parts[parent_count:])
+
+        # Construct new path
+        if parent_count == 1:
+            new_path = f"./{actual_path}"
+        else:
+            new_path = f'./{("../" * (parent_count - 1))}{actual_path}'
+
+        # Reconstruct import statement based on file type
+        if file_path.endswith(".css"):
+            return f'@import "{new_path}"'
+        else:  # .js file
+            return f'from "{new_path}"'
+
+    # Match CSS imports: @import '../path/to/file.css' or @import "../path/to/file.css"
+    if file_path.endswith(".css"):
+        pattern = r'@import\s+[\'"]([^"\']+\.css)[\'"]'
+        content = re.sub(pattern, replace_import, content)
+
+    # Match JS imports: from '../path/to/file.js' or from "../path/to/file.js"
+    elif file_path.endswith(".js"):
+        pattern = r'from\s+[\'"]([^"\']+\.(?:js|css))[\'"]'
+        content = re.sub(pattern, replace_import, content)
+
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(content)
+        print(f"Fixed imports in: {file_path}")
+
+
+def process_template_and_style_file(file_path: str) -> None:
+    """Process HTML template and CSS component files into JS modules."""
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
@@ -58,7 +111,10 @@ def process_template_file(file_path: str) -> None:
         js_path = f"{file_path}.js"
         with open(js_path, "w", encoding="utf-8") as f:
             f.write(output)
-        os.remove(file_path)
+
+        if file_path.endswith(".html"):
+            os.remove(file_path)
+
         print(f"Processed: {file_path} → {js_path}")
     except Exception as e:
         print(f"Error processing {file_path}: {str(e)}")
@@ -70,16 +126,20 @@ def process_js_file(file_path: str) -> None:
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        template_pattern = (
-            r"""import\s+(\w+)\s+from\s*['"]([^'"]*(?:template\.html))['"]"""
-        )
-
         def replace_import(match):
             import_name = match.group(1)
             path = match.group(2)
             return f"import {import_name} from '{path}.js'"
 
+        template_pattern = (
+            r"""import\s+(\w+)\s+from\s*['"]([^'"]*(?:template\.html))['"]"""
+        )
         new_content = re.sub(template_pattern, replace_import, content)
+
+        template_pattern = (
+            r"""import\s+(\w+)\s+from\s*['"]([^'"]*(?:component\.css))['"]"""
+        )
+        new_content = re.sub(template_pattern, replace_import, new_content)
 
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(new_content)
@@ -111,10 +171,20 @@ def build(mode: str = "dev"):
     for root, _, files in os.walk(tmp_dir):
         for file in files:
             file_path = os.path.join(root, file)
-            if file == "template.html":
-                process_template_file(file_path)
+            if file == "template.html" or file == "component.css":
+                process_template_and_style_file(file_path)
 
-    # Step 3: Update import statements in JS files
+    # Step 3: Fix relative imports in CSS and JS files (only in dev mode)
+    if mode == "dev":
+        for root, _, files in os.walk(tmp_dir):
+            for file in files:
+                if file.endswith((".css", ".js")) and not (
+                    file.endswith(".html.js") or file.endswith(".css.js")
+                ):
+                    file_path = os.path.join(root, file)
+                    fix_relative_imports(file_path, mode)
+
+    # Step 4: Update import statements in JS files
     for root, _, files in os.walk(tmp_dir):
         for file in files:
             if file.endswith(".js") and not (

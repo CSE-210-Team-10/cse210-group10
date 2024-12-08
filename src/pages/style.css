@@ -14,7 +14,7 @@
 
 body {
 	height: 100vh;
-	min-height: 55.546875rem;
+	/* min-height: 55.546875rem; */
 	width: min(67.5rem, 100vw - 2 * var(--app-padding));
 	min-width: 67.5rem;
 	background-color: var(--bg-primary);
@@ -65,20 +65,39 @@ body aside, body section {
 	background-color: var(--bg-accent-light);
 }
 
+#links img {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
 main {
 	display: grid;
 	grid-template-rows: 25fr 75fr;
 	gap: var(--gap);
+	/* Important! Allows flex items to shrink (for scroll) */
+	min-height: 0;
 }
 
-#upcoming-deadlines {
+
+#upcoming-deadlines, #github-list, #personal-list {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+	/* Important! Allows flex items to shrink (for scroll) */
+	min-height: 15rem;
 }
 
 #upcoming-deadlines ul {
-	background-color: #dfdfdf;
+	/* background-color: #dfdfdf; */
 	list-style: none;
 	flex: 1;
+}
+
+.tasks {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	list-style: none;
+	flex: 1;
+	overflow-y: auto;
 }
