@@ -81,37 +81,38 @@ summary::-webkit-details-marker {
 	font-size: 0.9rem;
 }
 
-.task-control-btn {
-	padding: 8px;
+summary button {
 	border: none;
-	background: none;
-	cursor: pointer;
-	font-size: 1.25rem;
-	color: #2e7d32;
+	background-color: transparent;
+	color: var(--button-bg-color);
 }
 
-.task-control-btn.delete-btn {
+summary button:hover {
+	background: var(--tag-bg-color-regular);
+	color: var(--tag-text-color-regular);
+}
+
+summary button.delete-btn {
 	color: #EF4444;
 }
 
-
-.task-control-btn.complete-btn i {
-	font-weight: 400;
+summary button.delete-btn:hover {
+	background: var(--tag-bg-color-high);
+	color: var(--tag-text-color-high);
 }
 
-.task-control-btn.complete-btn:hover i {
-	font-weight: 900;
-}
-
-.task-control-btn.collapse-btn {
+.collapse-btn, .collapse-btn:hover {
+	border: none;
+	background-color: transparent;
+	color: var(--text-primary);
 	transition: all 0.25s;
 }
 
-details[open] .task-control-btn.collapse-btn {
+details[open] .collapse-btn {
 	transform: rotate(-180deg);
 }
 
-.task-control-btn.collapse-btn i {
+.collapse-btn i {
 	font-weight: 900;
 }
 

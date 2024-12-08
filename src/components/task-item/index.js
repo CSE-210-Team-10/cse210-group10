@@ -23,7 +23,7 @@ const UISelector = {
   deleteBtn: '.delete-btn',
   completeBtn: '.complete-btn',
   collapseBtn: '.collapse-btn',
-  controlBtns: '.task-control-btn',
+  controlBtns: 'button',
 };
 
 /**
