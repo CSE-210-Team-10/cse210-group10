@@ -1,8 +1,10 @@
 import { authService } from '../js/auth.js';
 import { standardizeString } from '../js/library.js';
+import { TaskItem } from '../components/task-item/index.js';
 
 /** @typedef { import('../js/auth.js').UserData } User */
 
+console.log(TaskItem.name);
 console.log(standardizeString('test'));
 authService.subscribeToAuthChanges(authEventHandler);
 
