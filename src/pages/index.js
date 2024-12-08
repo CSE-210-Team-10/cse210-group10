@@ -4,6 +4,7 @@ import { TaskItem } from '../components/task-item/index.js';
 
 /** @typedef { import('../js/auth.js').UserData } User */
 
+console.log(TaskItem.name);
 console.log(standardizeString('test'));
 authService.subscribeToAuthChanges(authEventHandler);
 
