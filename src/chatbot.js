@@ -1,9 +1,12 @@
 
 //fetch OPENAI API key
-async function fetchChatbotkey(){
+export async function fetchChatbotkey(){
     const URL = "https://chatbot-key.onrender.com/apikey";
     try{
-        const response = await fetch(URL);
+        const response = await fetch(URL, {
+          method: 'GET',
+          mode: 'cors',
+        });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -91,7 +94,7 @@ async function readJsonFile() {
     }
 }
 
-async function chat(userMessage) {
+export async function chat(userMessage) {
     var API_KEY = await fetchChatbotkey();
     if (API_KEY.startsWith('ERROR')) {
         return API_KEY;
@@ -152,10 +155,10 @@ document.getElementById('submit-button').addEventListener('click', async () => {
         chatBox.innerHTML += <div><strong>You:</strong> ${userInput}</div>;
         
         const response = await chat(userInput);  
-        chatBox.innerHTML += <div><strong>Bot:</strong> ${response}</div>;
 
-        // Clear input field
+        chatBox.innerHTML += <div><strong>Bot:</strong> ${response}</div>;
         document.getElementById('input-box').value = '';  
+        
         chatBox.scrollTop = chatBox.scrollHeight; 
     }
 });
