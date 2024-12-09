@@ -152,7 +152,13 @@ function handleTaskEdit(e) {
  * @param { CustomEvent } e The custom event object passed from task-item
  */
 function handleTaskDelete(e) {
-  console.log(e.detail);
+  const taskId = e.detail.id;
+
+  if (!taskId) throw new Error('Task ID is required for delete mode');
+
+  TaskStore.deleteTask(Number(taskId));
+
+  renderTaskPanels(TaskStore.getAllTasks());
 }
 
 /**
@@ -160,7 +166,12 @@ function handleTaskDelete(e) {
  * @param { CustomEvent } e The custom event object passed from task-item
  */
 function handleTaskCompleted(e) {
-  console.log(e.detail);
+  const taskId = e.detail.id;
+
+  if (!taskId) throw new Error('Task ID is required for completion mode');
+
+  TaskStore.updateTask(Number(taskId), { done: true });
+  renderTaskPanels(TaskStore.getAllTasks());
 }
 
 /**
@@ -203,6 +214,8 @@ function renderTaskPanels(tasks) {
 
   // Sort tasks into appropriate lists
   tasks.forEach(task => {
+    if (task.done) return;
+
     const taskElement = createTaskElement(task, true);
 
     // Determine which list to add the task to
