@@ -16,7 +16,7 @@
 body {
 	height: 100vh;
 	width: 100vw;
-	min-width: 108rem;
+	min-width: 120rem;
 	margin: 0 auto;
 	padding: var(--app-padding);
 	display: flex;
@@ -210,4 +210,24 @@ aside .controls {
 	min-height: 0;
 	padding-right: 0.5rem;
 	/* Optional: gives space for scrollbar */
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: white;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #b0b0b0;
+	border-radius: 10px;
+	border: 3px solid white;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #878787;
+	gap: var(--gap);
 }
