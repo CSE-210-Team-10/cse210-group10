@@ -152,11 +152,11 @@ document.getElementById('submit-button').addEventListener('click', async () => {
     
     if (userInput) {
         const chatBox = document.getElementById('chat-box');
-        chatBox.innerHTML += <div><strong>You:</strong> ${userInput}</div>;
+        chatBox.innerHTML += `<div><strong>You:</strong> ${userInput}</div>`;
         
         const response = await chat(userInput);  
 
-        chatBox.innerHTML += <div><strong>Bot:</strong> ${response}</div>;
+        chatBox.innerHTML += `<div><strong>Bot:</strong> ${response}</div>`;
         document.getElementById('input-box').value = '';  
         
         chatBox.scrollTop = chatBox.scrollHeight; 
