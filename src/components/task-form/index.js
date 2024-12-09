@@ -221,11 +221,6 @@ export class TaskForm extends HTMLElement {
     /** @type { HTMLInputElement } */
     const tagInput = this.shadowRoot.querySelector(UISelector.tagInput);
 
-    /** @type { NodeListOf<HTMLButtonElement> } */
-    const removeButtons = tagContainer.querySelectorAll(
-      UISelector.tagRemoveBtn
-    );
-
     tagContainer.innerHTML = this.tags
       .map((tag, index) => tagHTMLGenerator(tag, index))
       .join('');
@@ -237,6 +232,19 @@ export class TaskForm extends HTMLElement {
       this.tags.length >= MAX_TAGS
         ? 'Max tags reached'
         : 'Enter tags (press Enter to add)';
+
+    this.addRemoveBtnEventListeners();
+  }
+
+  /**
+   * Add event listeners to the remove button to handle removing tags
+   */
+  addRemoveBtnEventListeners() {
+    const tagContainer = this.shadowRoot.querySelector(UISelector.tagContainer);
+    /** @type { NodeListOf<HTMLButtonElement> } */
+    const removeButtons = tagContainer.querySelectorAll(
+      UISelector.tagRemoveBtn
+    );
 
     removeButtons.forEach(button => {
       button.addEventListener('click', () => {
