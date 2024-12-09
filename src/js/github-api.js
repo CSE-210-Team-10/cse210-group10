@@ -26,7 +26,7 @@ export async function isProviderTokenValid(token) {
  * @param { string } token The SSO token generated
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
- * @returns { string } returns the pull requests data in json format
+ * @returns { Promise<JSON> } returns the pull requests data in json format
  */
 export async function getPullRequests(token, owner, repo) {
   const url = `https://api.github.com/repos/${owner}/${repo}/pulls`;
@@ -56,7 +56,7 @@ export async function getPullRequests(token, owner, repo) {
  * @param { string } token The SSO token generated
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
- * @returns { string } returns the issues data in json format
+ * @returns { Promise<JSON> } returns the issues data in json format
  */
 export async function getIssues(token, owner, repo) {
   const url = `https://api.github.com/repos/${owner}/${repo}/issues`;
