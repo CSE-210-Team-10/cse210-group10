@@ -250,7 +250,7 @@ export class TaskForm extends HTMLElement {
 
     removeButtons.forEach(button => {
       button.addEventListener('click', () => {
-        const index = parseInt(button.dataset.index);
+        const index = parseInt(button.dataset.index, 10);
         this.tags.splice(index, 1);
         this.updateTags();
         this.clearError();
