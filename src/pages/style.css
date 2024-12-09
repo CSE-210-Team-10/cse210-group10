@@ -73,6 +73,26 @@ header #logo-heading {
 	color: var(--text-accent);
 }
 
+#view-toggle button[aria-disabled="true"] {
+    background-color: var(--bg-accent-light);
+    color: var(--text-accent-light);
+}
+
+#view-toggle button[aria-disabled="true"]:hover {
+    background-color: var(--bg-accent);
+    color: var(--text-accent);
+}
+
+#view-toggle button[aria-disabled="true"] {
+    background-color: var(--bg-accent-light);
+    color: var(--text-accent-light);
+}
+
+#view-toggle button:not([aria-disabled="true"]):hover {
+	background-color: var(--bg-accent);
+	color: var(--text-accent);
+}
+
 /* main */
 
 main {

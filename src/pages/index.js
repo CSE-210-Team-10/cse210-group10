@@ -4,6 +4,8 @@ import { TaskItem } from '../components/task-item/index.js';
 
 /** @typedef { import('../js/auth.js').UserData } User */
 
+const darkModeToggle = document.querySelector('button:has(i.fa-moon)');
+
 console.log(TaskItem.name);
 console.log(standardizeString('test'));
 authService.subscribeToAuthChanges(authEventHandler);
@@ -37,3 +39,8 @@ function authEventHandler(event, user) {
     redirectToLogin();
   }
 }
+
+darkModeToggle.addEventListener('click', () => {
+  // Toggle dark mode class to re-render the page with dark mode styles
+  document.documentElement.classList.toggle('dark-mode');
+});
