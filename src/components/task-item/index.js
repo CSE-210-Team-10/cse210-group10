@@ -124,7 +124,7 @@ export class TaskItem extends HTMLElement {
     const { title, priority, date, tags, interactive } = this;
     const details = this.shadowRoot.querySelector(UISelector.details);
 
-    /** @type { globalThis.NodeListOf<globalThis.HTMLButtonElement> } */
+    /** @type { NodeListOf<HTMLButtonElement> } */
     const controls = this.shadowRoot.querySelectorAll(UISelector.controlBtns);
 
     if (details) {
@@ -172,10 +172,10 @@ export class TaskItem extends HTMLElement {
    * And check description length for slot changed
    */
   addEventListeners() {
-    /** @type { globalThis.HTMLSlotElement | null } */
+    /** @type { HTMLSlotElement | null } */
     const slot = this.shadowRoot.querySelector(UISelector.slot);
 
-    /** @type { globalThis.HTMLDetailsElement | null } */
+    /** @type { HTMLDetailsElement | null } */
     const details = this.shadowRoot.querySelector(UISelector.details);
     const editBtn = this.shadowRoot.querySelector(UISelector.editBtn);
     const deleteBtn = this.shadowRoot.querySelector(UISelector.deleteBtn);
