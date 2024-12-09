@@ -6,23 +6,11 @@ import { getAllTasks } from './crud.js';
  * @property { boolean } [done] - Completion status
  * @property { Date } [beforeDate] - Filter tasks due before this date
  * @property { Date } [afterDate] - Filter tasks due after this date
- * @property { 'high' | 'medium' | 'low' } [priority] - Filter tasks by priority level
+ * @property { Array<'high' | 'medium' | 'low'> } [priorities] - Filter tasks by priority levels
+ * @property { string[] } [tags] - Filter tasks by tags
  */
 
 /** @typedef { import('./index.js').Task } Task */
-
-/**
- * Filter tasks by title (case-insensitive)
- * @param { string } text - Text to search for
- * @param { Task[] } [tasks=getAllTasks()] - List of tasks to filter
- * @returns { Task[] }
- */
-function filterByTitle(text, tasks = getAllTasks()) {
-  if (!text) return tasks;
-  return tasks.filter(task =>
-    task.title.toLowerCase().includes(text.toLowerCase())
-  );
-}
 
 /**
  * Filter tasks by completion status
@@ -35,26 +23,57 @@ function filterByStatus(status, tasks = getAllTasks()) {
 }
 
 /**
- * Filter tasks by tags (matches any tag in the input array)
- * @param { string } text - Tags to search for
+ * Filter tasks by text matching in title or tags
+ * @param { string } text - Text to search for in titles and tags
  * @param { Task[] } [tasks=getAllTasks()] - List of tasks to filter
  * @returns { Task[] }
  */
-function filterByTags(text, tasks = getAllTasks()) {
+function filterByText(text, tasks = getAllTasks()) {
   if (!text) return tasks;
-  return tasks.filter(task =>
-    task.tags.some(tag => tag.toLowerCase().includes(text.toLowerCase()))
+  const searchText = text.toLowerCase();
+
+  return tasks.filter(
+    task =>
+      task.title.toLowerCase().includes(searchText) ||
+      task.tags.some(tag => tag.toLowerCase().includes(searchText))
   );
 }
 
 /**
- * Filter tasks by priority
- * @param { 'high' | 'medium' | 'low' } priority - Priority level to filter by
+ * Filter tasks by specific tags (matches any tag in the input array)
+ * @param { string[] } tags - Array of tags to filter by
  * @param { Task[] } [tasks=getAllTasks()] - List of tasks to filter
  * @returns { Task[] }
  */
-function filterByPriority(priority, tasks = getAllTasks()) {
-  return tasks.filter(task => task.priority === priority);
+function filterByTags(tags, tasks = getAllTasks()) {
+  if (!tags.length) return tasks;
+  return tasks.filter(task =>
+    task.tags.some(taskTag => tags.includes(taskTag))
+  );
+}
+
+/**
+ * Filter tasks by multiple priorities
+ * @param { Array<'high' | 'medium' | 'low'> } priorities - Priority levels to filter by
+ * @param { Task[] } [tasks=getAllTasks()] - List of tasks to filter
+ * @returns { Task[] }
+ */
+function filterByPriorities(priorities, tasks = getAllTasks()) {
+  if (!priorities.length) return tasks;
+  return tasks.filter(task => priorities.includes(task.priority));
+}
+
+/**
+ * Sort tasks by due date
+ * @param { 'asc' | 'desc' } direction - Sort direction ('asc' for ascending, 'desc' for descending)
+ * @param { Task[] } [tasks=getAllTasks()] - List of tasks to sort
+ * @returns { Task[] }
+ */
+function sortByDate(direction, tasks = getAllTasks()) {
+  return [...tasks].sort((a, b) => {
+    const comparison = a.dueDate.getTime() - b.dueDate.getTime();
+    return direction === 'asc' ? comparison : -comparison;
+  });
 }
 
 /**
@@ -89,24 +108,27 @@ function filterByDateRange(dateFilters, tasks = getAllTasks()) {
 
 /**
  * Filter tasks based on provided criteria
- * @param { Task[] } [tasks=getAllTasks()] - List of tasks to filter
  * @param { TaskFilters } [filters={}] - Filters to apply to the filtering process
+ * @param { Task[] } [tasks=getAllTasks()] - List of tasks to filter
  * @returns { Task[] }
  */
-function filterTasks(tasks = getAllTasks(), filters = {}) {
+function filterTasks(filters = {}, tasks = getAllTasks()) {
   let result = tasks;
 
   if (filters.text) {
-    result = filterByTitle(filters.text, result);
-    result = filterByTags(filters.text, result);
+    result = filterByText(filters.text, result);
+  }
+
+  if (filters.tags?.length) {
+    result = filterByTags(filters.tags, result);
   }
 
   if (filters.done !== undefined) {
     result = filterByStatus(filters.done, result);
   }
 
-  if (filters.priority) {
-    result = filterByPriority(filters.priority, result);
+  if (filters.priorities?.length) {
+    result = filterByPriorities(filters.priorities, result);
   }
 
   if (filters.beforeDate || filters.afterDate) {
@@ -122,4 +144,12 @@ function filterTasks(tasks = getAllTasks(), filters = {}) {
   return result;
 }
 
-export { filterTasks };
+export default {
+  filterByStatus,
+  filterByTags,
+  filterByPriorities,
+  filterByDateRange,
+  filterByText,
+  sortByDate,
+  filterTasks,
+};
