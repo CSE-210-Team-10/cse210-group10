@@ -5,7 +5,6 @@ import { TaskForm } from '../components/task-form/index.js';
 
 /** @typedef { import('../js/auth.js').UserData } User */
 
-console.log(TaskItem.name);
 console.log(standardizeString('test'));
 
 /** @type { TaskForm } */
@@ -13,6 +12,9 @@ const taskForm = document.querySelector('task-form');
 const createTaskBtn = document.querySelector('#create-task-btn');
 createTaskBtn.addEventListener('click', openTaskForm);
 taskForm.addEventListener(TaskForm.taskFormSubmitEvent, handleTaskFormSubmit);
+document.addEventListener(TaskItem.editTaskEvent, handleTaskEdit);
+document.addEventListener(TaskItem.deleteTaskEvent, handleTaskDelete);
+document.addEventListener(TaskItem.completeTaskEvent, handleTaskCompleted);
 authService.subscribeToAuthChanges(authEventHandler);
 
 /**
@@ -59,5 +61,29 @@ function openTaskForm() {
  * @param { CustomEvent } e The custom event object passed from task-form
  */
 function handleTaskFormSubmit(e) {
+  console.log(e.detail);
+}
+
+/**
+ * Handle the fired event when the user wants to edit a task
+ * @param { CustomEvent } e The custom event object passed from task-item
+ */
+function handleTaskEdit(e) {
+  console.log(e.detail);
+}
+
+/**
+ * Handle the fired event when the user wants to delete a task
+ * @param { CustomEvent } e The custom event object passed from task-item
+ */
+function handleTaskDelete(e) {
+  console.log(e.detail);
+}
+
+/**
+ * Handle the fired event when the user wants to mark a task as completed
+ * @param { CustomEvent } e The custom event object passed from task-item
+ */
+function handleTaskCompleted(e) {
   console.log(e.detail);
 }
