@@ -1,0 +1,96 @@
+/* :host {
+	display: block;
+	font-family: system-ui, -apple-system, sans-serif;
+	margin-bottom: 8px;
+} */
+
+details {
+	border: var(--border-width) solid var(--border-primary);
+	border-radius: var(--border-radius-primary);
+	overflow: hidden;
+	transition: all 0.3s ease;
+}
+
+.non-interactive summary:hover {
+	cursor: default;
+}
+
+summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.25rem 1rem;
+	gap: 0.125rem;
+	cursor: pointer;
+	background: white;
+	list-style: none;
+}
+
+summary::-webkit-details-marker {
+	display: none;
+}
+
+.task-main {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.task-title {
+	padding: 0.5rem;
+	color: #2e7d32;
+	font-size: 1rem;
+	font-weight: 400;
+	margin: 0;
+}
+
+.tags {
+	display: flex;
+	gap: 0.5rem;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+summary button {
+	border: none;
+	background-color: transparent;
+	color: var(--button-bg-color);
+}
+
+summary button:hover {
+	background: var(--tag-bg-color-regular);
+	color: var(--tag-text-color-regular);
+}
+
+summary button.delete-btn {
+	color: #EF4444;
+}
+
+summary button.delete-btn:hover {
+	background: var(--tag-bg-color-high);
+	color: var(--tag-text-color-high);
+}
+
+.collapse-btn, .collapse-btn:hover {
+	border: none;
+	background-color: transparent;
+	color: var(--text-primary);
+	transition: all 0.25s;
+}
+
+details[open] .collapse-btn {
+	transform: rotate(-180deg);
+}
+
+.collapse-btn i {
+	font-weight: 900;
+}
+
+.task-description {
+	padding: 1rem;
+	margin: 0;
+	background: var(--bg-accent-light);
+	color: var(--text-accent-light);
+}

@@ -1,5 +1,5 @@
 @import '../styles/root.css';
-@import './all-tasks.css';
+@import './upcoming-deadlines.css';
 
 * {
 	margin: 0;
@@ -8,77 +8,226 @@
 }
 
 :root {
-	--app-padding: 1rem;
-	--gap: 1.5rem;
+	--app-padding: 2.5rem 5rem;
+	--gap: 1rem;
+	--padding: 1rem;
 }
 
 body {
 	height: 100vh;
-	min-height: 55.546875rem;
-	width: min(67.5rem, 100vw - 2 * var(--app-padding));
-	min-width: 67.5rem;
-	background-color: var(--bg-primary);
-	padding: var(--app-padding);
+	width: 100vw;
+	min-width: 120rem;
 	margin: 0 auto;
-	display: grid;
-	grid-template-columns: 2fr 7fr;
-	grid-template-rows: 1fr;
-	color: var(--text-accent-light);
-	/* explicitly set one row */
-	column-gap: var(--gap);
-}
-
-body aside, body section {
-	border: var(--border-width) solid var(--border-primary);
-	border-radius: var(--border-radius-primary);
-	background: var(--bg-secondary);
-	padding: 1.25rem;
-}
-
-#links {
-	height: fit-content;
-}
-
-#links ul {
+	padding: var(--app-padding);
 	display: flex;
 	flex-direction: column;
-	gap: 0.25rem;
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
 }
 
-#links li {
-	list-style: none;
-}
+/* header */
 
-#links li a {
+header {
 	display: flex;
-	border-radius: var(--border-radius-primary);
-	padding: 1rem;
-	color: var(--text-accent-light);
-	text-decoration: none;
-	justify-content: left;
 	align-items: center;
-	gap: 0.5rem;
-	transition: background-color 0.1s;
-}
-
-#links li a:hover {
-	background-color: var(--bg-accent-light);
-}
-
-main {
-	display: grid;
-	grid-template-rows: 25fr 75fr;
+	padding: var(--padding) 0;
 	gap: var(--gap);
 }
 
-#upcoming-deadlines {
+header #logo-heading {
+	display: flex;
+	flex-direction: row;
+	gap: var(--gap);
+	flex-grow: 1;
+}
+
+/* header's view toggle */
+
+#view-toggle {
+	display: flex;
+	flex-direction: row;
+	gap: 0;
+}
+
+#view-toggle button:first-child {
+	border-radius: var(--border-radius-primary) 0 0 var(--border-radius-primary);
+	border-right: none;
+}
+
+#view-toggle button:last-child {
+	border-radius: 0 var(--border-radius-primary) var(--border-radius-primary) 0;
+}
+
+#view-toggle button:disabled {
+	background-color: var(--bg-accent-light);
+	color: var(--text-accent-light);
+}
+
+#view-toggle button:disabled:hover {
+	background-color: var(--bg-accent);
+	color: var(--text-accent);
+}
+
+#view-toggle button:not(:disabled):hover {
+	background-color: var(--bg-accent);
+	color: var(--text-accent);
+}
+
+/* main */
+
+main {
+	display: grid;
+	grid-template-columns: 1fr 6fr;
+	grid-template-rows: auto 1fr;
+	gap: var(--gap);
+	flex-grow: 1;
+	/* This helps with nested scrolling */
+	min-height: 0;
+}
+
+nav, section, aside {
+	padding: var(--padding);
+	border-radius: var(--border-radius-primary);
+	border: var(--border-width) solid var(--border-primary);
+	background-color: var(--bg-secondary);
+}
+
+section h2, aside h2 {
+	margin-bottom: var(--gap);
+}
+
+.links {
+	list-style-type: none;
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap);
+}
+
+.links a {
+	display: block;
+	padding: var(--padding);
+	border-radius: var(--border-radius-primary);
+	text-decoration: none;
+	color: var(--text-primary);
+	/* border: var(--border-width) solid var(--border-primary); */
+	transition: all 0.25s ease;
+}
+
+.links a.active, .links a:hover {
+	background-color: var(--bg-accent-light);
+}
+
+.links img {
+	width: 1rem;
+	height: 1rem;
+}
+
+/* aside */
+
+aside {
+	position: relative;
+	height: auto;
+}
+
+aside .controls {
+	position: absolute;
+	top: var(--padding);
+	right: var(--padding);
+}
+
+/* task-panels */
+
+#task-panels {
+	display: grid;
+	grid-template-columns: 2fr 3fr;
+	grid-template-rows: auto 1fr;
+	grid-template-areas:
+		"filters filters"
+		"github-tasks personal-tasks";
+	gap: var(--gap);
+	/* Important for nested grid scrolling */
+	min-height: 0;
+}
+
+/* grid area assignments */
+#tasks-filters {
+	grid-area: filters;
+}
+
+#github-task-panel {
+	grid-area: github-tasks;
+}
+
+#personal-task-panel {
+	grid-area: personal-tasks;
+}
+
+#tasks-filters {
+	display: flex;
+	flex-direction: row;
+	gap: calc(var(--gap) / 4 * 3);
+}
+
+#tasks-filters input {
+	border: var(--border-width) solid var(--border-secondary);
+	border-radius: var(--border-radius-small);
+	padding: 0.5rem 0.75rem;
+	font-size: 1rem;
+}
+
+/* First, make the sections fill their grid area height */
+#github-task-panel,
+#personal-task-panel {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	/* Important for nested flex scrolling */
+	min-height: 0;
+}
+
+/* for create button position */
+#personal-task-panel {
+	position: relative;
+}
+
+#create-task-btn {
+	position: absolute;
+	top: calc(var(--padding) / 4 * 3);
+	right: var(--padding);
+}
+
+.tasks {
+	list-style-type: none;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-}
-
-#upcoming-deadlines ul {
-	background-color: #dfdfdf;
 	list-style: none;
 	flex: 1;
+	overflow-y: auto;
+	/* Take remaining space */
+	flex: 1;
+	/* Important! This allows flex child to scroll */
+	min-height: 0;
+	padding-right: 0.5rem;
+	/* Optional: gives space for scrollbar */
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: white;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #b0b0b0;
+	border-radius: 10px;
+	border: 3px solid white;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #878787;
+	gap: var(--gap);
 }

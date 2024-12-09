@@ -54,6 +54,7 @@ else
     # 1. Copy components and static directory
     cp -r ./components ../dist/
     cp -r ./static ../dist/
+    cp -r ./styles ../dist/
 
     # 2. Copy and process HTML files from pages
     echo "Processing HTML files..."
