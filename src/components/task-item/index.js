@@ -23,7 +23,7 @@ const UISelector = {
   deleteBtn: '.delete-btn',
   completeBtn: '.complete-btn',
   collapseBtn: '.collapse-btn',
-  controlBtns: '.task-control-btn',
+  controlBtns: 'button',
 };
 
 /**
@@ -99,7 +99,10 @@ export class TaskItem extends HTMLElement {
    */
   get tags() {
     try {
-      return JSON.parse(this.getAttribute(DataAttributeSelector.tags) || '[]');
+      return JSON.parse(
+        this.getAttribute(DataAttributeSelector.tags).replaceAll('\'', '"') ||
+          '[]'
+      );
     } catch (error) {
       console.error('Error parsing tags:', error);
       return [];
@@ -149,7 +152,7 @@ export class TaskItem extends HTMLElement {
     // Add priority tag
     if (priority) {
       const priorityTag = document.createElement('li');
-      priorityTag.className = `tag priority-${priority.toLowerCase()}`;
+      priorityTag.className = `tag tag-priority-${priority.toLowerCase()}`;
       priorityTag.textContent = priority;
       tagsContainer.appendChild(priorityTag);
     }
