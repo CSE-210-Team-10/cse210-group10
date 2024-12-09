@@ -108,7 +108,7 @@ export class TaskItem extends HTMLElement {
   get tags() {
     try {
       return JSON.parse(
-        this.getAttribute(DataAttributeSelector.tags).replaceAll('\'', '"') ||
+        this.getAttribute(DataAttributeSelector.tags).replaceAll("'", '"') ||
           '[]'
       );
     } catch (error) {
@@ -126,7 +126,8 @@ export class TaskItem extends HTMLElement {
     const nodes = slot.assignedNodes();
 
     const description = nodes
-      .map(node => node.textContent)
+      .filter(node => node.nodeType === Node.TEXT_NODE)
+      .map(node => node.textContent.replace(/\n\s*\n/g, '\n').trim())
       .join('')
       .trim();
 

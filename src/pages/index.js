@@ -69,7 +69,16 @@ function handleTaskFormSubmit(e) {
  * @param { CustomEvent } e The custom event object passed from task-item
  */
 function handleTaskEdit(e) {
-  console.log(e.detail);
+  /** @type { TaskForm } */
+  const taskForm = document.querySelector('task-form');
+  taskForm.fill({
+    taskName: e.detail.title,
+    priority: e.detail.priority,
+    tags: e.detail.tags,
+    dueDate: e.detail.date,
+    description: e.detail.description,
+  });
+  taskForm.show();
 }
 
 /**
