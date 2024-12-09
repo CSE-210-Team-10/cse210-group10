@@ -28,12 +28,16 @@
     "rollup-plugin-terser": "^7.0.2"
   },
   "dependencies": {
-    "@langchain/core": "^0.3.22",
-    "@langchain/groq": "^0.1.2",
+    "@babel/preset-env": "^7.26.0",
+    "babel-jest": "^29.7.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
-    "groq-sdk": "^0.9.0",
-    "langchain": "^0.3.6",
     "node-fetch": "^3.3.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "testEnvironment": "jsdom"
   }
 }
