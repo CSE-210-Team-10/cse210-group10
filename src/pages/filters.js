@@ -35,14 +35,10 @@ function handleFilterFormSubmit(e) {
 
   if (filtersData.github.length) filters.tags = filtersData.github;
   if (filtersData.priority.length) filters.priorities = filtersData.priority;
+  filters.dateSort = filtersData.dateSort;
 
   const filteredTasks = TaskFilter.filterTasks(filters);
-  const sortedTasks = TaskFilter.sortByDate(
-    filtersData.dateSort,
-    filteredTasks
-  );
-
-  renderTaskPanels(sortedTasks);
+  renderTaskPanels(filteredTasks);
 }
 
 /**

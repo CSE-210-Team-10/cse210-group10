@@ -8,6 +8,7 @@ import { getAllTasks } from './crud.js';
  * @property { Date } [afterDate] - Filter tasks due after this date
  * @property { Array<'high' | 'medium' | 'low'> } [priorities] - Filter tasks by priority levels
  * @property { string[] } [tags] - Filter tasks by tags
+ * @property { 'asc' | 'desc' } [dateSort='desc'] - Sort direction for dates
  */
 
 /** @typedef { import('./index.js').Task } Task */
@@ -139,6 +140,12 @@ function filterTasks(filters = {}, tasks = getAllTasks()) {
       },
       result
     );
+  }
+
+  if (filters.dateSort) {
+    result = sortByDate(filters.dateSort, result);
+  } else {
+    result = sortByDate('desc', result);
   }
 
   return result;
