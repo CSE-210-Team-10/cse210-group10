@@ -1,7 +1,9 @@
 import { FilterForm } from '../components/filter-form/index.js';
-import TaskFilter from '../js/task/filter.js';
 
-import { renderTaskPanels } from './render.js';
+import {
+  getCurrentFilter,
+  updateCurrentFilter as updateFilter,
+} from './filters-state.js';
 
 /** @typedef { import('../components/filter-form').FilterData } FilterData */
 /** @typedef { import('../js/task/filter').TaskFilters } TaskFilters */
@@ -33,12 +35,11 @@ function handleFilterFormSubmit(e) {
   /** @type { TaskFilters } */
   const filters = { done: false };
 
-  if (filtersData.github.length) filters.tags = filtersData.github;
-  if (filtersData.priority.length) filters.priorities = filtersData.priority;
+  filters.tags = filtersData.github;
+  filters.priorities = filtersData.priority;
   filters.dateSort = filtersData.dateSort;
 
-  const filteredTasks = TaskFilter.filterTasks(filters);
-  renderTaskPanels(filteredTasks);
+  updateFilter(filters);
 }
 
 /**
@@ -47,5 +48,21 @@ function handleFilterFormSubmit(e) {
 function openFilterForm() {
   /** @type { FilterForm } */
   const filterForm = document.querySelector('filter-form');
+
+  const currentFilters = getCurrentFilter();
+
+  /** @type {Array<'issue' | 'pr'>} */
+  const github = currentFilters.tags.filter(
+    tag => tag === 'issue' || tag === 'pr'
+  );
+
+  /** @type { FilterData } */
+  const filterData = {
+    priority: currentFilters.priorities,
+    github,
+    dateSort: currentFilters.dateSort,
+  };
+
+  filterForm.fill(filterData);
   filterForm.show();
 }
