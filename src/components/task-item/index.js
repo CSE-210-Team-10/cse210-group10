@@ -54,6 +54,10 @@ export class TaskItem extends HTMLElement {
    * Render and add event listeners when the component is mounted to the DOM
    */
   connectedCallback() {
+    const { id } = this.dataset;
+    if (!id)
+      throw new Error(`TaskItem must have an id attribute ${this.title}`);
+
     this.mountTemplate();
     this.render();
     this.addEventListeners();
@@ -111,6 +115,32 @@ export class TaskItem extends HTMLElement {
       console.error('Error parsing tags:', error);
       return [];
     }
+  }
+
+  /**
+   * @returns { string } the description of the task item
+   */
+  get description() {
+    /** @type { HTMLSlotElement } */
+    const slot = this.shadowRoot.querySelector(UISelector.slot);
+    const nodes = slot.assignedNodes();
+
+    const description = nodes
+      .map(node => node.textContent)
+      .join('')
+      .trim();
+
+    return description;
+  }
+
+  /**
+   * @returns { string } the id of the task item
+   */
+  get id() {
+    const { id } = this.dataset;
+
+    if (id) return id;
+    throw new Error('TaskItem must have an id attribute');
   }
 
   /**
@@ -196,7 +226,15 @@ export class TaskItem extends HTMLElement {
       e.preventDefault();
       this.dispatchEvent(
         new CustomEvent(TaskItem.editTaskEvent, {
-          detail: { id: this.getAttribute('id') },
+          detail: {
+            id: this.id,
+            title: this.title,
+            priority: this.priority,
+            date: this.date,
+            tags: this.tags,
+            description: this.description,
+          },
+          bubbles: true,
         })
       );
     });
@@ -205,7 +243,8 @@ export class TaskItem extends HTMLElement {
       e.preventDefault();
       this.dispatchEvent(
         new CustomEvent(TaskItem.deleteTaskEvent, {
-          detail: { id: this.getAttribute('id') },
+          detail: { id: this.id },
+          bubbles: true,
         })
       );
     });
@@ -214,7 +253,8 @@ export class TaskItem extends HTMLElement {
       e.preventDefault();
       this.dispatchEvent(
         new CustomEvent(TaskItem.completeTaskEvent, {
-          detail: { id: this.getAttribute('id') },
+          detail: { id: this.id },
+          bubbles: true,
         })
       );
     });
