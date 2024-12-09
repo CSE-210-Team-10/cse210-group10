@@ -27,7 +27,7 @@
 
 
 .deadline:first-child {
-	margin-right: 20px;
+	margin-right: var(--padding);
 	border-radius: var(--border-radius-primary);
 }
 
@@ -53,7 +53,6 @@
 
 /* for the overdue element */
 #deadline-overdue {
-	margin-right: 20px;
 	background-color: var(--tag-bg-color-high);
 	border: var(--border-width) solid var(--tag-bg-color-high);
 	border-radius: var(--border-radius-primary);
