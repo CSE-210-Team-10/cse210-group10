@@ -53,34 +53,6 @@ summary::-webkit-details-marker {
 	margin: 0;
 }
 
-.tag {
-	padding: 0.25rem 0.5rem;
-	border-radius: var(--border-radius-primary);
-	background: var(--tag-bg-color-regular);
-	color: var(--tag-text-color-regular);
-	font-size: 0.75rem;
-}
-
-.priority-high {
-	background: var(--tag-bg-color-high);
-	color: var(--tag-text-color-high);
-}
-
-.priority-medium {
-	background: var(--tag-bg-color-medium);
-	color: var(--tag-text-color-medium);
-}
-
-.priority-low {
-	background: var(--tag-bg-color-low);
-	color: var(--tag-text-color-low);
-}
-
-.task-date {
-	margin-right: 0.5rem;
-	font-size: 0.9rem;
-}
-
 summary button {
 	border: none;
 	background-color: transparent;

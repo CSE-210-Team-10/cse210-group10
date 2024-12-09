@@ -149,7 +149,7 @@ export class TaskItem extends HTMLElement {
     // Add priority tag
     if (priority) {
       const priorityTag = document.createElement('li');
-      priorityTag.className = `tag priority-${priority.toLowerCase()}`;
+      priorityTag.className = `tag tag-priority-${priority.toLowerCase()}`;
       priorityTag.textContent = priority;
       tagsContainer.appendChild(priorityTag);
     }

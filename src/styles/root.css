@@ -77,3 +77,32 @@ button:hover, button.flipped {
 	background-color: var(--button-bg-color-hover);
 	color: var(--button-text-color-hover);
 }
+
+.tag {
+	padding: 0.25rem 0.5rem;
+	border-radius: var(--border-radius-primary);
+	background: var(--tag-bg-color-regular);
+	color: var(--tag-text-color-regular);
+	font-size: 0.75rem;
+	text-align: center;
+}
+
+.tag-priority-high {
+	background: var(--tag-bg-color-high);
+	color: var(--tag-text-color-high);
+}
+
+.tag-priority-medium {
+	background: var(--tag-bg-color-medium);
+	color: var(--tag-text-color-medium);
+}
+
+.tag-priority-low {
+	background: var(--tag-bg-color-low);
+	color: var(--tag-text-color-low);
+}
+
+.task-date {
+	margin-right: 0.5rem;
+	font-size: 0.9rem;
+}
