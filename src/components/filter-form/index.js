@@ -26,6 +26,9 @@ const UISelector = {
   prType: '#pr',
 };
 
+/**
+ *
+ */
 export class FilterForm extends HTMLElement {
   static filterFormSubmitEvent = 'filter-form-submit';
 
