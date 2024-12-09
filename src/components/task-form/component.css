@@ -4,6 +4,10 @@ dialog {
 	border-radius: var(--border-radius-primary);
 }
 
+dialog::backdrop {
+	background-color: rgba(0, 0, 0, 0.75);
+}
+
 .form {
 	width: 28rem;
 	display: flex;
