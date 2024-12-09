@@ -24,6 +24,9 @@ describe('fetchChatbotkey', () => {
      */
     globalThis.fetch = async () => ({
       ok: true,
+      /**
+       * @returns {Promise<string>} returns a mock API key.
+       */
       text: async () => 'mock-api-key',
     });
 
