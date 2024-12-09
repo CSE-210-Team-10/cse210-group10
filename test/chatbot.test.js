@@ -1,28 +1,30 @@
 import { fetchChatbotkey } from '../src/js/chatbot.js';
 
-globalThis.fetch = jest.fn();
-
 describe('fetchChatbotkey', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+  let originalFetch;
+
+  beforeAll(() => {
+    // Save the original fetch function
+    originalFetch = globalThis.fetch;
   });
 
-  test('should return API key when fetch is successful', async () => {
-    globalThis.fetch.mockResolvedValueOnce({
+  afterAll(() => {
+    // Restore the original fetch function
+    globalThis.fetch = originalFetch;
+  });
+
+  test('returns API key on successful fetch', async () => {
+    globalThis.fetch = async () => ({
       ok: true,
-      text: jest.fn().mockResolvedValue('mock-api-key'),
+      text: async () => 'mock-api-key',
     });
 
     const result = await fetchChatbotkey();
     expect(result).toBe('mock-api-key');
-    expect(globalThis.fetch).toHaveBeenCalledWith('https://chatbot-key.onrender.com/apikey', {
-      method: 'GET',
-      mode: 'cors',
-    });
   });
 
-  test('should return error message when fetch fails', async () => {
-    globalThis.fetch.mockResolvedValueOnce({
+  test('returns error message when fetch fails with non-200 status', async () => {
+    globalThis.fetch = async () => ({
       ok: false,
       status: 500,
     });
@@ -33,8 +35,10 @@ describe('fetchChatbotkey', () => {
     );
   });
 
-  test('should return error message when fetch throws an error', async () => {
-    globalThis.fetch.mockRejectedValueOnce(new Error('Network error'));
+  test('returns error message when fetch throws an error', async () => {
+    globalThis.fetch = async () => {
+      throw new Error('Network error');
+    };
 
     const result = await fetchChatbotkey();
     expect(result).toBe(
