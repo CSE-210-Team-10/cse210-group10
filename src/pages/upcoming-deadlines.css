@@ -22,6 +22,7 @@
 	border: var(--border-width) solid var(--border-primary);
 	background-color: var(--bg-secondary);
 	aspect-ratio: 1;
+	cursor: pointer;
 }
 
 
@@ -48,4 +49,32 @@
 	flex-direction: column;
 	gap: 0.5rem;
 	list-style-type: none;
+}
+
+/* for the overdue element */
+#deadline-overdue {
+	margin-right: 20px;
+	background-color: var(--tag-bg-color-high);
+	border: var(--border-width) solid var(--tag-bg-color-high);
+	border-radius: var(--border-radius-primary);
+}
+
+#deadline-overdue div {
+	color: var(--tag-text-color-high);
+}
+
+#deadline-overdue .tag {
+	color: white;
+}
+
+#deadline-overdue .tag-priority-high {
+	background-color: var(--tag-text-color-high);
+}
+
+#deadline-overdue .tag-priority-medium {
+	background-color: #F18E00;
+}
+
+#deadline-overdue .tag-priority-low {
+	background-color: var(--tag-text-color-low);
 }
