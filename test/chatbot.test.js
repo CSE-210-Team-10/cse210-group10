@@ -1,4 +1,4 @@
-import { fetchChatbotkey } from '../src/chatbot.js';
+import { fetchChatbotkey } from '../src/js/chatbot.js';
 
 global.fetch = jest.fn();
 
@@ -8,7 +8,6 @@ describe('fetchChatbotkey', () => {
   });
 
   test('should return API key when fetch is successful', async () => {
-    // Mock fetch response
     global.fetch.mockResolvedValueOnce({
       ok: true,
       text: jest.fn().mockResolvedValue('mock-api-key'),
@@ -23,7 +22,6 @@ describe('fetchChatbotkey', () => {
   });
 
   test('should return error message when fetch fails', async () => {
-    // Mock fetch response with failure
     global.fetch.mockResolvedValueOnce({
       ok: false,
       status: 500,
@@ -36,7 +34,6 @@ describe('fetchChatbotkey', () => {
   });
 
   test('should return error message when fetch throws an error', async () => {
-    // Mock fetch to throw an error
     global.fetch.mockRejectedValueOnce(new Error('Network error'));
 
     const result = await fetchChatbotkey();

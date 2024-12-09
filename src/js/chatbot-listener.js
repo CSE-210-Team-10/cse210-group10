@@ -16,4 +16,3 @@ document.getElementById('submit-button').addEventListener('click', async () => {
         chatBox.scrollTop = chatBox.scrollHeight; 
     }
 });
-

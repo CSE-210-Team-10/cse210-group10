@@ -150,9 +150,9 @@ export async function chat(userMessage) {
   
 
 // Example 
-// export async function runExample() {
-//     var result = await chat("what is my adr issue");
-//     console.log("Response:", result);
-// }
+export async function runExample() {
+    var result = await chat("what is my adr issue");
+    console.log("Response:", result);
+}
 
-// runExample();
+runExample();
