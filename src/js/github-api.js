@@ -1,5 +1,3 @@
-import { authService } from './auth.js';
-
 /**
  * Verify if the GitHub provider token is still valid
  * @param { string } token github provider token
@@ -49,7 +47,7 @@ export async function getPullRequests(token, owner, repo) {
 
   }
   catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -79,6 +77,6 @@ export async function getIssues(token, owner, repo) {
 
   }
   catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
