@@ -200,7 +200,9 @@ aside .controls {
 	list-style-type: none;
 	display: flex;
 	flex-direction: column;
-	gap: var(--gap);
+	gap: 1rem;
+	list-style: none;
+	flex: 1;
 	overflow-y: auto;
 	/* Take remaining space */
 	flex: 1;
@@ -208,4 +210,24 @@ aside .controls {
 	min-height: 0;
 	padding-right: 0.5rem;
 	/* Optional: gives space for scrollbar */
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: white;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #b0b0b0;
+	border-radius: 10px;
+	border: 3px solid white;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #878787;
+	gap: var(--gap);
 }
