@@ -12,6 +12,7 @@ const UISelector = {
   form: 'form',
   dialog: 'dialog',
   tagInput: '.tag-input',
+  dateInput: 'input[type="date"]',
   tagContainer: '.tags',
   tagCount: '.tag-count',
   tagRemoveBtn: '.tag-remove',
@@ -36,6 +37,8 @@ const tagHTMLGenerator = (tag, index) => `
  *
  */
 export class TaskForm extends HTMLElement {
+  static taskFormSubmitEvent = 'task-form-submit';
+
   /**
    *
    */
@@ -52,6 +55,10 @@ export class TaskForm extends HTMLElement {
   connectedCallback() {
     this.render();
     this.addEventListeners();
+
+    /** @type { HTMLInputElement } */
+    const dateInput = this.shadowRoot.querySelector(UISelector.dateInput);
+    dateInput.valueAsDate = new Date();
   }
 
   /**
@@ -84,11 +91,14 @@ export class TaskForm extends HTMLElement {
       UISelector.taskNameInput
     );
 
-    dialog.addEventListener('mousedown', this.handleClickOutside);
-    taskNameInput.addEventListener('input', this.handleTaskNameInput);
-    tagInput.addEventListener('keydown', this.handleTagInputKeyDown);
-    tagInput.addEventListener('input', this.handleTagInput);
-    form.addEventListener('submit', this.handleFormSubmit);
+    dialog.addEventListener('mousedown', this.handleClickOutside.bind(this));
+    tagInput.addEventListener('keydown', this.handleTagInputKeyDown.bind(this));
+    tagInput.addEventListener('input', this.handleTagInput.bind(this));
+    form.addEventListener('submit', this.handleFormSubmit.bind(this));
+    taskNameInput.addEventListener(
+      'input',
+      this.handleTaskNameInput.bind(this)
+    );
   }
 
   /**
@@ -170,7 +180,7 @@ export class TaskForm extends HTMLElement {
     };
 
     this.dispatchEvent(
-      new CustomEvent('taskSubmit', {
+      new CustomEvent(TaskForm.taskFormSubmitEvent, {
         detail: data,
         bubbles: true,
       })
