@@ -1,83 +1,94 @@
 
-//fetch OPENAI API key
-export async function fetchChatbotkey(){
-    const URL = "https://chatbot-key.onrender.com/apikey";
-    try{
-        const response = await fetch(URL, {
-          method: 'GET',
-          mode: 'cors',
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = (await response.text()).trim();
-        return data;
-    }catch(error){
-        return "ERROR: OPENAI API KEY is not available. Please try again or contact the owner.";
+/**
+ * Fetches the OpenAI API key from a remote server.
+ * 
+ * @returns {Promise<string>} A promise that resolves to the API key as a string or an error message if the fetch fails.
+ */
+export async function fetchChatbotkey() {
+  const URL = 'https://chatbot-key.onrender.com/apikey';
+  try {
+    const response = await fetch(URL, {
+      method: 'GET',
+      mode: 'cors',
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    const data = (await response.text()).trim();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return 'ERROR: OPENAI API KEY is not available. Please try again or contact the owner.';
+  }
 }
 
-
+/**
+ * Reads and processes a JSON object containing tasks.
+ * 
+ * @returns {Promise<string>} A promise that resolves to a formatted string of tasks.
+ * @throws {Error} If there is an issue processing the JSON data.
+ */
 async function readJsonFile() {
-    try {
-        const jsonData = {
-            "tasks": [
-              {
-                "id": 2686988886,
-                "type": "issue",
-                "title": "Update README file with relevant information about repository",
-                "status": "open",
-                "createdAt": "2024-11-24T03:21:13Z",
-                "number": null,
-                "body": "Task\r\n- Update README file seen on main page to have relevant and useful information regarding the repo\r\n\r\nDeliverables\r\n- Updated README file",
-                "url": "https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/54"
-              },
-              {
-                "id": 2686983987,
-                "type": "issue",
-                "title": "ADRs for CI/CD",
-                "status": "open",
-                "createdAt": "2024-11-24T03:16:01Z",
-                "number": null,
-                "body": "Task\r\n- Create ADRs for CI/CD decisions (such as use of Jest, ESLint, any integration tools, etc.)\r\n\r\nDeliverables\r\n- ADR files to cover all decisions made up to this sprint for the CI/CD pipeline",
-                "url": "https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/53"
-              },
-              {
-                "id": 2686982225,
-                "type": "task",
-                "title": "ADRs for Front End Decisions",
-                "status": "open",
-                "createdAt": "2024-11-24T03:14:58Z",
-                "number": null,
-                "body": "Task\r\n- Create ADRs for front end decisions (such as use of Figma, Miro)\r\n\r\nDeliverables\r\n- ADR files to cover all decisions made up to this sprint for the front end",
-                "url": "https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/52"
-              },
-              {
-                "id": 2686979124,
-                "type": "personal",
-                "title": "Update CI/CD Documentation Based on Updated Pipeline Implementation",
-                "status": "open",
-                "createdAt": "2024-11-24T03:14:02Z",
-                "number": null,
-                "body": "Task\r\n- Redo the CI/CD pipeline diagram and documentation to be up to date with the implementation\r\n\r\nDeliverables\r\n- Updated cicd.md\r\n- Updated cicd.png",
-                "url": "https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/51"
-              },
-              {
-                "id": 2201945766,
-                "type": "pull request",
-                "title": "ADR Dashboard",
-                "status": "open",
-                "createdAt": "2024-11-26T21:37:41Z",
-                "number": 57,
-                "body": "## Pull Request Description\r\n\r\n### Overview\r\nThis PR introduces a basic student dashboard with a side bar that has the links and videos components. In the main content area we have 2 container, first one is for upcoming deadlines and the second for for all the github tasks and calendar view.",
-                "url": "https://api.github.com/repos/CSE-210-Team-10/group10-esc012/pulls/57"
-              }
-            ]
-        }
+  try {
+    const jsonData = {
+      tasks: [
+        {
+          id: 2686988886,
+          type: 'issue',
+          title: 'Update README file with relevant information about repository',
+          status: 'open',
+          createdAt: '2024-11-24T03:21:13Z',
+          number: null,
+          body: 'Task\r\n- Update README file seen on main page to have relevant and useful information regarding the repo\r\n\r\nDeliverables\r\n- Updated README file',
+          url: 'https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/54',
+        },
+        {
+          id: 2686983987,
+          type: 'issue',
+          title: 'ADRs for CI/CD',
+          status: 'open',
+          createdAt: '2024-11-24T03:16:01Z',
+          number: null,
+          body: 'Task\r\n- Create ADRs for CI/CD decisions (such as use of Jest, ESLint, any integration tools, etc.)\r\n\r\nDeliverables\r\n- ADR files to cover all decisions made up to this sprint for the CI/CD pipeline',
+          url: 'https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/53',
+        },
+        {
+          id: 2686982225,
+          type: 'task',
+          title: 'ADRs for Front End Decisions',
+          status: 'open',
+          createdAt: '2024-11-24T03:14:58Z',
+          number: null,
+          body: 'Task\r\n- Create ADRs for front end decisions (such as use of Figma, Miro)\r\n\r\nDeliverables\r\n- ADR files to cover all decisions made up to this sprint for the front end',
+          url: 'https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/52',
+        },
+        {
+          id: 2686979124,
+          type: 'personal',
+          title: 'Update CI/CD Documentation Based on Updated Pipeline Implementation',
+          status: 'open',
+          createdAt: '2024-11-24T03:14:02Z',
+          number: null,
+          body: 'Task\r\n- Redo the CI/CD pipeline diagram and documentation to be up to date with the implementation\r\n\r\nDeliverables\r\n- Updated cicd.md\r\n- Updated cicd.png',
+          url: 'https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/51',
+        },
+        {
+          id: 2201945766,
+          type: 'pull request',
+          title: 'ADR Dashboard',
+          status: 'open',
+          createdAt: '2024-11-26T21:37:41Z',
+          number: 57,
+          body: '## Pull Request Description\r\n\r\n### Overview\r\nThis PR introduces a basic student dashboard with a side bar that has the links and videos components. In the main content area we have 2 container, first one is for upcoming deadlines and the second for for all the github tasks and calendar view.',
+          url: 'https://api.github.com/repos/CSE-210-Team-10/group10-esc012/pulls/57',
+        },
+      ],
+    };
 
-        const tasksString = jsonData.tasks.map(task => {
-            const type = task.type === "personal" ? "task" : task.type;
-            return `
+    const tasksString = jsonData.tasks
+      .map(task => {
+        const type = task.type === 'personal' ? 'task' : task.type;
+        return `
               ID: ${task.id}
               Type: ${type}
               CreatedAt: ${task.createdAt}
@@ -86,73 +97,75 @@ async function readJsonFile() {
               Body: ${task.body}
               URL: ${task.url}
             `;
-          }).join('\n');
-        return tasksString;
-    } catch (error) {
-        console.error('Error reading JSON file:', error);
-        throw error;
-    }
+      })
+      .join('\n');
+    return tasksString;
+  } catch (error) {
+    console.error('Error reading JSON file:', error);
+    throw error;
+  }
 }
 
+/**
+ * Communicates with the OpenAI API to fetch a chatbot response based on user input and task data.
+ * 
+ * @param {string} userMessage - The message input from the user.
+ * @returns {Promise<string>} A promise that resolves to the chatbot's response.
+ */
 export async function chat(userMessage) {
-    var API_KEY = await fetchChatbotkey();
-    if (API_KEY.startsWith('ERROR')) {
-        return API_KEY;
-    }
-    const jsonData = await readJsonFile();
-    const API_URL = "https://api.openai.com/v1/chat/completions";
-  
-    // Request payload for the API call
-    const requestOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${API_KEY}`,
-        },
-        body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [
-                {
-                    role: "system",
-                    content: `You are a Student Helper Assistant that answers questions based on the following data, 
+  const API_KEY = await fetchChatbotkey();
+  if (API_KEY.startsWith('ERROR')) {
+    return API_KEY;
+  }
+  const jsonData = await readJsonFile();
+  const API_URL = 'https://api.openai.com/v1/chat/completions';
+
+  // Request payload for the API call
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'system',
+          content: `You are a Student Helper Assistant that answers questions based on the following data, 
                             but if the information is not present in the data, 
                             you can use your general knowledge to provide an answer.
                             For each item in the data the task type can be "issue", "pull_request", or "task".
-                            Be flexible with the syntax and working of "type" field 
+                            Be flexible with the syntax and wording of the "type" field. 
                             Here is the data: \n ${jsonData}`,
-                },
-                {
-                    role: "user",
-                    content: userMessage,
-                },
-            ],
-      }),
-    };
-  
-    // Making a call to OpenAI API
-    try {
-        // Send POST request to API
-        const response = await fetch(API_URL, requestOptions);
-        const data = await response.json();
-    
-        if (response.ok) {
-          return data.choices[0].message.content.trim();  
-        } else {
-          throw new Error(data.error?.message || "Unknown error");
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        return "Oops, something went wrong. Please try again.";  
+        },
+        {
+          role: 'user',
+          content: userMessage,
+        },
+      ],
+    }),
+  };
+
+  try {
+    const response = await fetch(API_URL, requestOptions);
+    const data = await response.json();
+
+    if (response.ok) {
+      return data.choices[0].message.content.trim();
+    } else {
+      throw new Error(data.error?.message || 'Unknown error');
     }
-};
-
-
-  
-
-// Example 
-export async function runExample() {
-    var result = await chat("what is my adr issue");
-    console.log("Response:", result);
+  } catch (error) {
+    console.error('Error:', error);
+    return 'Oops, something went wrong. Please try again.';
+  }
 }
 
-runExample();
+// Example 
+// export async function runExample() {
+//   var result = await chat('what is my adr issue');
+//   console.log('Response:', result);
+// }
+
+// runExample();
