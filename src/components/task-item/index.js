@@ -99,7 +99,10 @@ export class TaskItem extends HTMLElement {
    */
   get tags() {
     try {
-      return JSON.parse(this.getAttribute(DataAttributeSelector.tags) || '[]');
+      return JSON.parse(
+        this.getAttribute(DataAttributeSelector.tags).replaceAll('\'', '"') ||
+          '[]'
+      );
     } catch (error) {
       console.error('Error parsing tags:', error);
       return [];
