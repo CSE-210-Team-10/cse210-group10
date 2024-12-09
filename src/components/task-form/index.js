@@ -174,6 +174,7 @@ export class TaskForm extends HTMLElement {
     const form = this.shadowRoot.querySelector(UISelector.form);
     const formData = new FormData(form);
     const data = {
+      id: this.dataset.id,
       taskName: formData.get('taskName'),
       priority: formData.get('priority'),
       tags: this.tags,
@@ -294,6 +295,7 @@ export class TaskForm extends HTMLElement {
    *
    */
   close() {
+    this.dataset.id = '';
     /** @type { HTMLDialogElement } */
     const dialog = this.shadowRoot.querySelector(UISelector.dialog);
     dialog.close();
@@ -302,6 +304,7 @@ export class TaskForm extends HTMLElement {
   /**
    * Fills the form with provided task data
    * @param { object } taskData - The data to fill the form with
+   * @param { number } [taskData.id] - The id of the task
    * @param { string } [taskData.taskName] - The name of the task
    * @param { 'High' | 'Medium' | 'Low' } [taskData.priority] - The priority level
    * @param { string[] } [taskData.tags] - Array of tags
@@ -327,6 +330,8 @@ export class TaskForm extends HTMLElement {
 
     /** @type { HTMLInputElement } */
     const descriptionInput = form.querySelector(UISelector.descriptionInput);
+
+    if (taskData.id) this.dataset.id = String(taskData.id);
 
     // Fill task name
     if (taskName) {

@@ -7,12 +7,13 @@ import TaskStore from '../js/task/crud.js';
 /** @typedef { import('../js/auth.js').UserData } User */
 
 /**
- * @typedef {object} TaskFormData
- * @property {string} taskName - Name/title of the task
- * @property {'high' | 'medium' | 'low'} priority - Priority level of the task
- * @property {string[]} tags - Array of tags associated with the task
- * @property {string} dueDate - Due date string from the form
- * @property {string} description - Description of the task
+ * @typedef { object } TaskFormData
+ * @property { string } id - ID of the task
+ * @property { string } taskName - Name/title of the task
+ * @property { 'high' | 'medium' | 'low' } priority - Priority level of the task
+ * @property { string[] } tags - Array of tags associated with the task
+ * @property { string } dueDate - Due date string from the form
+ * @property { string } description - Description of the task
  */
 
 /** @type { 'create' | 'edit' | null } current state of the task form */
@@ -72,10 +73,11 @@ function openTaskForm() {
 /**
  * Convert form data to task format
  * @param { TaskFormData } formData The data from the form submission event
- * @returns { Omit<Task, 'id'> } Formatted task data
+ * @returns { Omit<Task, 'id'> & { id?: string } } Formatted task data
  */
 function formatTaskData(formData) {
   return {
+    id: formData.id,
     title: formData.taskName,
     type: 'personal',
     done: false,
@@ -104,10 +106,22 @@ function handleTaskFormSubmit(e) {
       TaskStore.createTask(taskData);
       renderTaskPanels(TaskStore.getAllTasks());
     } else if (taskFormMode === 'edit') {
-      // if (!currentTaskId) {
-      //   throw new Error('Task ID is required for edit mode');
-      // }
-      // TaskStore.updateTask(currentTaskId, formattedData);
+      const taskId = taskData.id;
+
+      if (!taskId) throw new Error('Task ID is required for edit mode');
+
+      console.log(taskData);
+      const updates = {
+        title: taskData.title,
+        dueDate: taskData.dueDate,
+        description: taskData.description,
+        priority: taskData.priority,
+        tags: taskData.tags,
+        url: '', // TODO: Implement URL handling when necessary. Currently not used in the task data.
+      };
+
+      TaskStore.updateTask(Number(taskId), updates);
+      renderTaskPanels(TaskStore.getAllTasks());
     }
   } catch (error) {
     console.error('Failed to process task:', error);
@@ -122,6 +136,7 @@ function handleTaskEdit(e) {
   /** @type { TaskForm } */
   const taskForm = document.querySelector('task-form');
   taskForm.fill({
+    id: e.detail.id,
     taskName: e.detail.title,
     priority: e.detail.priority,
     tags: e.detail.tags,
