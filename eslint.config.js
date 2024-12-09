@@ -37,6 +37,7 @@ export default [
         HTMLFormElement: 'readonly',
         HTMLSlotElement: 'readonly',
         HTMLDetailsElement: 'readonly',
+        HTMLSelectElement: 'readonly',
 
         // ES2021 globals
         Promise: 'readonly',

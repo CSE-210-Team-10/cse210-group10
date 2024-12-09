@@ -17,6 +17,8 @@ const UISelector = {
   tagCount: '.tag-count',
   tagRemoveBtn: '.tag-remove',
   taskNameInput: 'input[name="taskName"]',
+  prioritySelect: 'select[name="priority"]',
+  descriptionInput: 'textarea[name="description"]',
   errorMessage: '.error-message',
 };
 
@@ -293,6 +295,80 @@ export class TaskForm extends HTMLElement {
     /** @type { HTMLDialogElement } */
     const dialog = this.shadowRoot.querySelector(UISelector.dialog);
     dialog.close();
+  }
+
+  /**
+   * Fills the form with provided task data
+   * @param { object } taskData - The data to fill the form with
+   * @param { string } [taskData.taskName] - The name of the task
+   * @param { 'High' | 'Medium' | 'Low' } [taskData.priority] - The priority level
+   * @param { string[] } [taskData.tags] - Array of tags
+   * @param { string | Date } [taskData.dueDate] - The due date
+   * @param { string } [taskData.description] - Task description
+   */
+  fill(taskData) {
+    const { taskName, priority, tags = [], dueDate, description } = taskData;
+
+    // Get form elements
+
+    /** @type { HTMLFormElement } */
+    const form = this.shadowRoot.querySelector(UISelector.form);
+
+    /** @type { HTMLInputElement } */
+    const dateInput = form.querySelector(UISelector.dateInput);
+
+    /** @type { HTMLInputElement } */
+    const taskNameInput = form.querySelector(UISelector.taskNameInput);
+
+    /** @type { HTMLSelectElement } */
+    const prioritySelect = form.querySelector(UISelector.prioritySelect);
+
+    /** @type { HTMLInputElement } */
+    const descriptionInput = form.querySelector(UISelector.descriptionInput);
+
+    // Fill task name
+    if (taskName) {
+      if (taskName.length > MAX_TASK_NAME_LENGTH) {
+        this.setError(
+          `Task name must be ${MAX_TASK_NAME_LENGTH} characters or less`
+        );
+        taskNameInput.value = taskName.slice(0, MAX_TASK_NAME_LENGTH);
+      } else {
+        taskNameInput.value = taskName;
+      }
+    }
+
+    // Fill priority
+    if (priority) {
+      const option = Array.from(prioritySelect.options).find(
+        opt => opt.value === priority
+      );
+      if (option) {
+        prioritySelect.value = priority;
+      }
+    }
+
+    // Fill tags
+    this.tags = [];
+    tags.forEach(tag => {
+      if (this.tags.length < MAX_TAGS && tag.length <= MAX_TAG_LENGTH) {
+        this.tags.push(tag);
+      }
+    });
+    this.updateTags();
+
+    // Fill due date
+    if (dueDate) {
+      const date = dueDate instanceof Date ? dueDate : new Date(dueDate);
+      if (!isNaN(date.getTime())) {
+        dateInput.valueAsDate = date;
+      }
+    }
+
+    // Fill description
+    if (description) {
+      descriptionInput.value = description;
+    }
   }
 
   /**
