@@ -72,4 +72,13 @@ This document will outline the rules and conventions all written code should adh
 - Do not use ```new Function()```.
 
 ## HTMLHint (HTML) Standards
-
+- Use lowercase tag names: ```<img<```, ```<span>```, ```<div>```, etc.
+- Use lowercase attributes: ```<img src="ex.png" alt="ex" />```.
+- Use double quotes for attribute value: ```<img src="ex.png"/>```.
+- Add ```<!DOCTYPE html>``` before any other lines of code.
+- All tags must be paired; each open tag must have an associated close tag: ```<ul><li></li></ul>```.
+- Escape all special characters: ```<span>aaa&gt;bbb&lt;ccc</span>```.
+- Use unique ID attributes for each element: ```<div id="id1"></div><div id="id2"></div>```.
+- Do not leave the ```src``` attribute empty for an ```img```, ```object```, ```link```, etc.
+- Do not define an attribute for an element more than once: ```<img src="a.png" src="b.png" />```.
+- Define a ```<title>``` within the ```<head>``` tag: ```<html><head><title>test</title></head></html>```.
