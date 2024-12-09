@@ -108,7 +108,7 @@ export class TaskItem extends HTMLElement {
   get tags() {
     try {
       return JSON.parse(
-        this.getAttribute(DataAttributeSelector.tags).replaceAll("'", '"') ||
+        this.getAttribute(DataAttributeSelector.tags).replaceAll('\'', '"') ||
           '[]'
       );
     } catch (error) {
