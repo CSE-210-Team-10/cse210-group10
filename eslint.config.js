@@ -38,6 +38,11 @@ export default [
         HTMLSlotElement: 'readonly',
         HTMLDetailsElement: 'readonly',
         HTMLSelectElement: 'readonly',
+        HTMLTextAreaElement: 'readonly',
+        HTMLDivElement: 'readonly',
+        HTMLAnchorElement: 'readonly',
+        HTMLImageElement: 'readonly',
+        HTMLVideoElement: 'readonly',
         Node: 'readonly',
 
         // ES2021 globals

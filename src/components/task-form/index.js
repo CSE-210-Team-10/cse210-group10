@@ -292,12 +292,45 @@ export class TaskForm extends HTMLElement {
   }
 
   /**
+   * Clears all fields in the form, resetting them to their default values
+   */
+  clearForm() {
+    /** @type { HTMLFormElement } */
+    const form = this.shadowRoot.querySelector(UISelector.form);
+
+    /** @type { HTMLInputElement } */
+    const taskNameInput = form.querySelector(UISelector.taskNameInput);
+
+    /** @type { HTMLTextAreaElement } */
+    const descriptionInput = form.querySelector(UISelector.descriptionInput);
+
+    /** @type { HTMLInputElement } */
+    const tagInput = form.querySelector(UISelector.tagInput);
+
+    // Reset text inputs
+    taskNameInput.value = '';
+    descriptionInput.value = '';
+    tagInput.value = '';
+
+    // Clear tags
+    this.tags = [];
+    this.updateTags();
+
+    // Clear any error messages
+    this.clearError();
+
+    // Clear the id from dataset if it exists
+    this.dataset.id = '';
+  }
+
+  /**
    *
    */
   close() {
-    this.dataset.id = '';
     /** @type { HTMLDialogElement } */
     const dialog = this.shadowRoot.querySelector(UISelector.dialog);
+
+    this.clearForm();
     dialog.close();
   }
 
