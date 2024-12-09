@@ -35,8 +35,12 @@ function filterByText(text, tasks = getAllTasks()) {
 
   return tasks.filter(
     task =>
-      task.title.toLowerCase().includes(searchText) ||
-      task.tags.some(tag => tag.toLowerCase().includes(searchText))
+      task.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      task.tags.some(tag =>
+        tag.toLowerCase().includes(searchText.toLowerCase())
+      ) ||
+      task.priority.toLowerCase().includes(searchText.toLowerCase()) ||
+      task.description.toLowerCase().includes(searchText.toLowerCase())
   );
 }
 

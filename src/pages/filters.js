@@ -15,13 +15,28 @@ export function main() {
   /** @type { FilterForm } */
   const filterForm = document.querySelector('filter-form');
   const filterBtn = document.querySelector('#tasks-filters button');
+  const searchInput = document.querySelector('#tasks-filters input');
 
   filterBtn.addEventListener('click', openFilterForm);
+  searchInput.addEventListener('keydown', handleSearch);
 
   filterForm.addEventListener(
     FilterForm.filterFormSubmitEvent,
     handleFilterFormSubmit
   );
+}
+
+/**
+ * Handle search input events
+ * @param { KeyboardEvent } e The keyboard event
+ */
+function handleSearch(e) {
+  /** @type { HTMLInputElement } */
+  const searchInput = document.querySelector('#tasks-filters input');
+
+  if (e.key === 'Enter') {
+    updateFilter({ text: searchInput.value });
+  }
 }
 
 /**
