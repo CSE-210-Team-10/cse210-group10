@@ -30,6 +30,10 @@ const UISelector = {
  * A custom component that displays details of a task and provides interaction
  */
 export class TaskItem extends HTMLElement {
+  static editTaskEvent = 'task-edit';
+  static deleteTaskEvent = 'task-delete';
+  static completeTaskEvent = 'task-complete';
+
   /**
    *
    */
@@ -100,7 +104,7 @@ export class TaskItem extends HTMLElement {
   get tags() {
     try {
       return JSON.parse(
-        this.getAttribute(DataAttributeSelector.tags).replaceAll('\'', '"') ||
+        this.getAttribute(DataAttributeSelector.tags).replaceAll("'", '"') ||
           '[]'
       );
     } catch (error) {
@@ -191,7 +195,7 @@ export class TaskItem extends HTMLElement {
     editBtn?.addEventListener('click', e => {
       e.preventDefault();
       this.dispatchEvent(
-        new CustomEvent('task-edit', {
+        new CustomEvent(TaskItem.editTaskEvent, {
           detail: { id: this.getAttribute('id') },
         })
       );
@@ -200,7 +204,7 @@ export class TaskItem extends HTMLElement {
     deleteBtn?.addEventListener('click', e => {
       e.preventDefault();
       this.dispatchEvent(
-        new CustomEvent('task-delete', {
+        new CustomEvent(TaskItem.deleteTaskEvent, {
           detail: { id: this.getAttribute('id') },
         })
       );
@@ -209,7 +213,7 @@ export class TaskItem extends HTMLElement {
     completeBtn?.addEventListener('click', e => {
       e.preventDefault();
       this.dispatchEvent(
-        new CustomEvent('task-complete', {
+        new CustomEvent(TaskItem.completeTaskEvent, {
           detail: { id: this.getAttribute('id') },
         })
       );
