@@ -1,11 +1,18 @@
 import { authService } from '../js/auth.js';
 import { standardizeString } from '../js/library.js';
 import { TaskItem } from '../components/task-item/index.js';
+import { TaskForm } from '../components/task-form/index.js';
 
 /** @typedef { import('../js/auth.js').UserData } User */
 
 console.log(TaskItem.name);
 console.log(standardizeString('test'));
+
+/** @type { TaskForm } */
+const taskForm = document.querySelector('task-form');
+const createTaskBtn = document.querySelector('#create-task-btn');
+createTaskBtn.addEventListener('click', openTaskForm);
+taskForm.addEventListener(TaskForm.taskFormSubmitEvent, handleTaskFormSubmit);
 authService.subscribeToAuthChanges(authEventHandler);
 
 /**
@@ -36,4 +43,14 @@ function authEventHandler(event, user) {
   } else if (event === 'SIGNED_OUT' || !user) {
     redirectToLogin();
   }
+}
+
+function openTaskForm() {
+  /** @type { TaskForm } */
+  const taskForm = document.querySelector('task-form');
+  taskForm.show();
+}
+
+function handleTaskFormSubmit(e) {
+  console.log(e.detail);
 }
