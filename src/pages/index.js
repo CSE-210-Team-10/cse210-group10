@@ -45,12 +45,19 @@ function authEventHandler(event, user) {
   }
 }
 
+/**
+ * Open up the create task form for user to create a new task
+ */
 function openTaskForm() {
   /** @type { TaskForm } */
   const taskForm = document.querySelector('task-form');
   taskForm.show();
 }
 
+/**
+ * Handle the fired event when the user creates a new task
+ * @param { CustomEvent } e The custom event object passed from task-form
+ */
 function handleTaskFormSubmit(e) {
   console.log(e.detail);
 }
