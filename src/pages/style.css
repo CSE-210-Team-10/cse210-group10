@@ -99,5 +99,24 @@ main {
 	gap: 1rem;
 	list-style: none;
 	flex: 1;
-	overflow-y: auto;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: white;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #b0b0b0;
+    border-radius: 10px;
+    border: 3px solid white;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #878787;
 }
