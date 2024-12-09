@@ -187,6 +187,8 @@ export class TaskForm extends HTMLElement {
         bubbles: true,
       })
     );
+
+    this.close();
   }
 
   /**
