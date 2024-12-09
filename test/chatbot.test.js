@@ -1,18 +1,30 @@
 import { fetchChatbotkey } from '../src/js/chatbot.js';
 
+/**
+ * Tests for the fetchChatbotkey function.
+ */
 describe('fetchChatbotkey', () => {
   let originalFetch;
 
+  /**
+   * Saves the original fetch function before tests run.
+   */
   beforeAll(() => {
     // Save the original fetch function
     originalFetch = globalThis.fetch;
   });
 
+  /**
+   * Restores the original fetch function after all tests are completed.
+   */
   afterAll(() => {
     // Restore the original fetch function
     globalThis.fetch = originalFetch;
   });
 
+  /**
+   * Test case: should return API key when fetch is successful.
+   */
   test('returns API key on successful fetch', async () => {
     globalThis.fetch = async () => ({
       ok: true,
@@ -23,6 +35,9 @@ describe('fetchChatbotkey', () => {
     expect(result).toBe('mock-api-key');
   });
 
+  /**
+   * Test case: should return an error message when fetch fails with a non-200 status.
+   */
   test('returns error message when fetch fails with non-200 status', async () => {
     globalThis.fetch = async () => ({
       ok: false,
@@ -35,6 +50,9 @@ describe('fetchChatbotkey', () => {
     );
   });
 
+  /**
+   * Test case: should return an error message when fetch throws an exception.
+   */
   test('returns error message when fetch throws an error', async () => {
     globalThis.fetch = async () => {
       throw new Error('Network error');
