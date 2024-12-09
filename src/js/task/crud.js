@@ -37,6 +37,10 @@ function validateTask(task) {
   if (!Array.isArray(task.tags)) {
     throw new Error('Task must have a valid tags array');
   }
+
+  if (!['high', 'medium', 'low'].includes(task.priority)) {
+    throw new Error('Task must have a valid priority: high, medium, or low');
+  }
 }
 
 /**
@@ -53,6 +57,7 @@ function createTask(taskData) {
     id: getMaxId(tasks) + 1,
     dueDate: new Date(taskData.dueDate), // Ensure dueDate is Date object
     tags: taskData.tags || [], // Ensure tags exists
+    priority: taskData.priority, // Default to medium priority if not specified
   };
 
   validateTask(newTask);
@@ -134,3 +139,4 @@ function deleteTask(id) {
 }
 
 export { createTask, getTask, getAllTasks, updateTask, deleteTask };
+export default { createTask, getTask, getAllTasks, updateTask, deleteTask };
