@@ -71,7 +71,7 @@
 }
 
 #deadline-overdue .tag-priority-medium {
-	background-color: #F18E00;
+	background-color: var(--tag-bg-color-medium-inverted);
 }
 
 #deadline-overdue .tag-priority-low {

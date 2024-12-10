@@ -1,0 +1,38 @@
+<link rel="stylesheet" type="text/css" href="/styles/root.css" />
+<dialog>
+  <form>
+    <label>Priority</label>
+    <div class="options priority-options">
+      <input type="checkbox" id="priority-high" name="priority" value="high" />
+      <label for="priority-high">High</label>
+      <input
+        type="checkbox"
+        id="priority-medium"
+        name="priority"
+        value="medium"
+      />
+      <label for="priority-medium">Medium</label>
+      <input type="checkbox" id="priority-low" name="priority" value="low" />
+      <label for="priority-low">Low</label>
+    </div>
+
+    <label>Github</label>
+    <div class="options" id="github-options">
+      <input type="checkbox" id="issue" name="github" value="issue" />
+      <label for="issue">Issue</label>
+      <input type="checkbox" id="pr" name="github" value="pr" />
+      <label for="pr">PR</label>
+    </div>
+
+    <label>Date</label>
+    <select name="date">
+      <option value="newest">Newest → Oldest</option>
+      <option value="oldest">Oldest → Newest</option>
+    </select>
+
+    <div class="buttons">
+      <button type="submit" class="apply">Apply</button>
+      <button type="reset" class="reset">Reset</button>
+    </div>
+  </form>
+</dialog>

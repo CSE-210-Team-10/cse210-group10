@@ -1,0 +1,38 @@
+<link rel="stylesheet" type="text/css" href="/styles/root.css" />
+<dialog>
+  <form>
+    <label>Task Name</label>
+    <input
+      type="text"
+      name="taskName"
+      placeholder="Enter task name (max 15 chars)"
+      required
+    />
+
+    <label>Priority</label>
+    <select name="priority">
+      <option value="low">Low</option>
+      <option value="medium" selected>Medium</option>
+      <option value="high">High</option>
+    </select>
+
+    <label>Tags <span class="tag-count">(0/5)</span></label>
+    <div class="tags-wrapper">
+      <ul class="tags"></ul>
+      <input
+        type="text"
+        class="tag-input"
+        placeholder="Enter tags (press Enter to add)"
+      />
+    </div>
+    <span class="error-message"></span>
+
+    <label>Due Date</label>
+    <input type="date" name="dueDate" required />
+
+    <label>Description</label>
+    <textarea type="text" name="description"> </textarea>
+
+    <button type="submit" class="submit-button">Save</button>
+  </form>
+</dialog>
