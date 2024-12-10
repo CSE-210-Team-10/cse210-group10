@@ -52,7 +52,7 @@ export async function getPullRequests(token, owner, repo) {
         id: Number(data[i].id),
         type: "pr",
         title: String(data[i].title),
-        done: true,
+        done: false,
         dueDate: data[i].created_at instanceof Date 
           ? data[i].created_at 
           : new Date(data[i].created_at ),
@@ -103,7 +103,7 @@ export async function getIssues(token, owner, repo) {
         id: Number(data[i].id),
         type: "issue",
         title: String(data[i].title),
-        done: true,
+        done: false,
         dueDate: data[i].updated_at instanceof Date 
           ? data[i].updated_at 
           : new Date(data[i].updated_at ),
