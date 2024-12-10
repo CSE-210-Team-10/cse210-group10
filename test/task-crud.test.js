@@ -41,12 +41,12 @@ describe('Task Management Module', () => {
    */
   describe('createTask', () => {
     const createMockTaskData = {
-      title: "New Test Task",
-      type: "personal",
+      title: 'New Test Task',
+      type: 'personal',
       done: false,
-      dueDate: new Date("2024-12-31"),
-      tags: ["test"],
-      priority: "low"
+      dueDate: new Date('2024-12-31'),
+      tags: ['test'],
+      priority: 'low'
     };
 
     beforeEach(() => {
@@ -64,11 +64,11 @@ describe('Task Management Module', () => {
 
       expect(task).toEqual(expect.objectContaining({
         id: expect.any(Number),
-        title: "New Test Task",
-        type: "personal",
+        title: 'New Test Task',
+        type: 'personal',
         done: false,
-        tags: ["test"],
-        priority: "low"
+        tags: ['test'],
+        priority: 'low'
       }));
       expect(task.dueDate).toBeInstanceOf(Date);
     });
@@ -180,13 +180,13 @@ describe('Task Management Module', () => {
     test('should update an existing task', () => {
       const firstTaskId = tasks[0].id;
       const updatedTask = updateTask(firstTaskId, {
-        title: "Updated Task Title",
+        title: 'Updated Task Title',
         done: true
       });
 
       expect(updatedTask).toEqual(expect.objectContaining({
         id: firstTaskId,
-        title: "Updated Task Title",
+        title: 'Updated Task Title',
         done: true
       }));
     });
@@ -206,7 +206,7 @@ describe('Task Management Module', () => {
      * @test
      */
     test('should return undefined for non-existent task', () => {
-      const result = updateTask(999, { title: "Test Update" });
+      const result = updateTask(999, { title: 'Test Update' });
 
       expect(result).toBeUndefined();
     });
