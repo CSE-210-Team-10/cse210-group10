@@ -38,7 +38,7 @@ describe('Task Management Module', () => {
   });
 
   describe('getAllTasks', () => {
-    it('should return all tasks with parsed dates', () => {
+    test('should return all tasks with parsed dates', () => {
       const tasks = getAllTasks();
       expect(tasks.length).toBe(mockTasks.length);
       tasks.forEach((task, index) => {
@@ -49,7 +49,7 @@ describe('Task Management Module', () => {
   });
 
   describe('getTask', () => {
-    it('should return a task by ID', () => {
+    test('should return a task by ID', () => {
       const task = getTask(1); // First task in mock data
       expect(task).toEqual({
         ...mockTasks[0],
@@ -57,7 +57,7 @@ describe('Task Management Module', () => {
       });
     });
 
-    it('should return undefined for a non-existent task ID', () => {
+    test('should return undefined for a non-existent task ID', () => {
       const task = getTask(999);
       expect(task).toBeUndefined();
     });
@@ -72,37 +72,37 @@ describe('Task Management Module', () => {
       tags: ['test', 'new']
     };
 
-    it('should create a new task with a unique ID', () => {
+    test('should create a new task with a unique ID', () => {
       const newTask = createTask(newTaskData);
       expect(newTask.id).toBe(mockTasks.length + 1);
       expect(newTask.title).toBe(newTaskData.title);
     });
 
-    it('should throw an error for invalid task data', () => {
+    test('should throw an error for invalid task data', () => {
       const invalidTask = { ...newTaskData, type: 'invalid-type' };
       expect(() => createTask(invalidTask)).toThrow('Task must have a valid type: issue, pr, or personal');
     });
   });
 
   describe('updateTask', () => {
-    it('should update an existing task', () => {
+    test('should update an existing task', () => {
       const updatedTask = updateTask(1, { title: 'Updated Title', done: true });
       expect(updatedTask.title).toBe('Updated Title');
       expect(updatedTask.done).toBe(true);
     });
 
-    it('should return undefined for a non-existent task ID', () => {
+    test('should return undefined for a non-existent task ID', () => {
       const result = updateTask(999, { title: 'Non-existent Task' });
       expect(result).toBeUndefined();
     });
 
-    it('should validate the updated task properties', () => {
+    test('should validate the updated task properties', () => {
       expect(() => updateTask(1, { dueDate: 'invalid-date' })).toThrow('Task must have a valid due date');
     });
   });
 
   describe('deleteTask', () => {
-    it('should delete an existing task', () => {
+    test('should delete an existing task', () => {
       const deleteResult = deleteTask(1); // First task in mock data
       expect(deleteResult).toBe(true);
 
@@ -111,14 +111,14 @@ describe('Task Management Module', () => {
       expect(tasksAfterDeletion.find(task => task.id === 1)).toBeUndefined();
     });
 
-    it('should return false for a non-existent task ID', () => {
+    test('should return false for a non-existent task ID', () => {
       const deleteResult = deleteTask(999);
       expect(deleteResult).toBe(false);
     });
   });
 
   describe('Integration Tests', () => {
-    it('should handle full CRUD lifecycle', () => {
+    test('should handle full CRUD lifecycle', () => {
       // Create
       const newTask = createTask({
         title: 'Lifecycle Task',
