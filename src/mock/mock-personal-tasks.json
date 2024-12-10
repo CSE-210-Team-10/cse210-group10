@@ -1,0 +1,28 @@
+{
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Implement user authentication",
+        "type": "issue",
+        "done": false,
+        "dueDate": "2024-02-15T00:00:00.000Z",
+        "tags": ["backend", "security"]
+      },
+      {
+        "id": 2,
+        "title": "Create landing page design",
+        "type": "personal",
+        "done": true,
+        "dueDate": "2024-01-20T00:00:00.000Z",
+        "tags": ["frontend", "design"]
+      },
+      {
+        "id": 3,
+        "title": "Update dependency vulnerabilities",
+        "type": "pr",
+        "done": false,
+        "dueDate": "2024-03-01T00:00:00.000Z", 
+        "tags": ["maintenance", "security"]
+      }
+    ]
+}
