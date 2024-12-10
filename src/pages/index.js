@@ -37,3 +37,20 @@ function authEventHandler(event, user) {
     redirectToLogin();
   }
 }
+
+/**
+ * Add event listener for "Sign Out" button to sign user out of GitHub account
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  const signOutButton = document.querySelector('.signout-btn');
+  if (signOutButton) {
+    signOutButton.addEventListener('click', async () => {
+      try {
+        await authService.logout();
+        console.log('User signed out successfully');
+      } catch (error) {
+        console.error('Error during sign-out:', error.message);
+      }
+    });
+  }
+});
