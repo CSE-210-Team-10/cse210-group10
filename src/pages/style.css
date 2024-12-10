@@ -99,5 +99,5 @@ main {
 	gap: 1rem;
 	list-style: none;
 	flex: 1;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
