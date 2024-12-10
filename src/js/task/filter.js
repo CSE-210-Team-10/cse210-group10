@@ -6,6 +6,7 @@ import { getAllTasks } from './crud.js';
  * @property { boolean } [done] - Completion status
  * @property { Date } [beforeDate] - Filter tasks due before this date
  * @property { Date } [afterDate] - Filter tasks due after this date
+ * @property { 'high' | 'medium' | 'low' } [priority] - Filter tasks by priority level
  */
 
 /** @typedef { import('./index.js').Task } Task */
@@ -44,6 +45,16 @@ function filterByTags(text, tasks = getAllTasks()) {
   return tasks.filter(task =>
     task.tags.some(tag => tag.toLowerCase().includes(text.toLowerCase()))
   );
+}
+
+/**
+ * Filter tasks by priority
+ * @param { 'high' | 'medium' | 'low' } priority - Priority level to filter by
+ * @param { Task[] } [tasks=getAllTasks()] - List of tasks to filter
+ * @returns { Task[] }
+ */
+function filterByPriority(priority, tasks = getAllTasks()) {
+  return tasks.filter(task => task.priority === priority);
 }
 
 /**
@@ -92,6 +103,10 @@ function filterTasks(tasks = getAllTasks(), filters = {}) {
 
   if (filters.done !== undefined) {
     result = filterByStatus(filters.done, result);
+  }
+
+  if (filters.priority) {
+    result = filterByPriority(filters.priority, result);
   }
 
   if (filters.beforeDate || filters.afterDate) {

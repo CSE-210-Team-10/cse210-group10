@@ -1,0 +1,89 @@
+dialog {
+	margin: auto;
+	border: var(--border-width) solid var(--border-primary);
+	border-radius: var(--border-radius-primary);
+}
+
+dialog::backdrop {
+	background-color: rgba(0, 0, 0, 0.75);
+}
+
+.form {
+	width: 28rem;
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--gap) / 2);
+	padding: var(--padding);
+}
+
+label {
+	display: block;
+	color: #15803d;
+}
+
+input, select, textarea {
+	padding: calc(var(--padding) / 2);
+	border: var(--border-width) solid var(--border-secondary);
+	border-radius: var(--border-radius-primary);
+	margin-bottom: calc(var(--gap) / 2);
+}
+
+.tags-wrapper {
+	padding: calc(var(--padding) / 2);
+	border: var(--border-width) solid var(--border-secondary);
+	border-radius: var(--border-radius-primary);
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--gap) / 2);
+}
+
+.tags-wrapper:focus-within {
+	outline: calc(var(--border-width) * 2) solid var(--border-primary);
+}
+
+.tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--gap) / 4);
+}
+
+.tag {
+	padding: calc(var(--padding) / 4) calc(var(--padding) / 2);
+	display: inline-flex;
+	align-items: center;
+	gap: calc(var(--gap) / 4);
+}
+
+.tag-remove {
+	background: none;
+	border: none;
+	color: inherit;
+	cursor: pointer;
+	padding: 0;
+	font-size: 1.2rem;
+	line-height: 1;
+}
+
+.tag-input {
+	border: none;
+	margin: 0;
+	outline: none;
+	padding: calc(var(--padding) / 4) 0;
+}
+
+.tag-input:disabled {
+	background: transparent;
+}
+
+.error-message {
+	color: var(--error-msg-color);
+	font-size: 0.875rem;
+	margin-top: calc(var(--padding) / 4);
+	display: none;
+}
+
+.submit-button {
+	padding: calc(var(--padding) / 1.5);
+	border-radius: var(--border-radius-primary);
+	cursor: pointer;
+}

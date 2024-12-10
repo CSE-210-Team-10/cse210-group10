@@ -24,6 +24,27 @@ export default [
         CustomEvent: 'readonly', // Added for custom events
         customElements: 'readonly', // Added for custom elements registry
 
+        MouseEvent: 'readonly',
+        InputEvent: 'readonly',
+        HTMLInputElement: 'readonly',
+        KeyboardEvent: 'readonly',
+        SubmitEvent: 'readonly',
+        FormData: 'readonly',
+        HTMLSpanElement: 'readonly',
+        NodeListOf: 'readonly',
+        HTMLButtonElement: 'readonly',
+        HTMLDialogElement: 'readonly',
+        HTMLFormElement: 'readonly',
+        HTMLSlotElement: 'readonly',
+        HTMLDetailsElement: 'readonly',
+        HTMLSelectElement: 'readonly',
+        HTMLTextAreaElement: 'readonly',
+        HTMLDivElement: 'readonly',
+        HTMLAnchorElement: 'readonly',
+        HTMLImageElement: 'readonly',
+        HTMLVideoElement: 'readonly',
+        Node: 'readonly',
+
         // ES2021 globals
         Promise: 'readonly',
         Set: 'readonly',
