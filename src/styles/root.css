@@ -12,6 +12,7 @@
 	--app-padding: 2.5rem 5rem;
 	--gap: 1rem;
 	--padding: 1rem;
+
 	/* background colors */
 	--bg-primary: #F0FDF4;
 	--bg-secondary: #FFFFFF;
@@ -24,45 +25,34 @@
 	--border-radius-primary: 0.5rem;
 	--border-radius-small: 0.25rem;
 	--border-width: 1.5px;
-	/* border settings */
-	--border-primary: #21A97C;
-	--border-secondary: #D4D4D4;
-	--border-radius-primary: 0.5rem;
-	--border-radius-small: 0.25rem;
-	--border-width: 1.5px;
 
 	/* text colors */
 	--text-primary: #059669;
 	--text-secondary: #059669;
 	--text-accent: #FFFFFF;
 	--text-accent-light: #059669;
-	/* text colors */
-	--text-primary: #059669;
-	--text-secondary: #059669;
-	--text-accent: #FFFFFF;
-	--text-accent-light: #059669;
 
-	/* icon colors */
-	--icon-primary: #059669;
 	/* icon colors */
 	--icon-primary: #059669;
 
 	--error-msg-color: #dc2626;
 
-	/* tag colors */
 	--tag-bg-color-high: #FEE2E2;
 	--tag-text-color-high: #B91C1C;
+
 	--tag-bg-color-medium: #FEF9C3;
 	--tag-text-color-medium: #A16207;
 	--tag-bg-color-medium-inverted: #F18E00;
+
 	--tag-bg-color-low: #DBEAFE;
 	--tag-text-color-low: #1D4ED8;
+
 	--tag-bg-color-regular: var(--bg-accent-light);
 	--tag-text-color-regular: var(--text-primary);
 
-	/* button colors */
 	--button-bg-color: var(--bg-accent);
 	--button-text-color: var(--text-accent);
+
 	--button-bg-color-hover: var(--bg-accent-light);
 	--button-text-color-hover: var(--text-accent-light);
 }
@@ -114,33 +104,25 @@ button {
 	font-size: 1rem;
 	cursor: pointer;
 	transition: all 0.25s ease;
-	padding: 0.5rem 0.75rem;
-	border-radius: var(--border-radius-primary);
-	border: var(--border-width) solid var(--border-primary);
-	font-size: 1rem;
-	cursor: pointer;
-	transition: all 0.25s ease;
 }
 
+/* give me button that does not have i or not only has i */
 button:not(:has(i)), button:has(i + *), button:has(* + i) {
 	padding: 0.5rem 1.5rem;
 }
 
 .small-btn {
 	padding: 0.3rem 0.45rem;
-	padding: 0.3rem 0.45rem;
 }
 
+/* button coloring */
+
 button, button.flipped:hover {
-	background-color: var(--button-bg-color);
-	color: var(--button-text-color);
 	background-color: var(--button-bg-color);
 	color: var(--button-text-color);
 }
 
 button:hover, button.flipped {
-	background-color: var(--button-bg-color-hover);
-	color: var(--button-text-color-hover);
 	background-color: var(--button-bg-color-hover);
 	color: var(--button-text-color-hover);
 }
@@ -152,17 +134,9 @@ button:hover, button.flipped {
 	color: var(--tag-text-color-regular);
 	font-size: 0.75rem;
 	text-align: center;
-	padding: 0.25rem 0.5rem;
-	border-radius: var(--border-radius-primary);
-	background: var(--tag-bg-color-regular);
-	color: var(--tag-text-color-regular);
-	font-size: 0.75rem;
-	text-align: center;
 }
 
 .tag-priority-high {
-	background: var(--tag-bg-color-high);
-	color: var(--tag-text-color-high);
 	background: var(--tag-bg-color-high);
 	color: var(--tag-text-color-high);
 }
@@ -170,20 +144,14 @@ button:hover, button.flipped {
 .tag-priority-medium {
 	background: var(--tag-bg-color-medium);
 	color: var(--tag-text-color-medium);
-	background: var(--tag-bg-color-medium);
-	color: var(--tag-text-color-medium);
 }
 
 .tag-priority-low {
 	background: var(--tag-bg-color-low);
 	color: var(--tag-text-color-low);
-	background: var(--tag-bg-color-low);
-	color: var(--tag-text-color-low);
 }
 
 .task-date {
-	margin-right: 0.5rem;
-	font-size: 0.9rem;
 	margin-right: 0.5rem;
 	font-size: 0.9rem;
 }
