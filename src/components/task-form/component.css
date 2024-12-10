@@ -8,7 +8,7 @@ dialog::backdrop {
 	background-color: rgba(0, 0, 0, 0.75);
 }
 
-.form {
+form {
 	width: 28rem;
 	display: flex;
 	flex-direction: column;
@@ -18,7 +18,7 @@ dialog::backdrop {
 
 label {
 	display: block;
-	color: #15803d;
+	color: var(--text-primary);
 }
 
 input, select, textarea {
