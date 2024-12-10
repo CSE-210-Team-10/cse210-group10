@@ -74,6 +74,7 @@ function authEventHandler(event, user) {
   }
 }
 
+/**
  * Open up the create task form for user to create a new task
  */
 function openTaskForm() {
