@@ -40,4 +40,69 @@
 
 	--tag-bg-color-regular: var(--bg-accent-light);
 	--tag-text-color-regular: var(--text-primary);
+
+	--button-bg-color: var(--bg-accent);
+	--button-text-color: var(--text-accent);
+
+	--button-bg-color-hover: var(--bg-accent-light);
+	--button-text-color-hover: var(--text-accent-light);
+}
+
+button {
+	padding: 0.5rem 0.75rem;
+	border-radius: var(--border-radius-primary);
+	border: var(--border-width) solid var(--border-primary);
+	font-size: 1rem;
+	cursor: pointer;
+	transition: all 0.25s ease;
+}
+
+/* give me button that does not have i or not only has i */
+button:not(:has(i)), button:has(i + *), button:has(* + i) {
+	padding: 0.5rem 1.5rem;
+}
+
+.small-btn {
+	padding: 0.3rem 0.45rem;
+}
+
+/* button coloring */
+
+button, button.flipped:hover {
+	background-color: var(--button-bg-color);
+	color: var(--button-text-color);
+}
+
+button:hover, button.flipped {
+	background-color: var(--button-bg-color-hover);
+	color: var(--button-text-color-hover);
+}
+
+.tag {
+	padding: 0.25rem 0.5rem;
+	border-radius: var(--border-radius-primary);
+	background: var(--tag-bg-color-regular);
+	color: var(--tag-text-color-regular);
+	font-size: 0.75rem;
+	text-align: center;
+}
+
+.tag-priority-high {
+	background: var(--tag-bg-color-high);
+	color: var(--tag-text-color-high);
+}
+
+.tag-priority-medium {
+	background: var(--tag-bg-color-medium);
+	color: var(--tag-text-color-medium);
+}
+
+.tag-priority-low {
+	background: var(--tag-bg-color-low);
+	color: var(--tag-text-color-low);
+}
+
+.task-date {
+	margin-right: 0.5rem;
+	font-size: 0.9rem;
 }
