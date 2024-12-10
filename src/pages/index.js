@@ -4,6 +4,9 @@ import { TaskItem } from '../components/task-item/index.js';
 
 /** @typedef { import('../js/auth.js').UserData } User */
 
+const darkModeToggle = document.querySelector('button:has(i.fa-moon)');
+const lightModeToggle = document.querySelector('button:has(i.fa-sun)');
+
 console.log(TaskItem.name);
 console.log(standardizeString('test'));
 authService.subscribeToAuthChanges(authEventHandler);
@@ -37,3 +40,19 @@ function authEventHandler(event, user) {
     redirectToLogin();
   }
 }
+
+darkModeToggle.addEventListener('click', () => {
+  document.documentElement.classList.toggle('dark-mode');
+  darkModeToggle.ariaDisabled = 'true';
+  darkModeToggle.disabled = true;
+  lightModeToggle.ariaDisabled = 'false';
+  lightModeToggle.disabled = false;
+});
+
+lightModeToggle.addEventListener('click', () => {
+  document.documentElement.classList.toggle('dark-mode');
+  darkModeToggle.ariaDisabled = 'false';
+  darkModeToggle.disabled = false;
+  lightModeToggle.ariaDisabled = 'true';
+  lightModeToggle.disabled = true;
+});
