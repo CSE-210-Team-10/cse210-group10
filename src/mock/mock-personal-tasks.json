@@ -23,6 +23,30 @@
         "done": false,
         "dueDate": "2024-03-01T00:00:00.000Z", 
         "tags": ["maintenance", "security"]
+      },
+      {
+        "id": 4,
+        "title": "Read research paper on AI",
+        "type": "personal",
+        "done": false,
+        "dueDate": "2024-05-20T00:00:00.000Z",
+        "tags": ["AI", "reading", "CSE 216"]
+      },
+      {
+        "id": 5,
+        "title": "Study lectures 1-4",
+        "type": "personal",
+        "done": false,
+        "dueDate": "2024-05-20T00:00:00.000Z",
+        "tags": ["study", "reading", "CSE 216"]
+      },
+      {
+        "id": 6,
+        "title": "Draw out wireframe for class project",
+        "type": "personal",
+        "done": true,
+        "dueDate": "2024-07-11T00:00:00.000Z",
+        "tags": ["frontend", "design", "CSE 216"]
       }
     ]
 }
