@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const signOutButton = document.querySelector('.signout-btn');
   if (signOutButton) {
     signOutButton.addEventListener('click', async () => {
-        await authService.logout();
+      await authService.logout();
     });
   }
 });
