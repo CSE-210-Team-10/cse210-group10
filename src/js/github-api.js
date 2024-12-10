@@ -110,7 +110,7 @@ export async function getIssues(token, owner, repo) {
         description: String('hi' + i),
         url: String(data[i].url),
         priority: String('high'),
-        tags: ['planning', 'architecture']
+        tags: ['issue', owner, repo]
       }
       arrayIssues.push(parsedIssue);
     }
