@@ -61,6 +61,26 @@ header #logo-heading {
 	color: var(--text-accent);
 }
 
+#view-toggle button[aria-disabled="true"] {
+    background-color: var(--bg-accent-light);
+    color: var(--text-accent-light);
+}
+
+#view-toggle button[aria-disabled="true"]:hover {
+    background-color: var(--bg-accent);
+    color: var(--text-accent);
+}
+
+#view-toggle button[aria-disabled="true"] {
+    background-color: var(--bg-accent-light);
+    color: var(--text-accent-light);
+}
+
+#view-toggle button:not([aria-disabled="true"]):hover {
+	background-color: var(--bg-accent);
+	color: var(--text-accent);
+}
+
 /* main */
 
 main {
@@ -161,6 +181,13 @@ aside .controls {
 	border-radius: var(--border-radius-small);
 	padding: 0.5rem 0.75rem;
 	font-size: 1rem;
+	background-color: var(--input-bg);
+    color: var(--input-text);
+    border-color: var(--input-border);
+}
+
+#tasks-filters input::placeholder {
+	color: var(--input-placeholder);
 }
 
 /* First, make the sections fill their grid area height */
