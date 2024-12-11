@@ -269,17 +269,22 @@ function addLink() {
     if (!isValidUrl(iconUrl) && iconUrl !== '') {
       errorMessage.textContent = 'Invalid icon URL!';
       errorMessage.style.display = 'block'; // Show error message
+      titleInput.value = '';
+      urlInput.value = '';
+      iconUrlInput.value = '';
       return;
     }
 
     if (!isValidUrl(url)) {
       errorMessage.textContent = 'Invalid URL!';
       errorMessage.style.display = 'block'; // Show error message
+      titleInput.value = '';
+      urlInput.value = '';
+      iconUrlInput.value = '';
       return;
     }
 
-    errorMessage.style.display = 'none'; // Hide the error message
-
+    errorMessage.style.display = 'none'; 
     // Create a new link object
     const newLink = {
       id: Date.now(), // Unique ID based on timestamp
@@ -358,7 +363,8 @@ document.getElementById('add-link-btn').addEventListener('click', () => {
   if (addLinkForm.style.display === 'none' || addLinkForm.style.display === '') {
     addLinkForm.style.display = 'block';
   } else {
-    addLinkForm.style.display = 'none';
+   // Hide the error message
+ addLinkForm.style.display = 'none';
   }
 });
 
