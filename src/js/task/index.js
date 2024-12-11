@@ -7,6 +7,7 @@
  * @property { Date } dueDate - due date of the task
  * @property { string } description - Description/body content of the task
  * @property { string } url - GitHub API URL for the task
+ * @property { 'high' | 'low' | 'medium' } priority - Priority of the task
  * @property { string[] } tags - A list of tags associated to the task
  */
 

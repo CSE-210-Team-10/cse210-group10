@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ByteBoard</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
     <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
     <link rel="alternate icon" type="image/png" href="/static/favicon.png" />
   </head>
@@ -17,10 +18,10 @@
       </div>
       <button>Sign Out</button>
       <div id="view-toggle">
-        <button class="all-tasks-action-btn">
+        <button class="all-tasks-action-btn" aria-disabled="false">
           <i class="fa-solid fa-sun"></i>
         </button>
-        <button class="all-tasks-action-btn" disabled>
+        <button class="all-tasks-action-btn" aria-disabled="true">
           <i class="fa-solid fa-moon"></i>
         </button>
       </div>
@@ -149,8 +150,7 @@
           <ul class="tasks">
             <li>
               <task-item
-                aside,
-                sectiond="1"
+                data-id="0"
                 data-title="Review PR #1"
                 data-priority="High"
                 data-tags="['PR', 'Repo #1']"
@@ -193,66 +193,12 @@
         <section id="personal-task-panel">
           <h2>Personal Tasks</h2>
           <button id="create-task-btn">Create Task</button>
-          <ul class="tasks">
-            <li>
-              <task-item
-                data-id="1"
-                data-title="Review PR #1"
-                data-priority="High"
-                data-tags="['PR', 'Repo #1']"
-                data-date="11/20/2024"
-                interactive
-              >
-                Read through Chapter 8: Data Structures and Algorithms. Focus on
-                sections covering Red-Black Trees and B-Trees. Prepare summary
-                notes for discussion.
-              </task-item>
-            </li>
-            <li>
-              <task-item
-                data-id="2"
-                data-title="Review PR #1"
-                data-priority="High"
-                data-tags="['Issue', 'Repo #1']"
-                data-date="11/20/2024"
-                interactive
-              >
-                Read through Chapter 8: Data Structures and Algorithms. Focus on
-                sections covering Red-Black Trees and B-Trees. Prepare summary
-                notes for discussion.
-              </task-item>
-            </li>
-            <li>
-              <task-item
-                data-id="2"
-                data-title="Review PR #1"
-                data-priority="High"
-                data-tags="['Issue', 'Repo #1']"
-                data-date="11/20/2024"
-                interactive
-              >
-                Read through Chapter 8: Data Structures and Algorithms. Focus on
-                sections covering Red-Black Trees and B-Trees. Prepare summary
-                notes for discussion.
-              </task-item>
-            </li>
-            <li>
-              <task-item
-                data-id="2"
-                data-title="Review PR #1"
-                data-priority="High"
-                data-tags="['Issue', 'Repo #1']"
-                data-date="11/20/2024"
-                interactive
-              >
-                Read through Chapter 8: Data Structures and Algorithms. Focus on
-                sections covering Red-Black Trees and B-Trees. Prepare summary
-                notes for discussion.
-              </task-item>
-            </li>
-          </ul>
+          <ul class="tasks"></ul>
         </section>
       </div>
+
+      <task-form></task-form>
+      <filter-form></filter-form>
     </main>
     <script type="module" src="/index.js"></script>
     <script
