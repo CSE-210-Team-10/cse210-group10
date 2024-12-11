@@ -54,7 +54,7 @@ export async function getGithubData(user, owner, repo, flag) {
       }
     });
     if (!response.ok) {
-      throw new Error('Failed to fetch pull requests.');
+      throw new Error('Failed to fetch GitHub data.');
     }
 
     const data = await response.json();
