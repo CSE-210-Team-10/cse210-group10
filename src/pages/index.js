@@ -218,6 +218,9 @@ function renderLinks() {
     const linkButton = document.createElement('button');
     linkButton.classList.add('link-button');
     linkButton.textContent = link.title;
+    /**
+     *
+     */
     linkButton.onclick = function () {
       window.open(link.url, '_blank');
     };
