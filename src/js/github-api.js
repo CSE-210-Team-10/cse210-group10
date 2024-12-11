@@ -51,7 +51,7 @@ export async function getPullRequests(user, owner, repo) {
     for (let i = 0; i < data.length; i ++) {
       //Get the list of assignees and then parse them into a list of login usernames 
       const tmp = data[i].assignees;
-      const assignees = []
+      const assignees = [];
       for (let j = 0; j < tmp.length; j ++) {
         assignees.push(tmp[j].login);
       }
@@ -107,7 +107,7 @@ export async function getIssues(user, owner, repo) {
     for (let i = 0; i < data.length; i ++) {
       //Get the list of assignees and then parse them into a list of login usernames 
       const tmp = data[i].assignees;
-      const assignees = []
+      const assignees = [];
       for (let j = 0; j < tmp.length; j ++) {
         assignees.push(tmp[j].login);
       }
