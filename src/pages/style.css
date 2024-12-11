@@ -219,3 +219,194 @@ aside .controls {
 	background-color: #878787;
 	gap: var(--gap);
 }
+
+  
+h2 {
+	text-align: center;
+  }
+
+  #link-title {
+	color: green;
+  }
+  
+  #link-list {
+	list-style-type: none;
+	padding-left: 0;
+  }
+
+  .url-link {
+	text-decoration: none;
+    color: green;
+  }
+  
+  #link-list li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	margin: 5px 0;
+	background-color: var(--bg-accent-light);
+	border-radius: 5px;
+	cursor: pointer;
+  }
+  
+  #link-list li:hover {
+	border-color: #1abc9c;
+  }
+    
+  input {
+	padding: 5px;
+	font-size: 16px;
+	width: 100%;
+	margin-bottom: 10px;
+	border: 2px solid #ccc;
+	border-radius: 5px;
+  }
+  
+ #link-list button {
+	border: none;
+	background-color: transparent;
+	color: var(--button-bg-color);
+}
+
+#link-list button:hover {
+	background: var(--tag-bg-color-regular);
+	color: var(--tag-text-color-regular);
+}
+
+#link-list button.delete-btn {
+	display: none;
+	color: #EF4444;
+}
+
+#link-list button.delete-btn:hover {
+	background: var(--tag-bg-color-high);
+	color: var(--tag-text-color-high);
+}
+
+
+.header-with-button, .edit-button {
+    display: inline-block; /* Ensures both elements are inline */
+    vertical-align: middle; /* Aligns elements vertically */
+    margin: 0; /* Removes default margins */
+}
+
+/* Optional: Add spacing between the header and the button */
+.edit-button {
+    margin-left: 10px; /* Adjust spacing as needed */
+    background: none; /* Remove default button background */
+    border: none; /* Remove default border */
+    cursor: pointer; /* Show pointer cursor on hover */
+    color: inherit; /* Inherit text color */
+    font-size: 1em; /* Adjust icon size if needed */
+}
+
+.edit-button:hover {
+    color: #007bff; /* Add hover effect, optional */
+}
+  
+  /* Adjust position of 'Add Link' and 'Delete' buttons */
+  #links-section h2 {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  }
+  
+  #link-list {
+	list-style-type: none;
+	padding-left: 0;
+  }
+  
+  /* Popup modal styles */
+  .add-link-form {
+	display: none; /* Hidden by default */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+	/*justify-content: center;
+	align-items: center;*/
+	z-index: 1000;
+	overflow: hidden; /* Prevent scrolling while popup is open */
+  }
+  
+  /* Centered popup content container */
+  .popup-content {
+	background-color: #ffffff;
+	padding: 30px 10px;
+	border-radius: 10px;
+	max-width: 450px; /* Constrain width */
+	width: 90%; /* Flexible for smaller screens */
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Add clean shadow */
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform:translate(-50%, -50%);
+	animation: fadeIn 0.3s ease-in-out; /* Smooth fade-in animation */
+  }
+
+  /* Input fields styling */
+  .add-link-form input[type="text"],
+  .add-link-form input[type="url"] {
+	width: 95%;
+	padding: 10px;
+	margin-bottom:solid #ddd;
+	font-size: 14px;
+	box-sizing: border-box;
+	outline: none;
+  }
+  
+  .add-link-form input[type="text"]:focus,
+  .add-link-form input[type="url"]:focus {
+	border-color: #4CAF50; /* Highlighted border on focus */
+	box-shadow: 0 0 4px #4CAF50;
+  }
+  
+  .formbox{
+	padding : 4rem 4rem;
+  
+  }
+  /* Buttons styling */
+  .add-link-form button {
+	width: 95%;
+	padding: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 14px;
+	margin-top: 10px;
+  }
+  
+  .add-link-form button:hover {
+	background-color: #45a049;
+  }
+
+  #add-link-btn{
+	margin:0px 10px;
+  }
+  /* Fade-in animation */
+  @keyframes fadeIn {
+	from {
+	  opacity: 0;
+	  transform: scale(0.95);
+	}
+	to {
+	  opacity: 1;
+	 
+	}  
+  }
+  
+  .close-btn {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 20px;
+	cursor: pointer;
+	color: #555;
+  }
+  

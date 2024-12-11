@@ -36,7 +36,7 @@
             </a>
           </li>
           <li>
-            <a href="/chatbot">
+            <a href="/chatbot/chatbot.html">
               <i class="fa-solid fa-list"></i>
               DuckyAI
             </a>
@@ -107,32 +107,22 @@
         </ul>
       </section>
       <aside id="links-section">
-        <h2>Links</h2>
-        <ul class="links">
-          <li>
-            <a href="https://github.com/davidtso1219" target="_blank">
-              <img src="/static/github-mark.svg" alt="Icon description" />
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/davidtso1219" target="_blank">
-              <img src="/static/github-mark.svg" alt="Icon description" />
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/davidtso1219" target="_blank">
-              <img src="/static/github-mark.svg" alt="Icon description" />
-              GitHub
-            </a>
-          </li>
-        </ul>
-        <div class="controls">
-          <button class="small-btn"><i class="fa-solid fa-pencil"></i></button>
-          <button class="small-btn"><i class="fa-solid fa-add"></i></button>
+        <h2>Links <button id="add-link-btn">&#43;</button> <button id="toggle-delete-btn">Delete</button></h2>
+        <ul id="link-list"></ul>
+        
+        <!-- Initially hidden form for adding a new link -->
+        <div class="add-link-form" id="add-link-form" style="display: none;">
+          <div class = "popup-content">
+            <span class="close-btn" id="close-popup-btn">&times;</span>
+            <div class = "formbox">            
+              <input type="text" id="link-title" placeholder="Enter link title" />
+              <input type="url" id="link-url" placeholder="Enter link URL" />
+              <button id="save-link-btn">Save Link</button></div>
+
+          </div>
         </div>
       </aside>
+      
       <div id="task-panels">
         <div id="tasks-filters">
           <button class="all-tasks-action-btn">

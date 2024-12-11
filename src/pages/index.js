@@ -187,3 +187,138 @@ function handleTaskCompleted(e) {
   TaskStore.updateTask(Number(taskId), { done: true });
   renderTaskPanels(TaskStore.getAllTasks());
 }
+
+
+/****link****/
+
+const STORAGE_KEY = 'byteboard_links';
+
+// Helper function to get links from localStorage
+function getAllLinks() {
+  const linksJson = localStorage.getItem(STORAGE_KEY);
+  return linksJson ? JSON.parse(linksJson) : [];
+}
+
+// Function to render links in the sidebar
+function renderLinks() {
+  const linkList = document.getElementById('link-list');
+  const links = getAllLinks();
+  linkList.innerHTML = ''; // Clear the current list
+
+  links.forEach(link => {
+    const li = document.createElement('li');
+    li.classList.add('link-item');
+
+    // Create a clickable link button
+    const linkButton = document.createElement('button');
+    linkButton.classList.add('link-button');
+    linkButton.textContent = link.title;
+    linkButton.onclick = function () {
+      window.open(link.url, '_blank');
+    };
+
+    // Create the delete icon (hidden initially)
+    const deleteIcon = document.createElement('span');
+    deleteIcon.classList.add('delete-icon');
+    deleteIcon.textContent = '❌';
+    deleteIcon.style.display = 'none'; // Hide delete icon by default
+    deleteIcon.addEventListener('click', () => deleteLink(link.id));
+
+    // Append elements to the list item
+    li.appendChild(linkButton);
+    li.appendChild(deleteIcon);
+    
+    linkList.appendChild(li); // Add each link with the delete button
+  });
+}
+
+// Function to add link
+function addLink() {
+
+  const titleInput = document.getElementById('link-title') ;
+const urlInput = document.getElementById('link-url') ;
+
+
+  if (titleInput instanceof HTMLInputElement && urlInput instanceof HTMLInputElement)  {
+    const title = titleInput.value.trim();
+    const url = urlInput.value.trim();
+    const links = getAllLinks();
+    const newLink = {
+      id: Date.now(), // Unique ID based on timestamp
+      title: title,
+      url: url,
+    };
+
+    links.push(newLink);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+
+    // Clear the input fields
+    titleInput.value = '';
+    urlInput.value = '';
+
+    renderLinks(); // Re-render the list after adding a new link
+
+    // Hide the input fields after saving
+    document.getElementById('add-link-form').style.display = 'none';
+  } else {
+    alert("Please enter both title and URL");
+  }
+}
+
+function toggleDeleteMode() {
+  const deleteIcons = document.querySelectorAll('.delete-icon');
+
+  deleteIcons.forEach(icon => {
+    // Ensure that 'icon' is an HTMLElement
+    if (icon instanceof HTMLElement) {
+      if (icon.style.display === 'none' || icon.style.display === '') {
+        icon.style.display = 'inline';
+      } else {
+        icon.style.display = 'none';
+      }
+    }
+  });
+}
+
+
+// Function to delete a link
+function deleteLink(linkId) {
+  const links = getAllLinks();
+  const filteredLinks = links.filter(link => link.id !== linkId);
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredLinks));
+  renderLinks(); // Re-render after deletion
+}
+
+// Event listener for the "Add Link" button
+document.getElementById('add-link-btn').addEventListener('click', () => {
+  const addLinkForm = document.getElementById('add-link-form');
+  
+  // Toggle the form visibility
+  if (addLinkForm.style.display === 'none' || addLinkForm.style.display === '') {
+    addLinkForm.style.display = 'block';
+  } else {
+    addLinkForm.style.display = 'none';
+  }
+});
+
+
+document.getElementById('close-popup-btn').addEventListener('click', () => {
+  document.getElementById('add-link-form').style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  const modal = document.getElementById('add-link-form');
+  if (e.target === modal) {
+      modal.style.display = 'none';
+  }
+});
+
+// Event listener for the "Save Link" button
+document.getElementById('save-link-btn').addEventListener('click', addLink);
+
+// Event listener for toggle delete button
+document.getElementById('toggle-delete-btn').addEventListener('click', toggleDeleteMode);
+
+// Initial render of the links when the page loads
+document.addEventListener('DOMContentLoaded', renderLinks);
