@@ -363,8 +363,8 @@ document.getElementById('add-link-btn').addEventListener('click', () => {
   if (addLinkForm.style.display === 'none' || addLinkForm.style.display === '') {
     addLinkForm.style.display = 'block';
   } else {
-   // Hide the error message
- addLinkForm.style.display = 'none';
+    // Hide the error message
+    addLinkForm.style.display = 'none';
   }
 });
 
