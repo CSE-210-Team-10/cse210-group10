@@ -1,12 +1,78 @@
-import { authService } from '../js/auth.js';
-import { standardizeString } from '../js/library.js';
+import TaskStore from '../js/task/crud.js';
 import { TaskItem } from '../components/task-item/index.js';
+import { TaskForm } from '../components/task-form/index.js';
+import { authService } from '../js/auth.js';
+import { setTheme, getTheme } from '../js/local-storage.js';
 
+import { main as filterMain } from './filters.js';
+import { renderTaskPanels } from './render.js';
+
+/** @typedef { import('../js/task/index.js').Task } Task */
 /** @typedef { import('../js/auth.js').UserData } User */
 
-console.log(TaskItem.name);
-console.log(standardizeString('test'));
-authService.subscribeToAuthChanges(authEventHandler);
+/**
+ * @typedef { object } TaskFormData
+ * @property { string } id - ID of the task
+ * @property { string } taskName - Name/title of the task
+ * @property { 'high' | 'medium' | 'low' } priority - Priority level of the task
+ * @property { string[] } tags - Array of tags associated with the task
+ * @property { string } dueDate - Due date string from the form
+ * @property { string } description - Description of the task
+ */
+
+/** @type { 'create' | 'edit' | null } current state of the task form */
+let taskFormMode = null;
+
+document.addEventListener('DOMContentLoaded', main);
+
+/**
+ *
+ */
+export function main() {
+  authService.subscribeToAuthChanges(authEventHandler);
+
+  /** @type { TaskForm } */
+  const taskForm = document.querySelector('task-form');
+
+  const darkModeToggle = document.querySelector('button:has(i.fa-moon)');
+  const lightModeToggle = document.querySelector('button:has(i.fa-sun)');
+  const createTaskBtn = document.querySelector('#create-task-btn');
+
+  createTaskBtn.addEventListener('click', openTaskForm);
+  taskForm.addEventListener(TaskForm.taskFormSubmitEvent, handleTaskFormSubmit);
+  document.addEventListener(TaskItem.editTaskEvent, handleTaskEdit);
+  document.addEventListener(TaskItem.deleteTaskEvent, handleTaskDelete);
+  document.addEventListener(TaskItem.completeTaskEvent, handleTaskCompleted);
+
+  darkModeToggle.addEventListener('click', () => renderTheme('dark'));
+  lightModeToggle.addEventListener('click', () => renderTheme('light'));
+
+  filterMain();
+  renderTheme(getTheme());
+}
+
+/**
+ * Set the theme to the one user wants
+ * @param { 'dark' | 'light' } theme The them that user wants to set
+ */
+function renderTheme(theme) {
+  /** @type { HTMLButtonElement } */
+  const darkModeToggle = document.querySelector('button:has(i.fa-moon)');
+
+  /** @type { HTMLButtonElement } */
+  const lightModeToggle = document.querySelector('button:has(i.fa-sun)');
+
+  const isDarkMode = theme === 'dark';
+
+  if (isDarkMode) document.documentElement.classList.add('dark-mode');
+  else document.documentElement.classList.remove('dark-mode');
+
+  darkModeToggle.ariaDisabled = String(!isDarkMode);
+
+  lightModeToggle.ariaDisabled = String(isDarkMode);
+
+  setTheme(theme);
+}
 
 /**
  * Redirect user to the login page
@@ -21,16 +87,7 @@ function redirectToLogin() {
  */
 async function renderPage(user) {
   console.log(user);
-
-  const token = user.accessToken;
-
-  console.log(token); 
-
-  const dataIssues = await getIssues(token, owner, repo);
-  const dataPulls = await getPullRequests(token, owner, repo);
-  
-  console.log(dataIssues);
-  console.log(dataPulls);
+  renderTaskPanels(TaskStore.getAllTasks());
 }
 
 /**
@@ -48,66 +105,116 @@ function authEventHandler(event, user) {
   }
 }
 
-//Constant variables just for proof of concept, remove when deploying/releasing 
-const owner = 'CSE-210-Team-10';
-const repo = 'group10-esc012';
+/**
+ * Open up the create task form for user to create a new task
+ */
+function openTaskForm() {
+  /** @type { TaskForm } */
+  const taskForm = document.querySelector('task-form');
+  taskFormMode = 'create';
+  taskForm.show();
+}
 
 /**
- * Fetch pull request data from specified parameters.
- * @param { string } token The SSO token generated
- * @param { string } owner The owner of the repo
- * @param { string } repo The repo that the user wants to pull from
- * @returns { string } returns the pull requests data in json format
+ * Convert form data to task format
+ * @param { TaskFormData } formData The data from the form submission event
+ * @returns { Omit<Task, 'id'> & { id?: string } } Formatted task data
  */
-async function getPullRequests(token, owner, repo) {
-  const url = `https://api.github.com/repos/${owner}/${repo}/pulls`;
+function formatTaskData(formData) {
+  return {
+    id: formData.id,
+    title: formData.taskName,
+    type: 'personal',
+    done: false,
+    priority: formData.priority,
+    tags: formData.tags,
+    dueDate: new Date(formData.dueDate),
+    description: formData.description,
+    url: '',
+  };
+}
+
+/**
+ * Handle the fired event when the user creates or edits a task
+ * @param { CustomEvent } e The custom event object passed from task-form
+ */
+function handleTaskFormSubmit(e) {
+  if (!taskFormMode)
+    throw new Error(
+      'Task form mode should not be null when the task form is submitted.'
+    );
+
+  const taskData = formatTaskData(e.detail);
 
   try {
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `${token}`,
-        'X-GitHub-Api-Version': '2022-11-28'
-      }
-    });
-    if (!response.ok) {
-      throw new Error('Failed to fetch pull requests.');
+    if (taskFormMode === 'create') {
+      TaskStore.createTask(taskData);
+      renderTaskPanels(TaskStore.getAllTasks());
+    } else if (taskFormMode === 'edit') {
+      const taskId = taskData.id;
+
+      if (!taskId) throw new Error('Task ID is required for edit mode');
+
+      console.log(taskData);
+      const updates = {
+        title: taskData.title,
+        dueDate: taskData.dueDate,
+        description: taskData.description,
+        priority: taskData.priority,
+        tags: taskData.tags,
+        url: '', // TODO: Implement URL handling when necessary. Currently not used in the task data.
+      };
+
+      TaskStore.updateTask(Number(taskId), updates);
+      renderTaskPanels(TaskStore.getAllTasks());
     }
-
-    const data = await response.json();
-    return data;
-
-  }
-  catch (error) {
-    console.log(error);
+  } catch (error) {
+    console.error('Failed to process task:', error);
   }
 }
 
 /**
- * Fetch issue data from specified parameters.
- * @param { string } token The SSO token generated
- * @param { string } owner The owner of the repo
- * @param { string } repo The repo that the user wants to pull from
- * @returns { string } returns the issues data in json format
+ * Handle the fired event when the user wants to edit a task
+ * @param { CustomEvent } e The custom event object passed from task-item
  */
-async function getIssues(token, owner, repo) {
-  const url = `https://api.github.com/repos/${owner}/${repo}/issues`;
+function handleTaskEdit(e) {
+  /** @type { TaskForm } */
+  const taskForm = document.querySelector('task-form');
+  taskForm.fill({
+    id: e.detail.id,
+    taskName: e.detail.title,
+    priority: e.detail.priority,
+    tags: e.detail.tags,
+    dueDate: e.detail.date,
+    description: e.detail.description,
+  });
+  taskFormMode = 'edit';
+  taskForm.show();
+}
 
-  try {
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `${token}`,
-        'X-GitHub-Api-Version': '2022-11-28'
-      }
-    });
-    if (!response.ok) {
-      throw new Error('Failed to fetch issues.');
-    }
+/**
+ * Handle the fired event when the user wants to delete a task
+ * @param { CustomEvent } e The custom event object passed from task-item
+ */
+function handleTaskDelete(e) {
+  const taskId = e.detail.id;
 
-    const data = await response.json();
-    return data;
+  if (!taskId) throw new Error('Task ID is required for delete mode');
 
-  }
-  catch (error) {
-    console.log(error);
-  }
+  TaskStore.deleteTask(Number(taskId));
+
+  renderTaskPanels(TaskStore.getAllTasks());
+}
+
+/**
+ * Handle the fired event when the user wants to mark a task as completed
+ * @param { CustomEvent } e The custom event object passed from task-item
+ */
+function handleTaskCompleted(e) {
+  const taskId = e.detail.id;
+
+  if (!taskId) throw new Error('Task ID is required for completion mode');
+
+  TaskStore.updateTask(Number(taskId), { done: true });
+  renderTaskPanels(TaskStore.getAllTasks());
 }

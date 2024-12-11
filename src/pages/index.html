@@ -4,220 +4,201 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ByteBoard</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
     <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
     <link rel="alternate icon" type="image/png" href="/static/favicon.png" />
   </head>
   <body>
-    <aside id="links">
-      <!-- TODO: make this dynamic -->
-      <ul>
-        <li>
-          <a href="https://github.com/davidtso1219" target="_blank">
-            <img src="/static/github-mark.svg" alt="Icon description" />
-            GitHub
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/davidtso1219" target="_blank">
-            <img src="/static/github-mark.svg" alt="Icon description" />
-            GitHub
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/davidtso1219" target="_blank">
-            <img src="/static/github-mark.svg" alt="Icon description" />
-            GitHub
-          </a>
-        </li>
-      </ul>
-    </aside>
+    <!-- <aside id="links"></aside> -->
+    <header>
+      <div id="logo-heading">
+        <img src="/static/logo.svg" alt="Logo" />
+        <h1>ByteBoard</h1>
+      </div>
+      <button>Sign Out</button>
+      <div id="view-toggle">
+        <button class="all-tasks-action-btn" aria-disabled="false">
+          <i class="fa-solid fa-sun"></i>
+        </button>
+        <button class="all-tasks-action-btn" aria-disabled="true">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </header>
     <main>
+      <nav>
+        <ul class="links">
+          <li>
+            <a href="#" class="active">
+              <i class="fa-solid fa-list"></i>
+              Task View
+            </a>
+          </li>
+          <li>
+            <a href="/chatbot">
+              <i class="fa-solid fa-list"></i>
+              DuckyAI
+            </a>
+          </li>
+        </ul>
+      </nav>
       <section id="upcoming-deadlines">
-        <h2>Upcoming Deadline</h2>
-        <ul class="tasks">
-          <li>
-            <task-item
-              data-id="1"
-              data-title="Review PR #1"
-              data-priority="High"
-              data-tags='["PR", "Repo #1"]'
-              data-date="11/20/2024"
-            >
-              Read through Chapter 8: Data Structures and Algorithms. Focus on
-              sections covering Red-Black Trees and B-Trees. Prepare summary
-              notes for discussion.
-            </task-item>
+        <h2>Upcoming Deadlines</h2>
+        <ul class="deadlines">
+          <li class="deadline" id="deadline-overdue">
+            <div>Overdue</div>
+            <ul class="deadline-tags">
+              <li class="tag tag-priority-high">High: 2</li>
+              <li class="tag tag-priority-medium">Medium: 4</li>
+              <li class="tag tag-priority-low">Low: 10</li>
+            </ul>
           </li>
-          <li>
-            <task-item
-              data-id="1"
-              data-title="Review PR #1"
-              data-priority="High"
-              data-tags='["PR", "Repo #1"]'
-              data-date="11/20/2024"
-            >
-              Read through Chapter 8: Data Structures and Algorithms. Focus on
-              sections covering Red-Black Trees and B-Trees. Prepare summary
-              notes for discussion.
-            </task-item>
+          <li class="deadline">
+            <div>Monday, Dec 2</div>
+            <ul class="deadline-tags">
+              <li class="tag tag-priority-high">High: 2</li>
+              <li class="tag tag-priority-low">Low: 1</li>
+            </ul>
           </li>
-          <li>
-            <task-item
-              data-id="1"
-              data-title="Review PR #1"
-              data-priority="High"
-              data-tags='["PR", "Repo #1"]'
-              data-date="11/20/2024"
-            >
-              Read through Chapter 8: Data Structures and Algorithms. Focus on
-              sections covering Red-Black Trees and B-Trees. Prepare summary
-              notes for discussion.
-            </task-item>
+          <li class="deadline">
+            <div>Tuesday, Dec 3</div>
+            <ul class="deadline-tags">
+              <li class="tag tag-priority-high">High: 2</li>
+              <li class="tag tag-priority-medium">Medium: 4</li>
+            </ul>
+          </li>
+          <li class="deadline">
+            <div>Wednesday, Dec 4</div>
+            <ul class="deadline-tags">
+              <li class="tag tag-priority-high">High: 2</li>
+              <li class="tag tag-priority-low">Low: 1</li>
+            </ul>
+          </li>
+          <li class="deadline">
+            <div>Thursday, Dec 5</div>
+            <ul class="deadline-tags">
+              <li class="tag tag-priority-high">High: 2</li>
+              <li class="tag tag-priority-low">Low: 1</li>
+            </ul>
+          </li>
+          <li class="deadline">
+            <div>Friday, Dec 6</div>
+            <ul class="deadline-tags">
+              <li class="tag tag-priority-high">High: 2</li>
+              <li class="tag tag-priority-low">Low: 1</li>
+            </ul>
+          </li>
+          <li class="deadline">
+            <div>Saturday, Dec 7</div>
+            <ul class="deadline-tags">
+              <li class="tag tag-priority-high">High: 2</li>
+              <li class="tag tag-priority-low">Low: 1</li>
+            </ul>
+          </li>
+          <li class="deadline">
+            <div>Sunday, Dec 8</div>
+            <ul class="deadline-tags">
+              <li class="tag tag-priority-high">High: 2</li>
+              <li class="tag tag-priority-medium">Medium: 4</li>
+              <li class="tag tag-priority-low">Low: 1</li>
+            </ul>
           </li>
         </ul>
       </section>
-      <section id="all-tasks">
-        <h2>All Tasks</h2>
+      <aside id="links-section">
+        <h2>Links</h2>
+        <ul class="links">
+          <li>
+            <a href="https://github.com/davidtso1219" target="_blank">
+              <img src="/static/github-mark.svg" alt="Icon description" />
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/davidtso1219" target="_blank">
+              <img src="/static/github-mark.svg" alt="Icon description" />
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/davidtso1219" target="_blank">
+              <img src="/static/github-mark.svg" alt="Icon description" />
+              GitHub
+            </a>
+          </li>
+        </ul>
         <div class="controls">
-          <input
-            type="search"
-            placeholder="Search Tasks..."
-            aria-label="Search tasks"
-          />
-          <div id="view-toggle">
-            <button class="all-tasks-action-btn">
-              <i class="fa-solid fa-list"></i>
-            </button>
-            <button class="all-tasks-action-btn" disabled>
-              <i class="fa-solid fa-calendar"></i>
-            </button>
-          </div>
+          <button class="small-btn"><i class="fa-solid fa-pencil"></i></button>
+          <button class="small-btn"><i class="fa-solid fa-add"></i></button>
+        </div>
+      </aside>
+      <div id="task-panels">
+        <div id="tasks-filters">
           <button class="all-tasks-action-btn">
             <i class="fa-solid fa-filter"></i>
           </button>
+          <input
+            type="search"
+            placeholder="Search by Task/Tag..."
+            aria-label="Search tasks"
+          />
         </div>
 
-        <h3 class="github-header">GitHub Tasks</h3>
-        <div class="count github-count">
-          <span>
-            <strong>8</strong>
-            done this month
-          </span>
-        </div>
+        <section id="github-task-panel">
+          <h2>GitHub Tasks</h2>
+          <ul class="tasks">
+            <li>
+              <task-item
+                data-id="0"
+                data-title="Review PR #1"
+                data-priority="High"
+                data-tags="['PR', 'Repo #1']"
+                data-date="11/20/2024"
+              >
+                Read through Chapter 8: Data Structures and Algorithms. Focus on
+                sections covering Red-Black Trees and B-Trees. Prepare summary
+                notes for discussion.
+              </task-item>
+            </li>
+            <li>
+              <task-item
+                data-id="1"
+                data-title="Review PR #1"
+                data-priority="High"
+                data-tags="['PR', 'Repo #1']"
+                data-date="11/20/2024"
+              >
+                Read through Chapter 8: Data Structures and Algorithms. Focus on
+                sections covering Red-Black Trees and B-Trees. Prepare summary
+                notes for discussion.
+              </task-item>
+            </li>
+            <li>
+              <task-item
+                data-id="1"
+                data-title="Review PR #1"
+                data-priority="High"
+                data-tags="['PR', 'Repo #1']"
+                data-date="11/20/2024"
+              >
+                Read through Chapter 8: Data Structures and Algorithms. Focus on
+                sections covering Red-Black Trees and B-Trees. Prepare summary
+                notes for discussion.
+              </task-item>
+            </li>
+          </ul>
+        </section>
 
-        <ul class="tasks github-list">
-          <li>
-            <task-item
-              data-id="1"
-              data-title="Review PR #1"
-              data-priority="High"
-              data-tags='["PR", "Repo #1"]'
-              data-date="11/20/2024"
-            >
-              Read through Chapter 8: Data Structures and Algorithms. Focus on
-              sections covering Red-Black Trees and B-Trees. Prepare summary
-              notes for discussion.
-            </task-item>
-          </li>
-          <li>
-            <task-item
-              data-id="1"
-              data-title="Review PR #1"
-              data-priority="High"
-              data-tags='["PR", "Repo #1"]'
-              data-date="11/20/2024"
-            >
-              Read through Chapter 8: Data Structures and Algorithms. Focus on
-              sections covering Red-Black Trees and B-Trees. Prepare summary
-              notes for discussion.
-            </task-item>
-          </li>
-          <li>
-            <task-item
-              data-id="1"
-              data-title="Review PR #1"
-              data-priority="High"
-              data-tags='["PR", "Repo #1"]'
-              data-date="11/20/2024"
-            >
-              Read through Chapter 8: Data Structures and Algorithms. Focus on
-              sections covering Red-Black Trees and B-Trees. Prepare summary
-              notes for discussion.
-            </task-item>
-          </li>
-        </ul>
+        <section id="personal-task-panel">
+          <h2>Personal Tasks</h2>
+          <button id="create-task-btn">Create Task</button>
+          <ul class="tasks"></ul>
+        </section>
+      </div>
 
-        <h3 class="personal-header">Personal Tasks</h3>
-        <div class="personal-controls">
-          <div class="count">
-            <span>
-              <strong>30</strong>
-              done this month
-            </span>
-          </div>
-          <button class="all-tasks-action-btn">Create Task</button>
-        </div>
-
-        <ul class="tasks personal-list">
-          <li>
-            <task-item
-              data-id="1"
-              data-title="Review PR #1"
-              data-priority="High"
-              data-tags='["PR", "Repo #1"]'
-              data-date="11/20/2024"
-              interactive
-            >
-              Read through Chapter 8: Data Structures and Algorithms. Focus on
-              sections covering Red-Black Trees and B-Trees. Prepare summary
-              notes for discussion.
-            </task-item>
-          </li>
-          <li>
-            <task-item
-              data-id="2"
-              data-title="Review PR #1"
-              data-priority="High"
-              data-tags='["Issue", "Repo #1"]'
-              data-date="11/20/2024"
-              interactive
-            >
-              Read through Chapter 8: Data Structures and Algorithms. Focus on
-              sections covering Red-Black Trees and B-Trees. Prepare summary
-              notes for discussion.
-            </task-item>
-          </li>
-          <li>
-            <task-item
-              data-id="2"
-              data-title="Review PR #1"
-              data-priority="High"
-              data-tags='["Issue", "Repo #1"]'
-              data-date="11/20/2024"
-              interactive
-            >
-              Read through Chapter 8: Data Structures and Algorithms. Focus on
-              sections covering Red-Black Trees and B-Trees. Prepare summary
-              notes for discussion.
-            </task-item>
-          </li>
-          <li>
-            <task-item
-              data-id="2"
-              data-title="Review PR #1"
-              data-priority="High"
-              data-tags='["Issue", "Repo #1"]'
-              data-date="11/20/2024"
-              interactive
-            >
-              Read through Chapter 8: Data Structures and Algorithms. Focus on
-              sections covering Red-Black Trees and B-Trees. Prepare summary
-              notes for discussion.
-            </task-item>
-          </li>
-        </ul>
-      </section>
+      <task-form></task-form>
+      <filter-form></filter-form>
     </main>
     <script type="module" src="/index.js"></script>
     <script

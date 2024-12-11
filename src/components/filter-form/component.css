@@ -1,0 +1,120 @@
+dialog {
+	margin: auto;
+	border: var(--border-width) solid var(--border-primary);
+	border-radius: var(--border-radius-primary);
+}
+
+dialog::backdrop {
+	background-color: rgba(0, 0, 0, 0.75);
+}
+
+form {
+	width: 20rem;
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--gap));
+	padding: var(--padding);
+}
+
+label {
+	display: block;
+	color: var(--text-primary);
+}
+
+.options {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.options label {
+	flex: 1;
+	text-align: center;
+	vertical-align: middle;
+	padding: var(--padding);
+	background-color: var(--bg-accent-light);
+}
+
+.options label:first-of-type {
+	border-radius: var(--border-radius-primary) 0 0 var(--border-radius-primary);
+}
+
+.options label:last-of-type {
+	border-radius: 0 var(--border-radius-primary) var(--border-radius-primary) 0;
+}
+
+#github-options label:first-of-type {
+	border-right: var(--border-width) solid var(--border-primary);
+}
+
+input[type="checkbox"] {
+	appearance: none;
+	display: none;
+}
+
+input[type="checkbox"]:checked+label {
+	background: var(--bg-accent);
+	color: var(--text-accent);
+}
+
+/* High priority */
+#priority-high+label {
+	background: var(--tag-bg-color-high);
+	color: var(--tag-text-color-high);
+}
+
+#priority-high:checked+label {
+	background: var(--tag-text-color-high);
+	color: var(--tag-bg-color-high);
+}
+
+/* Medium priority */
+#priority-medium+label {
+	background: var(--tag-bg-color-medium);
+	color: var(--tag-text-color-medium);
+}
+
+#priority-medium:checked+label {
+	background-color: var(--tag-bg-color-medium-inverted);
+	color: var(--tag-bg-color-medium);
+}
+
+/* Low priority */
+#priority-low+label {
+	background: var(--tag-bg-color-low);
+	color: var(--tag-text-color-low);
+}
+
+#priority-low:checked+label {
+	background: var(--tag-text-color-low);
+	color: var(--tag-bg-color-low);
+}
+
+select {
+	padding: calc(var(--padding) / 2);
+	border: var(--border-width) solid var(--border-secondary);
+	border-radius: var(--border-radius-primary);
+}
+
+.buttons {
+	display: flex;
+	gap: 1rem;
+}
+
+button {
+	flex: 1;
+	padding: 0.5rem;
+	border: none;
+	border-radius: 0.5rem;
+	cursor: pointer;
+}
+
+.reset {
+	background: var(--tag-text-color-high);
+	color: white;
+}
+
+.reset:hover {
+	color: var(--tag-text-color-high);
+	background: var(--tag-bg-color-high);
+}
