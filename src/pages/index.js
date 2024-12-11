@@ -188,8 +188,6 @@ function handleTaskCompleted(e) {
   renderTaskPanels(TaskStore.getAllTasks());
 }
 /***link*** */
-/****link****/
-/****link****/
 const STORAGE_KEY = 'byteboard_links';
 
 /**
@@ -203,9 +201,7 @@ function getAllLinks() {
 
 /**
  * Function to render links in the sidebar.
- * This updates the DOM with the list of links stored in localStorage.
- * 
- * @function
+ * Updates the DOM with the list of links stored in localStorage.
  * @returns {void} This function does not return any value.
  */
 function renderLinks() {
@@ -229,10 +225,11 @@ function renderLinks() {
 
     const linkButton = document.createElement('button');
     linkButton.classList.add('link-button');
-    linkButton.textContent = link.title; 
+    linkButton.textContent = link.title;
+
     /**
-    *
-    */
+     *
+     */
     linkButton.onclick = function () {
       window.open(link.url, '_blank');
     };
@@ -255,8 +252,7 @@ function renderLinks() {
 /**
  * Function to add a new link to the list.
  * Saves the new link to localStorage and re-renders the links list.
- * @function
- * @returns {void} 
+ * @returns {void} This function does not return any value.
  */
 function addLink() {
   const titleInput = document.getElementById('link-title');
@@ -269,31 +265,27 @@ function addLink() {
     const url = urlInput.value.trim();
     const iconUrl = iconUrlInput.value.trim();
 
-    // Validate the URL
-    if (!isValidUrl(iconUrl)) {
-      errorMessage.style.display = 'block';  // Show error if URL is invalid
-      titleInput.value = '';
-      urlInput.value = '';
-      iconUrlInput.value = ''; // Show error if URL is invalid
+    // Validate the URLs
+    if (!isValidUrl(iconUrl) && iconUrl !== '') {
+      errorMessage.textContent = 'Invalid icon URL!';
+      errorMessage.style.display = 'block'; // Show error message
       return;
-    } else {
-      errorMessage.style.display = 'none';  // Hide error if URL is valid
     }
+
     if (!isValidUrl(url)) {
-      errorMessage.style.display = 'block'; // Reset the form inputs after displaying the error
-      titleInput.value = '';
-      urlInput.value = '';
-      iconUrlInput.value = ''; // Show error if URL is invalid
+      errorMessage.textContent = 'Invalid URL!';
+      errorMessage.style.display = 'block'; // Show error message
       return;
-    } else {
-      errorMessage.style.display = 'none';  // Hide error if URL is valid
     }
+
+    errorMessage.style.display = 'none'; // Hide the error message
+
     // Create a new link object
     const newLink = {
       id: Date.now(), // Unique ID based on timestamp
       title: title,
       url: url,
-      iconUrl: iconUrl || null,  // Use the provided icon URL or null if not provided
+      iconUrl: iconUrl || null, // Use provided icon URL or null if not provided
     };
 
     const links = getAllLinks();
@@ -310,24 +302,24 @@ function addLink() {
     // Hide the form after saving
     document.getElementById('add-link-form').style.display = 'none';
   } else {
-    console.log('Please enter both title and URL');
+    console.log('Invalid input fields. Please check and try again.');
   }
 }
 
 /**
- * Function to check if the URL is valid
+ * Function to check if the URL is valid.
+ * @param {string} url - The URL to validate.
+ * @returns {boolean} Returns true if the URL is valid, otherwise false.
  */
 function isValidUrl(url) {
-  const urlPattern = /^(https?:\/\/)([\w\d\-]+\.)+[\w]{2,}(\/.*)*(\.(png|jpg|jpeg|gif|webp|svg))?$/i;
+  const urlPattern = /^(https?:\/\/)([\w\d-]+\.)+[\w]{2,}(\/.*)*(\.(png|jpg|jpeg|gif|webp|svg))?$/i;
   return urlPattern.test(url);
 }
-
 
 /**
  * Function to toggle the visibility of delete icons in the sidebar.
  * Shows or hides the delete icons for all links.
- * @function
- * @returns {void} 
+ * @returns {void} This function does not return any value.
  */
 function toggleDeleteMode() {
   const deleteIcons = document.querySelectorAll('.delete-icon');
@@ -372,13 +364,16 @@ document.getElementById('add-link-btn').addEventListener('click', () => {
 
 /**
  * Event listener for the "Close" button inside the "Add Link" form.
-/**
- * Event listener for the "Close" button inside the "Add Link" form.
  * Hides the "Add Link" form when clicked.
  */
 document.getElementById('close-popup-btn').addEventListener('click', () => {
   document.getElementById('add-link-form').style.display = 'none';
 });
+
+/**
+ * Event listener for clicks outside of the "Add Link" form.
+ * Closes the form if the user clicks outside of the modal.
+ */
 
 /**
  * Event listener for clicks outside of the "Add Link" form.
@@ -408,3 +403,4 @@ document.getElementById('toggle-delete-btn').addEventListener('click', toggleDel
  * This ensures that the list of links is populated from localStorage on page load.
  */
 document.addEventListener('DOMContentLoaded', renderLinks);
+
