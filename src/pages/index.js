@@ -233,7 +233,6 @@ function renderLinks() {
     linkList.appendChild(li); // Add each link with the delete button
   });
 }
-
 /**
  * Function to add a new link to the list.
  * Saves the new link to localStorage and re-renders the links list.
