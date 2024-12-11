@@ -187,6 +187,8 @@ function handleTaskCompleted(e) {
   TaskStore.updateTask(Number(taskId), { done: true });
   renderTaskPanels(TaskStore.getAllTasks());
 }
+/***link*** */
+/****link****/
 /****link****/
 const STORAGE_KEY = 'byteboard_links';
 
@@ -215,12 +217,22 @@ function renderLinks() {
     const li = document.createElement('li');
     li.classList.add('link-item');
 
+    // Add icon if available
+    if (link.iconUrl) {
+      const iconImage = document.createElement('img');
+      iconImage.src = link.iconUrl;
+      iconImage.alt = 'Link Icon';
+      iconImage.style.width = '24px';  // Set size for icon
+      iconImage.style.height = '24px'; // Set size for icon
+      li.appendChild(iconImage);  // Append the icon to the list item
+    }
+
     const linkButton = document.createElement('button');
     linkButton.classList.add('link-button');
-    linkButton.textContent = link.title;
+    linkButton.textContent = link.title; 
     /**
-     *
-     */
+    *
+    */
     linkButton.onclick = function () {
       window.open(link.url, '_blank');
     };
@@ -249,33 +261,67 @@ function renderLinks() {
 function addLink() {
   const titleInput = document.getElementById('link-title');
   const urlInput = document.getElementById('link-url');
+  const iconUrlInput = document.getElementById('link-icon-url'); // New input field for icon URL
+  const errorMessage = document.getElementById('url-error-message');
 
-  if (titleInput instanceof HTMLInputElement && urlInput instanceof HTMLInputElement) {
+  if (titleInput instanceof HTMLInputElement && urlInput instanceof HTMLInputElement && iconUrlInput instanceof HTMLInputElement) {
     const title = titleInput.value.trim();
     const url = urlInput.value.trim();
-    const links = getAllLinks();
+    const iconUrl = iconUrlInput.value.trim();
+
+    // Validate the URL
+    if (!isValidUrl(iconUrl)) {
+      errorMessage.style.display = 'block';  // Show error if URL is invalid
+      titleInput.value = '';
+      urlInput.value = '';
+      iconUrlInput.value = ''; // Show error if URL is invalid
+      return;
+    } else {
+      errorMessage.style.display = 'none';  // Hide error if URL is valid
+    }
+    if (!isValidUrl(url)) {
+      errorMessage.style.display = 'block'; // Reset the form inputs after displaying the error
+      titleInput.value = '';
+      urlInput.value = '';
+      iconUrlInput.value = ''; // Show error if URL is invalid
+      return;
+    } else {
+      errorMessage.style.display = 'none';  // Hide error if URL is valid
+    }
+    // Create a new link object
     const newLink = {
       id: Date.now(), // Unique ID based on timestamp
       title: title,
       url: url,
+      iconUrl: iconUrl || null,  // Use the provided icon URL or null if not provided
     };
 
+    const links = getAllLinks();
     links.push(newLink);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
 
     // Clear the input fields
     titleInput.value = '';
     urlInput.value = '';
+    iconUrlInput.value = '';
 
     renderLinks(); // Re-render the list after adding a new link
 
-    // Hide the input fields after saving
+    // Hide the form after saving
     document.getElementById('add-link-form').style.display = 'none';
   } else {
-    // Use console.log instead of alert for better UX
     console.log('Please enter both title and URL');
   }
 }
+
+/**
+ * Function to check if the URL is valid
+ */
+function isValidUrl(url) {
+  const urlPattern = /^(https?:\/\/)([\w\d\-]+\.)+[\w]{2,}(\/.*)*(\.(png|jpg|jpeg|gif|webp|svg))?$/i;
+  return urlPattern.test(url);
+}
+
 
 /**
  * Function to toggle the visibility of delete icons in the sidebar.
@@ -287,7 +333,6 @@ function toggleDeleteMode() {
   const deleteIcons = document.querySelectorAll('.delete-icon');
 
   deleteIcons.forEach(icon => {
-    // Ensure that 'icon' is an HTMLElement
     if (icon instanceof HTMLElement) {
       if (icon.style.display === 'none' || icon.style.display === '') {
         icon.style.display = 'inline';
@@ -317,8 +362,7 @@ function deleteLink(linkId) {
  */
 document.getElementById('add-link-btn').addEventListener('click', () => {
   const addLinkForm = document.getElementById('add-link-form');
-
-  // Toggle the form visibility
+  
   if (addLinkForm.style.display === 'none' || addLinkForm.style.display === '') {
     addLinkForm.style.display = 'block';
   } else {
@@ -328,11 +372,14 @@ document.getElementById('add-link-btn').addEventListener('click', () => {
 
 /**
  * Event listener for the "Close" button inside the "Add Link" form.
+/**
+ * Event listener for the "Close" button inside the "Add Link" form.
  * Hides the "Add Link" form when clicked.
  */
 document.getElementById('close-popup-btn').addEventListener('click', () => {
   document.getElementById('add-link-form').style.display = 'none';
 });
+
 /**
  * Event listener for clicks outside of the "Add Link" form.
  * Closes the form if the user clicks outside of the modal.
@@ -343,6 +390,7 @@ window.addEventListener('click', (e) => {
     modal.style.display = 'none';
   }
 });
+
 /**
  * Event listener for the "Save Link" button.
  * Triggers the addLink function when the button is clicked.

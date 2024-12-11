@@ -224,7 +224,10 @@ aside .controls {
 h2 {
 	text-align: center;
   }
-
+  .link-item img {
+	margin-right: 10px;  /* Space between the icon and link title */
+	border-radius: 50%;  /* Make the icon circular */
+  }
   #link-title {
 	color: green;
   }
@@ -241,7 +244,7 @@ h2 {
   
   #link-list li {
 	display: flex;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	align-items: center;
 	padding: 10px;
 	margin: 5px 0;
@@ -264,9 +267,12 @@ h2 {
   }
   
  #link-list button {
-	border: none;
-	background-color: transparent;
-	color: var(--button-bg-color);
+    border: none;
+    background-color: transparent;
+    color: var(--button-bg-color);
+    width: 80px;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    text-align: left;
 }
 
 #link-list button:hover {
@@ -316,7 +322,21 @@ h2 {
 	list-style-type: none;
 	padding-left: 0;
   }
+  .link-item img {
+	width: 24px; /* Set the width of the icon */
+	height: 24px; /* Set the height of the icon */
+	margin-right: 10px; /* Add some space between the icon and the title */
+	vertical-align: middle; /* Align the icon vertically with the text */
+	margin-right: 10px;
+    vertical-align: middle;
+    margin-left: 30px;
+  }
   
+  /* Optional: If you want to make the icon more prominent */
+  .link-button img {
+	width: 32px; /* Increase the width for better visibility */
+	height: 32px; /* Increase the height */
+  }
   /* Popup modal styles */
   .add-link-form {
 	display: none; /* Hidden by default */
@@ -345,13 +365,13 @@ h2 {
 	top: 50%;
 	left: 50%;
 	transform:translate(-50%, -50%);
-	animation: fadeIn 0.3s ease-in-out; /* Smooth fade-in animation */
+
   }
 
   /* Input fields styling */
   .add-link-form input[type="text"],
   .add-link-form input[type="url"] {
-	width: 95%;
+	width: 75%;
 	padding: 10px;
 	margin-bottom:solid #ddd;
 	font-size: 14px;
@@ -366,7 +386,7 @@ h2 {
   }
   
   .formbox{
-	padding : 4rem 4rem;
+	padding : 2rem 2rem;
   
   }
   /* Buttons styling */
@@ -386,20 +406,8 @@ h2 {
 	background-color: #45a049;
   }
 
-  #add-link-btn{
-	margin:0px 10px;
-  }
-  /* Fade-in animation */
-  @keyframes fadeIn {
-	from {
-	  opacity: 0;
-	  transform: scale(0.95);
-	}
-	to {
-	  opacity: 1;
-	 
-	}  
-  }
+
+
   
   .close-btn {
 	position: absolute;
@@ -409,4 +417,36 @@ h2 {
 	cursor: pointer;
 	color: #555;
   }
+
+  .imginput{
+	border:#45a049 solid 1.5px;
+	border-radius: var(--border-radius-primary);
+	margin: 10px;
+  }
+
+  .imginput img{
+	/* padding-top: 10px; */
+	vertical-align: middle;
+  }
   
+  .imginput input{
+	border: 0px;
+	margin-top:10px;
+	/* width: 70%; */
+  }
+
+  .adddelete{
+	border: 0px;
+	width: 36px;
+	height: 36px;
+  }
+  #toggle-delete-btn{
+	margin: 0px 0px 0px 60px;
+
+  }
+  #add-link-btn{
+	margin-bottom: 0px;
+  }
+  #url-error-message{
+	color:#45a049; display: none;
+  }

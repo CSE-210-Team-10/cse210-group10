@@ -107,18 +107,32 @@
         </ul>
       </section>
       <aside id="links-section">
-        <h2>Links <button id="add-link-btn">&#43;</button> <button id="toggle-delete-btn">Delete</button></h2>
+        <h2>Links 
+        <input type="image" src="../static/Vector.png" class="submit adddelete" id="toggle-delete-btn" />
+        <input type="image" src="../static/Add Square 04.png" class="submit adddelete" id="add-link-btn" /></h2>
         <ul id="link-list"></ul>
-        
+      
         <!-- Initially hidden form for adding a new link -->
         <div class="add-link-form" id="add-link-form" style="display: none;">
-          <div class = "popup-content">
+          <div class="popup-content">
             <span class="close-btn" id="close-popup-btn">&times;</span>
-            <div class = "formbox">            
-              <input type="text" id="link-title" placeholder="Enter link title" />
-              <input type="url" id="link-url" placeholder="Enter link URL" />
-              <button id="save-link-btn">Save Link</button></div>
-
+            <div class="formbox">
+              <div class ="imginput">
+                <img src="../static/Bookmark.png">
+                <input type="text" id="link-title" placeholder="Enter Name" />
+              </div> 
+              <div class ="imginput">
+                <img src="../static/Link.png">
+                <input type="url" id="link-url" placeholder="Enter URL" />
+              </div> 
+              <div class ="imginput">
+                <img src="../static/Web.png">
+                <input type="url" id="link-icon-url" placeholder="Enter Icon URL" />
+              </div>            
+              <button id="save-link-btn">Save Link</button>
+              <!-- Error message for invalid URL -->
+              <div id="url-error-message">Please enter a valid URL.</div>
+            </div>
           </div>
         </div>
       </aside>
