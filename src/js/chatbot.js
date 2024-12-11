@@ -26,10 +26,11 @@ export async function fetchChatbotkey() {
 }
 
 /**
- * Reads and processes a JSON object containing tasks.
- * 
- * @returns {Promise<string>} A promise that resolves to a formatted string of tasks.
- * @throws {Error} If there is an issue processing the JSON data.
+ * Reads and formats task data from multiple sources
+ * @async
+ * @function readJsonFile
+ * @returns {Promise<string>} A formatted string containing all tasks/issues from localStorage and GitHub
+ * @throws {Error} If there is an issue processing the data.
  */
 async function readJsonFile() {
   try {
@@ -70,6 +71,20 @@ async function readJsonFile() {
         `)
       .join('\n')}`;
 
+    const pullRequests = await getPullRequests(githubToken, GITHUB_OWNER, GITHUB_REPO);
+    tasksString += `\n ${ pullRequests
+      .map(task => `
+              ID: ${task.title}
+              Type: ${task.type}
+              Title: ${task.title}
+              Status: ${task.done ? 'closed' : 'open'}
+              Description: ${task.description}
+              Due Date: ${task.dueDate}
+              Tags: ${task.tags.join(', ')}
+              Priority: ${task.priority}
+              Url: ${task.url}
+          `)
+      .join('\n')}`;
     return tasksString;
   } catch (error) {
     console.error('Error reading JSON file:', error);
