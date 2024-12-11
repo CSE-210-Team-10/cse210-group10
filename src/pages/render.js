@@ -36,19 +36,22 @@ export function renderTaskPanels(tasks) {
     '#personal-task-panel .tasks'
   );
 
+  const githubTasksList = document.querySelector('#github-task-panel .tasks');
+
   personalTasksList.innerHTML = '';
+  githubTasksList.innerHTML = '';
 
   // Sort tasks into appropriate lists
   tasks.forEach(task => {
     if (task.done) return;
 
-    const taskElement = createTaskElement(task, true);
-
     // Determine which list to add the task to
     if (task.type === 'personal') {
+      const taskElement = createTaskElement(task, true);
       personalTasksList.appendChild(taskElement);
     } else if (task.type === 'issue' || task.type === 'pr') {
-      // githubTasksList.appendChild(taskElement);
+      const taskElement = createTaskElement(task, false);
+      githubTasksList.appendChild(taskElement);
     }
   });
 }
