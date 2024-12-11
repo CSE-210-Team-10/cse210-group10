@@ -190,16 +190,21 @@ function handleTaskCompleted(e) {
 
 
 /****link****/
-
 const STORAGE_KEY = 'byteboard_links';
 
-// Helper function to get links from localStorage
+/**
+ * Helper function to get links from localStorage.
+ * @returns {Array} The array of links stored in localStorage.
+ */
 function getAllLinks() {
   const linksJson = localStorage.getItem(STORAGE_KEY);
   return linksJson ? JSON.parse(linksJson) : [];
 }
 
-// Function to render links in the sidebar
+/**
+ * Function to render links in the sidebar.
+ * This updates the DOM with the list of links stored in localStorage.
+ */
 function renderLinks() {
   const linkList = document.getElementById('link-list');
   const links = getAllLinks();
@@ -209,7 +214,6 @@ function renderLinks() {
     const li = document.createElement('li');
     li.classList.add('link-item');
 
-    // Create a clickable link button
     const linkButton = document.createElement('button');
     linkButton.classList.add('link-button');
     linkButton.textContent = link.title;
@@ -227,19 +231,20 @@ function renderLinks() {
     // Append elements to the list item
     li.appendChild(linkButton);
     li.appendChild(deleteIcon);
-    
+
     linkList.appendChild(li); // Add each link with the delete button
   });
 }
 
-// Function to add link
+/**
+ * Function to add a new link to the list.
+ * Saves the new link to localStorage and re-renders the links list.
+ */
 function addLink() {
+  const titleInput = document.getElementById('link-title');
+  const urlInput = document.getElementById('link-url');
 
-  const titleInput = document.getElementById('link-title') ;
-const urlInput = document.getElementById('link-url') ;
-
-
-  if (titleInput instanceof HTMLInputElement && urlInput instanceof HTMLInputElement)  {
+  if (titleInput instanceof HTMLInputElement && urlInput instanceof HTMLInputElement) {
     const title = titleInput.value.trim();
     const url = urlInput.value.trim();
     const links = getAllLinks();
@@ -261,10 +266,15 @@ const urlInput = document.getElementById('link-url') ;
     // Hide the input fields after saving
     document.getElementById('add-link-form').style.display = 'none';
   } else {
-    alert("Please enter both title and URL");
+    // Use console.log instead of alert for better UX
+    console.log('Please enter both title and URL');
   }
 }
 
+/**
+ * Function to toggle the visibility of delete icons in the sidebar.
+ * Shows or hides the delete icons for all links.
+ */
 function toggleDeleteMode() {
   const deleteIcons = document.querySelectorAll('.delete-icon');
 
@@ -280,8 +290,11 @@ function toggleDeleteMode() {
   });
 }
 
-
-// Function to delete a link
+/**
+ * Function to delete a link.
+ * Removes the link from localStorage and re-renders the list of links.
+ * @param {number} linkId - The ID of the link to be deleted.
+ */
 function deleteLink(linkId) {
   const links = getAllLinks();
   const filteredLinks = links.filter(link => link.id !== linkId);
@@ -290,10 +303,13 @@ function deleteLink(linkId) {
   renderLinks(); // Re-render after deletion
 }
 
-// Event listener for the "Add Link" button
+/**
+ * Event listener for the "Add Link" button.
+ * Toggles the visibility of the "Add Link" form when clicked.
+ */
 document.getElementById('add-link-btn').addEventListener('click', () => {
   const addLinkForm = document.getElementById('add-link-form');
-  
+
   // Toggle the form visibility
   if (addLinkForm.style.display === 'none' || addLinkForm.style.display === '') {
     addLinkForm.style.display = 'block';
@@ -302,23 +318,39 @@ document.getElementById('add-link-btn').addEventListener('click', () => {
   }
 });
 
-
+/**
+ * Event listener for the "Close" button inside the "Add Link" form.
+ * Hides the "Add Link" form when clicked.
+ */
 document.getElementById('close-popup-btn').addEventListener('click', () => {
   document.getElementById('add-link-form').style.display = 'none';
 });
 
+/**
+ * Event listener for clicks outside of the "Add Link" form.
+ * Closes the form if the user clicks outside of the modal.
+ */
 window.addEventListener('click', (e) => {
   const modal = document.getElementById('add-link-form');
   if (e.target === modal) {
-      modal.style.display = 'none';
+    modal.style.display = 'none';
   }
 });
 
-// Event listener for the "Save Link" button
+/**
+ * Event listener for the "Save Link" button.
+ * Triggers the addLink function when the button is clicked.
+ */
 document.getElementById('save-link-btn').addEventListener('click', addLink);
 
-// Event listener for toggle delete button
+/**
+ * Event listener for the "Toggle Delete" button.
+ * Toggles the delete icons visibility when clicked.
+ */
 document.getElementById('toggle-delete-btn').addEventListener('click', toggleDeleteMode);
 
-// Initial render of the links when the page loads
+/**
+ * Initial render of the links when the page loads.
+ * This ensures that the list of links is populated from localStorage on page load.
+ */
 document.addEventListener('DOMContentLoaded', renderLinks);
