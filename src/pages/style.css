@@ -260,15 +260,15 @@ h2 {
 	background-color: var(--bg-accent-light);
 	border-radius: 5px;
 	cursor: pointer;
-	flex: 1 1 0%;
 	align-content: center;
+	flex: 1 1 calc(25% - 10px);
 	}
   
   #link-list li:hover {
 	border-color: #1abc9c;
   }
     
-  input {
+  .formbox input {
 	padding: 5px;
 	font-size: 16px;
 	width: 100%;
@@ -458,15 +458,18 @@ h2 {
 	margin-top:10px;
 	/* width: 70%; */
   }
+  .adddelete1{
+	border: 0px;
+	width: 28px;
+	height: 28px;
+  }
 
   .adddelete{
 	border: 0px;
 	width: 36px;
 	height: 36px;
   }
-  .adddelete:hover {
-    background-color: #d1fae5;
-  }
+
   #toggle-delete-btn{
 	margin: 0px 0px 0px 60px;
 
@@ -489,3 +492,4 @@ h2 {
     margin-left: 10px;
 	font-family: 'Geologica', sans-serif;
   }
+
