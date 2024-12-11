@@ -7,7 +7,7 @@ export default defineConfig({
       GITHUB_USER: 'test-user',
       GITHUB_ACCESS_TOKEN: 'mock-token'
     },
-    specPattern: '../cypress/e2e/*.{js,jsx,ts,tsx}',
+    specPattern: './cypress/e2e/*.{js,jsx,ts,tsx}',
     supportFile: false,  // No support files
     viewportWidth: 1280,
     viewportHeight: 720,
