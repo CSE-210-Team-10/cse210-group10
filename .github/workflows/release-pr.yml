@@ -41,7 +41,7 @@ jobs:
 
       - name: Run Jest Tests
         id: tests
-        run: npm run test:unit  # Change this to your Jest-specific script
+        run: npm run test  # Change this to your Jest-specific script
 
   cypress:
     needs: test
