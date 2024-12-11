@@ -43,6 +43,7 @@ export function main() {
   document.addEventListener(TaskItem.editTaskEvent, handleTaskEdit);
   document.addEventListener(TaskItem.deleteTaskEvent, handleTaskDelete);
   document.addEventListener(TaskItem.completeTaskEvent, handleTaskCompleted);
+
   darkModeToggle.addEventListener('click', () => renderTheme('dark'));
   lightModeToggle.addEventListener('click', () => renderTheme('light'));
 
@@ -61,14 +62,14 @@ function renderTheme(theme) {
   /** @type { HTMLButtonElement } */
   const lightModeToggle = document.querySelector('button:has(i.fa-sun)');
 
-  document.documentElement.classList.toggle('dark-mode');
-
   const isDarkMode = theme === 'dark';
+
+  if (isDarkMode) document.documentElement.classList.add('dark-mode');
+  else document.documentElement.classList.remove('dark-mode');
+
   darkModeToggle.ariaDisabled = String(!isDarkMode);
-  darkModeToggle.disabled = !isDarkMode;
 
   lightModeToggle.ariaDisabled = String(isDarkMode);
-  lightModeToggle.disabled = isDarkMode;
 
   setTheme(theme);
 }
