@@ -1,4 +1,7 @@
 import { getAllTasks } from './task/crud.js'; 
+import { getIssues, getPullRequests } from './github-api.js'; 
+import { PROVIDER_TOKEN_KEY, GITHUB_OWNER, GITHUB_REPO } from './const.js';
+
 /**
  * Fetches the OpenAI API key from a remote server.
  * 
@@ -32,17 +35,41 @@ async function readJsonFile() {
   try {
     const jsonData = getAllTasks();
 
-    const tasksString = jsonData
-      .map(task => `
-              ID: ${task.id}
-            Type: ${task.type}
+    let tasksString = jsonData
+      .map(task => {
+        const type = task.type === 'personal' ? 'task' : 
+          task.type;
+        return `
+            ID: ${task.title}
+            Type: ${type}
             CreatedAt: ${task.dueDate.toISOString()}
               Title: ${task.title}
             Status: ${task.done ? 'closed' : 'open'}
-            Body: ${task.tags.join(', ')}
+            Description: ${task.description}
+            Due Date: ${task.dueDate}
+            Tags: ${task.tags.join(', ')}
             Priority: ${task.priority}
-      `)
+            Url: ${task.url}
+        `;
+      })
       .join('\n');
+
+    const githubToken = localStorage.getItem(PROVIDER_TOKEN_KEY);
+    const issues = await getIssues(githubToken, GITHUB_OWNER, GITHUB_REPO);
+    tasksString += `\n ${ issues
+      .map(task => `
+            ID: ${task.title}
+            Type: ${task.type}
+            Title: ${task.title}
+            Status: ${task.done ? 'closed' : 'open'}
+            Description: ${task.description}
+            Due Date: ${task.dueDate}
+            Tags: ${task.tags.join(', ')}
+            Priority: ${task.priority}
+            Url: ${task.url}
+        `)
+      .join('\n')}`;
+
     return tasksString;
   } catch (error) {
     console.error('Error reading JSON file:', error);
