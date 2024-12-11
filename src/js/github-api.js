@@ -23,8 +23,21 @@ export async function isProviderTokenValid(token) {
 }
 
 /**
+ * Helper function to parse the assignees list into list of login usernames.
+ * @param { object[] } assignees The list of assignees
+ * @returns { string[] } returns the list of assignee login usernames
+ */
+function parseAssigneesLogin(assignees) {
+  const loginList = [];
+  for (let j = 0; j < assignees.length; j++) {
+    loginList.push(assignees[j].login);
+  }
+  return loginList;
+}
+
+/**
  * Fetch pull request data from specified parameters.
- * @param { User } user The SSO token generated
+ * @param { User } user The user data object
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
  * @returns { Promise<object[]> } returns the pull requests data task object format
@@ -49,13 +62,8 @@ export async function getPullRequests(user, owner, repo) {
 
     //Create task object from fetched data and populate array to return - return pull requests
     for (let i = 0; i < data.length; i ++) {
-      //Get the list of assignees and then parse them into a list of login usernames 
-      const tmp = data[i].assignees;
-      const assignees = [];
-      for (let j = 0; j < tmp.length; j ++) {
-        assignees.push(tmp[j].login);
-      }
-      if (assignees.includes(user.accessToken)) {
+      const assignees = parseAssigneesLogin(data[i].assignees);
+      if (assignees.includes(user.username)) {
         const parsedTask = {
           type: 'pr',
           title: String(data[i].title),
@@ -80,7 +88,7 @@ export async function getPullRequests(user, owner, repo) {
 
 /**
  * Fetch issue data from specified parameters.
- * @param { User } user The SSO token generated
+ * @param { User } user The user data object
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
  * @returns { Promise<object[]> } returns the issues in task object format 
@@ -105,12 +113,7 @@ export async function getIssues(user, owner, repo) {
 
     //Create task object from fetched data and populate array to return - return issues
     for (let i = 0; i < data.length; i ++) {
-      //Get the list of assignees and then parse them into a list of login usernames 
-      const tmp = data[i].assignees;
-      const assignees = [];
-      for (let j = 0; j < tmp.length; j ++) {
-        assignees.push(tmp[j].login);
-      }
+      const assignees = parseAssigneesLogin(data[i].assignees);
       if (assignees.includes(user.username)) {
         const parsedIssue = {
           type: 'issue',
