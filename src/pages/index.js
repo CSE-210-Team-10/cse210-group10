@@ -44,6 +44,16 @@ export function main() {
   document.addEventListener(TaskItem.deleteTaskEvent, handleTaskDelete);
   document.addEventListener(TaskItem.completeTaskEvent, handleTaskCompleted);
 
+  /**
+   * Add event listener for "Sign Out" button to sign user out of GitHub account
+   */
+  const signOutButton = document.querySelector('.signout-btn');
+  if (signOutButton) {
+    signOutButton.addEventListener('click', async () => {
+      await authService.logout();
+    });
+  }
+  
   darkModeToggle.addEventListener('click', () => renderTheme('dark'));
   lightModeToggle.addEventListener('click', () => renderTheme('light'));
 
@@ -217,6 +227,7 @@ function handleTaskCompleted(e) {
 
   TaskStore.updateTask(Number(taskId), { done: true });
   renderTaskPanels(TaskStore.getAllTasks());
+
 }
 const STORAGE_KEY = 'byteboard_links';
 
