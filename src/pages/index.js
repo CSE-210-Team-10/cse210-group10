@@ -187,7 +187,6 @@ function handleTaskCompleted(e) {
   TaskStore.updateTask(Number(taskId), { done: true });
   renderTaskPanels(TaskStore.getAllTasks());
 }
-/***link*** */
 const STORAGE_KEY = 'byteboard_links';
 
 /**
@@ -202,11 +201,13 @@ function getAllLinks() {
 /**
  * Function to render links in the sidebar.
  * Updates the DOM with the list of links stored in localStorage.
- * @returns {void} This function does not return any value.
+ * @returns {void}
  */
 function renderLinks() {
   const linkList = document.getElementById('link-list');
   const links = getAllLinks();
+  const toggleDeleteBtn = document.getElementById('toggle-delete-btn');
+  const isDeleteMode = toggleDeleteBtn.dataset.deleteMode === 'true'; // Track delete mode state
   linkList.innerHTML = ''; // Clear the current list
 
   links.forEach(link => {
@@ -218,54 +219,51 @@ function renderLinks() {
       const iconImage = document.createElement('img');
       iconImage.src = link.iconUrl;
       iconImage.alt = 'Link Icon';
-      iconImage.style.width = '24px';  // Set size for icon
+      iconImage.style.width = '24px'; // Set size for icon
       iconImage.style.height = '24px'; // Set size for icon
-      li.appendChild(iconImage);  // Append the icon to the list item
+      li.appendChild(iconImage);
     }
 
+    // Add link button
     const linkButton = document.createElement('button');
     linkButton.classList.add('link-button');
-    linkButton.textContent = link.title;
-
-    /**
+    linkButton.textContent = link.title
+      /**
      *
      */
     // Update this to handle 'www.' URLs properly
     linkButton.onclick = function () {
       let validUrl = link.url;
-  
       // If the URL starts with 'www.', prepend 'http://'
       if (validUrl.startsWith('www.')) {
-        validUrl = `http://${  validUrl}`;
+        validUrl = `http://${validUrl}`;
       }
-  
       window.open(validUrl, '_blank');
     };
 
-    // Create the delete icon (hidden initially)
-    const deleteIcon = document.createElement('span');
-    deleteIcon.classList.add('delete-icon');
-    deleteIcon.textContent = '❌';
-    deleteIcon.style.display = 'none'; // Hide delete icon by default
+    // Add delete icon
+    const deleteIcon = document.createElement('i');
+    deleteIcon.classList.add('delete-icon', 'fa-solid', 'fa-trash-can');
+    deleteIcon.style.color = '#ef4444';
+    deleteIcon.style.display = isDeleteMode ? 'inline' : 'none'; // Show based on delete mode
     deleteIcon.addEventListener('click', () => deleteLink(link.id));
 
     // Append elements to the list item
     li.appendChild(linkButton);
     li.appendChild(deleteIcon);
-
-    linkList.appendChild(li); // Add each link with the delete button
+    linkList.appendChild(li);
   });
 }
 
 /**
- * Function to add a new link to the list.
- * Saves the new link to localStorage and re-renders the links list.
+ * Function to add a new link.
+ *  Saves the new link to localStorage and re-renders the links list.
  * @returns {void} This function does not return any value.
  */
 function addLink() {
   const titleInput = document.getElementById('link-title');
   const urlInput = document.getElementById('link-url');
-  const iconUrlInput = document.getElementById('link-icon-url'); // New input field for icon URL
+  const iconUrlInput = document.getElementById('link-icon-url');
   const errorMessage = document.getElementById('url-error-message');
 
   if (titleInput instanceof HTMLInputElement && urlInput instanceof HTMLInputElement && iconUrlInput instanceof HTMLInputElement) {
@@ -276,7 +274,7 @@ function addLink() {
     // Validate the URLs
     if (!isValidUrl(iconUrl) && iconUrl !== '') {
       errorMessage.textContent = 'Invalid icon URL!';
-      errorMessage.style.display = 'block'; // Show error message
+      errorMessage.style.display = 'block';
       titleInput.value = '';
       urlInput.value = '';
       iconUrlInput.value = '';
@@ -285,20 +283,24 @@ function addLink() {
 
     if (!isValidUrl(url)) {
       errorMessage.textContent = 'Invalid URL!';
-      errorMessage.style.display = 'block'; // Show error message
+      errorMessage.style.display = 'block';
       titleInput.value = '';
       urlInput.value = '';
       iconUrlInput.value = '';
       return;
     }
 
-    errorMessage.style.display = 'none'; 
+    errorMessage.style.display = 'none';
+
+    // Format the URL before saving
+    const formattedUrl = formatUrl(url);
+
     // Create a new link object
     const newLink = {
       id: Date.now(), // Unique ID based on timestamp
-      title: title,
-      url: url,
-      iconUrl: iconUrl || null, // Use provided icon URL or null if not provided
+      title,
+      url: formattedUrl,
+      iconUrl: iconUrl || null,
     };
 
     const links = getAllLinks();
@@ -310,7 +312,7 @@ function addLink() {
     urlInput.value = '';
     iconUrlInput.value = '';
 
-    renderLinks(); // Re-render the list after adding a new link
+    renderLinks();
 
     // Hide the form after saving
     document.getElementById('add-link-form').style.display = 'none';
@@ -322,37 +324,45 @@ function addLink() {
 /**
  * Function to check if the URL is valid.
  * @param {string} url - The URL to validate.
- * @returns {boolean} Returns true if the URL is valid, otherwise false.
+ * @returns {boolean}
  */
 function isValidUrl(url) {
-  // Prepend 'http://' if the URL starts with 'www.'
-  if (url.startsWith('www.')) {
-    url = `http://${  url}`;
-  }
-  console.log(url);
-  const urlPattern = /^(https?:\/\/|www\.)[^\s/]+\.[a-z]{2,}(\S*)$/i;
-  console.log(url);
-
+  const urlPattern = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-z]{2,}(\S*)$/i;
   return urlPattern.test(url);
 }
 
 /**
- * Function to toggle the visibility of delete icons in the sidebar.
- * Shows or hides the delete icons for all links.
- * @returns {void} This function does not return any value.
+ * Function to format a URL.
+ * @param {string} url - The URL to format.
+ * @returns {string}
+ */
+function formatUrl(url) {
+  let formattedUrl = url.trim();
+  if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+    formattedUrl = `https://${formattedUrl}`;
+  }
+  if (!formattedUrl.includes('www.')) {
+    const urlParts = formattedUrl.split('://');
+    formattedUrl = `${urlParts[0]}://www.${urlParts[1]}`;
+  }
+  return formattedUrl;
+}
+
+/**
+ * Function to toggle delete mode.
+ * Shows or hides the delete icons when the toggle-delete button is clicked.
  */
 function toggleDeleteMode() {
-  const deleteIcons = document.querySelectorAll('.delete-icon');
+  const toggleDeleteBtn = document.getElementById('toggle-delete-btn');
+  const isDeleteMode = toggleDeleteBtn.dataset.deleteMode === 'true'; // Check current state
 
-  deleteIcons.forEach(icon => {
-    if (icon instanceof HTMLElement) {
-      if (icon.style.display === 'none' || icon.style.display === '') {
-        icon.style.display = 'inline';
-      } else {
-        icon.style.display = 'none';
-      }
-    }
-  });
+  // Toggle the state
+ // Toggle the state
+toggleDeleteBtn.dataset.deleteMode = String(!isDeleteMode); // Convert to string
+
+
+  // Re-render the links to update the visibility of delete icons
+  renderLinks();
 }
 
 /**
@@ -365,40 +375,28 @@ function deleteLink(linkId) {
   const filteredLinks = links.filter(link => link.id !== linkId);
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredLinks));
-  renderLinks(); // Re-render after deletion
+  renderLinks();
 }
 
 /**
  * Event listener for the "Add Link" button.
- * Toggles the visibility of the "Add Link" form when clicked.
  */
 document.getElementById('add-link-btn').addEventListener('click', () => {
   const addLinkForm = document.getElementById('add-link-form');
-  
-  if (addLinkForm.style.display === 'none' || addLinkForm.style.display === '') {
-    addLinkForm.style.display = 'block';
-  } else {
-    // Hide the error message
-    addLinkForm.style.display = 'none';
-  }
+  addLinkForm.style.display = addLinkForm.style.display === 'block' ? 'none' : 'block';
 });
 
 /**
- * Event listener for the "Close" button inside the "Add Link" form.
- * Hides the "Add Link" form when clicked.
+ * Event listener for the "Close" button in the form.
  */
 document.getElementById('close-popup-btn').addEventListener('click', () => {
   document.getElementById('add-link-form').style.display = 'none';
 });
 
 /**
- * Event listener for clicks outside of the "Add Link" form.
- * Closes the form if the user clicks outside of the modal.
- */
-
-/**
- * Event listener for clicks outside of the "Add Link" form.
- * Closes the form if the user clicks outside of the modal.
+ * Event listener for clicks outside of the
+ *  * "Add Link" form.
+ * Closes the form if the user clicks outside of it.
  */
 window.addEventListener('click', (e) => {
   const modal = document.getElementById('add-link-form');
@@ -409,19 +407,15 @@ window.addEventListener('click', (e) => {
 
 /**
  * Event listener for the "Save Link" button.
- * Triggers the addLink function when the button is clicked.
  */
 document.getElementById('save-link-btn').addEventListener('click', addLink);
 
 /**
  * Event listener for the "Toggle Delete" button.
- * Toggles the delete icons visibility when clicked.
  */
 document.getElementById('toggle-delete-btn').addEventListener('click', toggleDeleteMode);
 
 /**
- * Initial render of the links when the page loads.
- * This ensures that the list of links is populated from localStorage on page load.
+ * Initial render of the links on page load.
  */
 document.addEventListener('DOMContentLoaded', renderLinks);
-

@@ -1,4 +1,4 @@
-@import '../styles/root.css';
+@import "../styles/root.css";
 @import './upcoming-deadlines.css';
 
 body {
@@ -115,6 +115,9 @@ section h2, aside h2 {
 aside {
 	position: relative;
 	height: auto;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 }
 
 aside .controls {
@@ -244,14 +247,16 @@ h2 {
   
   #link-list li {
 	display: flex;
-	/* justify-content: space-between; */
 	align-items: center;
 	padding: 10px;
 	margin: 5px 0;
 	background-color: var(--bg-accent-light);
 	border-radius: 5px;
 	cursor: pointer;
-  }
+	flex: 1 1 0%;
+	align-content: center;
+	justify-content: space-between;
+	}
   
   #link-list li:hover {
 	border-color: #1abc9c;
@@ -273,6 +278,10 @@ h2 {
     width: 80px;
     padding: 0.5rem 1rem 0.5rem 1rem;
     text-align: left;
+    margin-right: 10px;
+    display: flex;
+    /* flex-direction: row; */
+    align-items: center;
 }
 
 #link-list button:hover {
@@ -316,21 +325,26 @@ h2 {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-  }
+	flex-direction: row;
+	}
   
   #link-list {
 	list-style-type: none;
 	padding-left: 0;
-  }
+	display: flex;
+	flex: 1;
+	align-content: flex-start;
+	flex-wrap: wrap;
+	}
   .link-item img {
 	width: 24px; /* Set the width of the icon */
 	height: 24px; /* Set the height of the icon */
 	margin-right: 10px; /* Add some space between the icon and the title */
 	vertical-align: middle; /* Align the icon vertically with the text */
-	margin-right: 10px;
-    vertical-align: middle;
-    margin-left: 30px;
-  }
+	/* margin-right: 10px; */
+	vertical-align: middle;
+	/* margin-left: 30px; */
+	}
   
   /* Optional: If you want to make the icon more prominent */
   .link-button img {
