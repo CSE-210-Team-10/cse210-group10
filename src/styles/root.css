@@ -57,6 +57,46 @@
 	--button-text-color-hover: var(--text-accent-light);
 }
 
+:root.dark-mode {
+	--bg-primary: #1A1D24;
+	--bg-secondary: #1F2937;
+
+	--bg-accent: #10B981;
+	--bg-accent-light: #151e25;
+
+	--border-primary: #374151;
+	--border-secondary: #2A3441;
+	--border-radius-primary: 0.5rem;
+	--border-radius-small: 0.25rem;
+	--border-width: 1.5px;
+
+	--text-primary: #E2E8F0;
+	--text-secondary: #e3eefe;
+	--text-accent: #FFFFFF;
+	--text-accent-light: #34D399;
+
+	--icon-primary: #34D399;
+
+	--tag-bg-color-high: #451A1A;
+	--tag-text-color-high: #F87171;
+	--tag-bg-color-medium: #454219;
+	--tag-text-color-medium: #FBBF24;
+	--tag-bg-color-low: #1E3A8A;
+	--tag-text-color-low: #60A5FA;
+	--tag-bg-color-regular: var(--bg-accent-light);
+	--tag-text-color-regular: #34D399;
+
+	--button-bg-color: var(--bg-accent);
+	--button-text-color: var(--text-accent);
+	--button-bg-color-hover: var(--bg-accent-light);
+	--button-text-color-hover: #34D399;
+
+	--input-bg: #374151;
+	--input-text: #E2E8F0;
+	--input-border: #4B5563;
+	--input-placeholder: #9CA3AF;
+}
+
 button {
 	padding: 0.5rem 0.75rem;
 	border-radius: var(--border-radius-primary);
