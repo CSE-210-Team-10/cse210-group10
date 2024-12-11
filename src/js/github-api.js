@@ -44,7 +44,7 @@ function parseAssigneesLogin(assignees) {
  * @returns { Promise<object[]> } returns the GitHub data in a Task object format
  */
 export async function getGithubData(user, owner, repo, flag) {
-  let url = `https://api.github.com/repos/${owner}/${repo}/${flag}`;
+  const url = `https://api.github.com/repos/${owner}/${repo}/${flag}`;
 
   try {
     const response = await fetch(url, {
@@ -67,11 +67,11 @@ export async function getGithubData(user, owner, repo, flag) {
         const isPR = flag === 'pulls'; 
         const dueDate = isPR
           ? (data[i].created_at instanceof Date 
-              ? data[i].created_at 
-              : new Date(data[i].created_at))
+            ? data[i].created_at 
+            : new Date(data[i].created_at))
           : (data[i].updated_at instanceof Date 
-              ? data[i].updated_at 
-              : new Date(data[i].updated_at));
+            ? data[i].updated_at 
+            : new Date(data[i].updated_at));
         const typeGit = isPR ? 'pr' : 'issue';
         const url = isPR ? String(data[i].html_url) : String(data[i].url);
         const parsedTask = {
@@ -87,7 +87,7 @@ export async function getGithubData(user, owner, repo, flag) {
         res.push(parsedTask);
       }
     }
-    return res
+    return res;
   }
   catch (error) {
     console.error(error);
