@@ -1,4 +1,4 @@
-
+import { getAllTasks } from './task/crud.js'; 
 /**
  * Fetches the OpenAI API key from a remote server.
  * 
@@ -30,74 +30,18 @@ export async function fetchChatbotkey() {
  */
 async function readJsonFile() {
   try {
-    const jsonData = {
-      tasks: [
-        {
-          id: 2686988886,
-          type: 'issue',
-          title: 'Update README file with relevant information about repository',
-          status: 'open',
-          createdAt: '2024-11-24T03:21:13Z',
-          number: null,
-          body: 'Task\r\n- Update README file seen on main page to have relevant and useful information regarding the repo\r\n\r\nDeliverables\r\n- Updated README file',
-          url: 'https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/54',
-        },
-        {
-          id: 2686983987,
-          type: 'issue',
-          title: 'ADRs for CI/CD',
-          status: 'open',
-          createdAt: '2024-11-24T03:16:01Z',
-          number: null,
-          body: 'Task\r\n- Create ADRs for CI/CD decisions (such as use of Jest, ESLint, any integration tools, etc.)\r\n\r\nDeliverables\r\n- ADR files to cover all decisions made up to this sprint for the CI/CD pipeline',
-          url: 'https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/53',
-        },
-        {
-          id: 2686982225,
-          type: 'task',
-          title: 'ADRs for Front End Decisions',
-          status: 'open',
-          createdAt: '2024-11-24T03:14:58Z',
-          number: null,
-          body: 'Task\r\n- Create ADRs for front end decisions (such as use of Figma, Miro)\r\n\r\nDeliverables\r\n- ADR files to cover all decisions made up to this sprint for the front end',
-          url: 'https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/52',
-        },
-        {
-          id: 2686979124,
-          type: 'personal',
-          title: 'Update CI/CD Documentation Based on Updated Pipeline Implementation',
-          status: 'open',
-          createdAt: '2024-11-24T03:14:02Z',
-          number: null,
-          body: 'Task\r\n- Redo the CI/CD pipeline diagram and documentation to be up to date with the implementation\r\n\r\nDeliverables\r\n- Updated cicd.md\r\n- Updated cicd.png',
-          url: 'https://api.github.com/repos/CSE-210-Team-10/group10-esc012/issues/51',
-        },
-        {
-          id: 2201945766,
-          type: 'pull request',
-          title: 'ADR Dashboard',
-          status: 'open',
-          createdAt: '2024-11-26T21:37:41Z',
-          number: 57,
-          body: '## Pull Request Description\r\n\r\n### Overview\r\nThis PR introduces a basic student dashboard with a side bar that has the links and videos components. In the main content area we have 2 container, first one is for upcoming deadlines and the second for for all the github tasks and calendar view.',
-          url: 'https://api.github.com/repos/CSE-210-Team-10/group10-esc012/pulls/57',
-        },
-      ],
-    };
+    const jsonData = getAllTasks();
 
-    const tasksString = jsonData.tasks
-      .map(task => {
-        const type = task.type === 'personal' ? 'task' : task.type;
-        return `
+    const tasksString = jsonData
+      .map(task => `
               ID: ${task.id}
-              Type: ${type}
-              CreatedAt: ${task.createdAt}
+            Type: ${task.type}
+            CreatedAt: ${task.dueDate.toISOString()}
               Title: ${task.title}
-              Status: ${task.status}
-              Body: ${task.body}
-              URL: ${task.url}
-            `;
-      })
+            Status: ${task.done ? 'closed' : 'open'}
+            Body: ${task.tags.join(', ')}
+            Priority: ${task.priority}
+      `)
       .join('\n');
     return tasksString;
   } catch (error) {
