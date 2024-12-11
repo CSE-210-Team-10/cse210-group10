@@ -26,7 +26,7 @@ export async function isProviderTokenValid(token) {
  * @param { string } token The SSO token generated
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
- * @returns { Promise<Object[]> } returns the pull requests data task object format
+ * @returns { Promise<object[]> } returns the pull requests data task object format
  */
 export async function getPullRequests(token, owner, repo) {
   const url = `https://api.github.com/repos/${owner}/${repo}/pulls`;
@@ -44,12 +44,12 @@ export async function getPullRequests(token, owner, repo) {
 
     const data = await response.json();
 
-    let arrayPulls = []
+    const arrayPulls = [];
 
     //Create task object from fetched data and populate array to return - return pull requests
     for (let i = 0; i < data.length; i ++) {
       const parsedTask = {
-        type: "pr",
+        type: 'pr',
         title: String(data[i].title),
         done: false,
         dueDate: data[i].created_at instanceof Date 
@@ -76,7 +76,7 @@ export async function getPullRequests(token, owner, repo) {
  * @param { string } token The SSO token generated
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
- * @returns { Promise<Object[]> } returns the issues in task object format 
+ * @returns { Promise<object[]> } returns the issues in task object format 
  */
 export async function getIssues(token, owner, repo) {
   const url = `https://api.github.com/repos/${owner}/${repo}/issues`;
@@ -94,12 +94,12 @@ export async function getIssues(token, owner, repo) {
 
     const data = await response.json();
 
-    let arrayIssues = [];
+    const arrayIssues = [];
 
     //Create task object from fetched data and populate array to return - return issues
     for (let i = 0; i < data.length; i ++) {
       const parsedIssue = {
-        type: "issue",
+        type: 'issue',
         title: String(data[i].title),
         done: false,
         dueDate: data[i].updated_at instanceof Date 
@@ -109,7 +109,7 @@ export async function getIssues(token, owner, repo) {
         url: String(data[i].url),
         priority: String('high'),
         tags: [owner, repo]
-      }
+      };
       arrayIssues.push(parsedIssue);
     }
 
