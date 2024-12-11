@@ -36,14 +36,15 @@ function parseAssigneesLogin(assignees) {
 }
 
 /**
- * Fetch pull request data from specified parameters.
+ * Fetch specified GitHub data and package it into a Task object.
  * @param { User } user The user data object
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
- * @returns { Promise<object[]> } returns the pull requests data task object format
+ * @param { string } flag Either 'pulls' or 'issues' to pull from
+ * @returns { Promise<object[]> } returns the GitHub data in a Task object format
  */
-export async function getPullRequests(user, owner, repo) {
-  const url = `https://api.github.com/repos/${owner}/${repo}/pulls`;
+export async function getGithubData(user, owner, repo, flag) {
+  let url = `https://api.github.com/repos/${owner}/${repo}/${flag}`;
 
   try {
     const response = await fetch(url, {
@@ -58,79 +59,35 @@ export async function getPullRequests(user, owner, repo) {
 
     const data = await response.json();
 
-    const arrayPulls = [];
+    const res = [];
 
-    //Create task object from fetched data and populate array to return - return pull requests
     for (let i = 0; i < data.length; i ++) {
       const assignees = parseAssigneesLogin(data[i].assignees);
       if (assignees.includes(user.username)) {
+        const isPR = flag === 'pulls'; 
+        const dueDate = isPR
+          ? (data[i].created_at instanceof Date 
+              ? data[i].created_at 
+              : new Date(data[i].created_at))
+          : (data[i].updated_at instanceof Date 
+              ? data[i].updated_at 
+              : new Date(data[i].updated_at));
+        const typeGit = isPR ? 'pr' : 'issue';
+        const url = isPR ? String(data[i].html_url) : String(data[i].url);
         const parsedTask = {
-          type: 'pr',
+          type: typeGit,
           title: String(data[i].title),
           done: false,
-          dueDate: data[i].created_at instanceof Date 
-            ? data[i].created_at 
-            : new Date(data[i].created_at ),
+          dueDate: dueDate,
           description: String(''),
-          url: String(data[i].html_url),
+          url: url,
           priority: String('high'),
           tags: [owner, repo]
         };
-        arrayPulls.push(parsedTask);
+        res.push(parsedTask);
       }
     }
-    return arrayPulls;
-  }
-  catch (error) {
-    console.error(error);
-  }
-}
-
-/**
- * Fetch issue data from specified parameters.
- * @param { User } user The user data object
- * @param { string } owner The owner of the repo
- * @param { string } repo The repo that the user wants to pull from
- * @returns { Promise<object[]> } returns the issues in task object format 
- */
-export async function getIssues(user, owner, repo) {
-  const url = `https://api.github.com/repos/${owner}/${repo}/issues`;
-
-  try {
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `${user.accessToken}`,
-        'X-GitHub-Api-Version': '2022-11-28'
-      }
-    });
-    if (!response.ok) {
-      throw new Error('Failed to fetch issues.');
-    }
-
-    const data = await response.json();
-
-    const arrayIssues = [];
-
-    //Create task object from fetched data and populate array to return - return issues
-    for (let i = 0; i < data.length; i ++) {
-      const assignees = parseAssigneesLogin(data[i].assignees);
-      if (assignees.includes(user.username)) {
-        const parsedIssue = {
-          type: 'issue',
-          title: String(data[i].title),
-          done: false,
-          dueDate: data[i].updated_at instanceof Date 
-            ? data[i].updated_at 
-            : new Date(data[i].updated_at ),
-          description: String(''),
-          url: String(data[i].url),
-          priority: String('high'),
-          tags: [owner, repo]
-        };
-        arrayIssues.push(parsedIssue);
-      }
-    }
-    return arrayIssues;
+    return res
   }
   catch (error) {
     console.error(error);
