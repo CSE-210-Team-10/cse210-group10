@@ -1,3 +1,4 @@
+/* eslint-disable */
 describe('Authentication and Navigation Tests', () => {
   beforeEach(() => {
     cy.clearAllCookies();
@@ -22,3 +23,4 @@ describe('Authentication and Navigation Tests', () => {
     cy.url().should('eq', 'http://localhost:3000/#');
   });
 });
+/* eslint-enable */
