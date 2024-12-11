@@ -22,7 +22,7 @@ summary {
 	padding: 0.25rem 1rem;
 	gap: 0.125rem;
 	cursor: pointer;
-	background: white;
+	background: var(--bg-secondary);
 	list-style: none;
 }
 
@@ -39,7 +39,7 @@ summary::-webkit-details-marker {
 
 .task-title {
 	padding: 0.5rem;
-	color: #2e7d32;
+	color: var(--text-secondary);
 	font-size: 1rem;
 	font-weight: 400;
 	margin: 0;

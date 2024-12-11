@@ -1,3 +1,4 @@
+/** @typedef { import('../js/auth.js').UserData } User */
 /**
  * Verify if the GitHub provider token is still valid
  * @param { string } token github provider token
@@ -22,59 +23,71 @@ export async function isProviderTokenValid(token) {
 }
 
 /**
- * Fetch pull request data from specified parameters.
- * @param { string } token The SSO token generated
- * @param { string } owner The owner of the repo
- * @param { string } repo The repo that the user wants to pull from
- * @returns { Promise<JSON> } returns the pull requests data in json format
+ * Helper function to parse the assignees list into list of login usernames.
+ * @param { object[] } assignees The list of assignees
+ * @returns { string[] } returns the list of assignee login usernames
  */
-export async function getPullRequests(token, owner, repo) {
-  const url = `https://api.github.com/repos/${owner}/${repo}/pulls`;
-
-  try {
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `${token}`,
-        'X-GitHub-Api-Version': '2022-11-28'
-      }
-    });
-    if (!response.ok) {
-      throw new Error('Failed to fetch pull requests.');
-    }
-
-    const data = await response.json();
-    return data;
-
+function parseAssigneesLogin(assignees) {
+  const loginList = [];
+  for (let j = 0; j < assignees.length; j++) {
+    loginList.push(assignees[j].login);
   }
-  catch (error) {
-    console.error(error);
-  }
+  return loginList;
 }
 
 /**
- * Fetch issue data from specified parameters.
- * @param { string } token The SSO token generated
+ * Fetch specified GitHub data and package it into a Task object.
+ * @param { User } user The user data object
  * @param { string } owner The owner of the repo
  * @param { string } repo The repo that the user wants to pull from
- * @returns { Promise<JSON> } returns the issues data in json format
+ * @param { string } flag Either 'pulls' or 'issues' to pull from
+ * @returns { Promise<object[]> } returns the GitHub data in a Task object format
  */
-export async function getIssues(token, owner, repo) {
-  const url = `https://api.github.com/repos/${owner}/${repo}/issues`;
+export async function getGithubData(user, owner, repo, flag) {
+  const url = `https://api.github.com/repos/${owner}/${repo}/${flag}`;
 
   try {
     const response = await fetch(url, {
       headers: {
-        'Authorization': `${token}`,
+        'Authorization': `${user.accessToken}`,
         'X-GitHub-Api-Version': '2022-11-28'
       }
     });
     if (!response.ok) {
-      throw new Error('Failed to fetch issues.');
+      throw new Error('Failed to fetch GitHub data.');
     }
 
     const data = await response.json();
-    return data;
 
+    const res = [];
+
+    for (let i = 0; i < data.length; i ++) {
+      const assignees = parseAssigneesLogin(data[i].assignees);
+      if (assignees.includes(user.username)) {
+        const isPR = flag === 'pulls'; 
+        const dueDate = isPR
+          ? (data[i].created_at instanceof Date 
+            ? data[i].created_at 
+            : new Date(data[i].created_at))
+          : (data[i].updated_at instanceof Date 
+            ? data[i].updated_at 
+            : new Date(data[i].updated_at));
+        const typeGit = isPR ? 'pr' : 'issue';
+        const url = isPR ? String(data[i].html_url) : String(data[i].url);
+        const parsedTask = {
+          type: typeGit,
+          title: String(data[i].title),
+          done: false,
+          dueDate: dueDate,
+          description: String(''),
+          url: url,
+          priority: String('high'),
+          tags: [owner, repo]
+        };
+        res.push(parsedTask);
+      }
+    }
+    return res;
   }
   catch (error) {
     console.error(error);
