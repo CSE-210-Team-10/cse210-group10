@@ -1,6 +1,8 @@
 /** @typedef { import('./index.js').Task } Task */
 
-const STORAGE_KEY = 'byteboard_tasks';
+import { getGithubTasks } from '../local-storage.js';
+
+const STORAGE_KEY = 'personal_tasks';
 
 /**
  * Get the maximum ID from existing tasks
@@ -73,7 +75,11 @@ function createTask(taskData) {
  */
 function getAllTasks() {
   const tasksJson = localStorage.getItem(STORAGE_KEY);
+
+  /** @type { Task[] } */
   const tasks = tasksJson ? JSON.parse(tasksJson) : [];
+
+  tasks.concat(getGithubTasks());
 
   // Convert date strings back to Date objects
   return tasks.map(task => ({
