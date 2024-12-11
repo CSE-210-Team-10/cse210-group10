@@ -227,8 +227,8 @@ function renderLinks() {
     // Add link button
     const linkButton = document.createElement('button');
     linkButton.classList.add('link-button');
-    linkButton.textContent = link.title
-      /**
+    linkButton.textContent = link.title;
+    /**
      *
      */
     // Update this to handle 'www.' URLs properly
@@ -357,9 +357,8 @@ function toggleDeleteMode() {
   const isDeleteMode = toggleDeleteBtn.dataset.deleteMode === 'true'; // Check current state
 
   // Toggle the state
- // Toggle the state
-toggleDeleteBtn.dataset.deleteMode = String(!isDeleteMode); // Convert to string
-
+  // Toggle the state
+  toggleDeleteBtn.dataset.deleteMode = String(!isDeleteMode); // Convert to string
 
   // Re-render the links to update the visibility of delete icons
   renderLinks();
