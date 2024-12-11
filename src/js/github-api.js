@@ -49,17 +49,16 @@ export async function getPullRequests(token, owner, repo) {
     //Create task object from fetched data and populate array to return - return pull requests
     for (let i = 0; i < data.length; i ++) {
       const parsedTask = {
-        id: Number(data[i].id),
         type: "pr",
         title: String(data[i].title),
         done: false,
         dueDate: data[i].created_at instanceof Date 
           ? data[i].created_at 
           : new Date(data[i].created_at ),
-        description: String('hi' + i),
+        description: String(''),
         url: String(data[i].html_url),
         priority: String('high'),
-        tags: ['pr', owner, repo]
+        tags: [owner, repo]
       };
       arrayPulls.push(parsedTask);
     }
@@ -100,22 +99,21 @@ export async function getIssues(token, owner, repo) {
     //Create task object from fetched data and populate array to return - return issues
     for (let i = 0; i < data.length; i ++) {
       const parsedIssue = {
-        id: Number(data[i].id),
         type: "issue",
         title: String(data[i].title),
         done: false,
         dueDate: data[i].updated_at instanceof Date 
           ? data[i].updated_at 
           : new Date(data[i].updated_at ),
-        description: String('hi' + i),
+        description: String(''),
         url: String(data[i].url),
         priority: String('high'),
-        tags: ['issue', owner, repo]
+        tags: [owner, repo]
       }
       arrayIssues.push(parsedIssue);
     }
 
-    return data;
+    return arrayIssues;
 
   }
   catch (error) {
