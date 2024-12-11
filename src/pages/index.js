@@ -187,8 +187,6 @@ function handleTaskCompleted(e) {
   TaskStore.updateTask(Number(taskId), { done: true });
   renderTaskPanels(TaskStore.getAllTasks());
 }
-
-
 /****link****/
 const STORAGE_KEY = 'byteboard_links';
 
@@ -325,7 +323,6 @@ document.getElementById('add-link-btn').addEventListener('click', () => {
 document.getElementById('close-popup-btn').addEventListener('click', () => {
   document.getElementById('add-link-form').style.display = 'none';
 });
-
 /**
  * Event listener for clicks outside of the "Add Link" form.
  * Closes the form if the user clicks outside of the modal.
@@ -336,7 +333,6 @@ window.addEventListener('click', (e) => {
     modal.style.display = 'none';
   }
 });
-
 /**
  * Event listener for the "Save Link" button.
  * Triggers the addLink function when the button is clicked.
