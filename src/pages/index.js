@@ -202,6 +202,9 @@ function getAllLinks() {
 /**
  * Function to render links in the sidebar.
  * This updates the DOM with the list of links stored in localStorage.
+ * 
+ * @function
+ * @returns {void} This function does not return any value.
  */
 function renderLinks() {
   const linkList = document.getElementById('link-list');
@@ -215,9 +218,6 @@ function renderLinks() {
     const linkButton = document.createElement('button');
     linkButton.classList.add('link-button');
     linkButton.textContent = link.title;
-    /**
-     *
-     */
     linkButton.onclick = function () {
       window.open(link.url, '_blank');
     };
@@ -236,9 +236,12 @@ function renderLinks() {
     linkList.appendChild(li); // Add each link with the delete button
   });
 }
+
 /**
  * Function to add a new link to the list.
  * Saves the new link to localStorage and re-renders the links list.
+ * @function
+ * @returns {void} 
  */
 function addLink() {
   const titleInput = document.getElementById('link-title');
@@ -274,6 +277,8 @@ function addLink() {
 /**
  * Function to toggle the visibility of delete icons in the sidebar.
  * Shows or hides the delete icons for all links.
+ * @function
+ * @returns {void} 
  */
 function toggleDeleteMode() {
   const deleteIcons = document.querySelectorAll('.delete-icon');
