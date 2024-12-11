@@ -2,25 +2,22 @@ import { getAllTasks } from './task/crud.js';
 /**
  * Reads and processes a JSON object containing tasks.
  * 
- * @returns {Promise<string>} A promise that resolves to a formatted string of tasks.
+ * @returns { Promise<string> } a promise that resolves to a stringified consolidated task list with limited fields
  * @throws {Error} If there is an issue processing the JSON data.
  */
 async function readJsonFile() {
   try {
     const jsonData = getAllTasks();
 
-    const tasksString = jsonData
-      .map(task => `
-              ID: ${task.id}
-            Type: ${task.type}
-            CreatedAt: ${task.dueDate.toISOString()}
-              Title: ${task.title}
-            Status: ${task.done ? 'closed' : 'open'}
-            Body: ${task.tags.join(', ')}
-            Priority: ${task.priority}
-      `)
-      .join('\n');
-    return tasksString;
+    const tasksJsonArray = jsonData.map(task => ({
+        type: task.type,
+        createdAt: task.dueDate.toISOString().split('T')[0],
+        title: task.title,
+        status: task.done ? 'closed' : 'open',
+        body: task.tags.join(', '),
+        priority: task.priority
+    }));
+    return JSON.stringify(tasksJsonArray);
   } catch (error) {
     console.error('Error reading JSON file:', error);
     throw error;
