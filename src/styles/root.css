@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap');
 
 * {
-    font-family: 'Geologica', sans-serif;
-    box-sizing: border-box;
+	font-family: 'Geologica', sans-serif;
+	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
@@ -12,59 +12,49 @@
 	--app-padding: 2.5rem 5rem;
 	--gap: 1rem;
 	--padding: 1rem;
-    /* background colors */
-    --bg-primary: #F0FDF4;
-    --bg-secondary: #FFFFFF;
-    --bg-accent: #059669;
-    --bg-accent-light: #D1FAE5;
 
-    /* border settings */
-    --border-primary: #21A97C;
-    --border-secondary: #D4D4D4;
-    --border-radius-primary: 0.5rem;
-    --border-radius-small: 0.25rem;
-    --border-width: 1.5px;
-    /* border settings */
-    --border-primary: #21A97C;
-    --border-secondary: #D4D4D4;
-    --border-radius-primary: 0.5rem;
-    --border-radius-small: 0.25rem;
-    --border-width: 1.5px;
+	/* background colors */
+	--bg-primary: #F0FDF4;
+	--bg-secondary: #FFFFFF;
+	--bg-accent: #059669;
+	--bg-accent-light: #D1FAE5;
 
-    /* text colors */
-    --text-primary: #059669;
-    --text-secondary: #059669;
-    --text-accent: #FFFFFF;
-    --text-accent-light: #059669;
-    /* text colors */
-    --text-primary: #059669;
-    --text-secondary: #059669;
-    --text-accent: #FFFFFF;
-    --text-accent-light: #059669;
+	/* border settings */
+	--border-primary: #21A97C;
+	--border-secondary: #D4D4D4;
+	--border-radius-primary: 0.5rem;
+	--border-radius-small: 0.25rem;
+	--border-width: 1.5px;
 
-    /* icon colors */
-    --icon-primary: #059669;
-    /* icon colors */
-    --icon-primary: #059669;
+	/* text colors */
+	--text-primary: #059669;
+	--text-secondary: #059669;
+	--text-accent: #FFFFFF;
+	--text-accent-light: #059669;
+
+	/* icon colors */
+	--icon-primary: #059669;
 
 	--error-msg-color: #dc2626;
 
-    /* tag colors */
-    --tag-bg-color-high: #FEE2E2;
-    --tag-text-color-high: #B91C1C;
-    --tag-bg-color-medium: #FEF9C3;
-    --tag-text-color-medium: #A16207;
+	--tag-bg-color-high: #FEE2E2;
+	--tag-text-color-high: #B91C1C;
+
+	--tag-bg-color-medium: #FEF9C3;
+	--tag-text-color-medium: #A16207;
 	--tag-bg-color-medium-inverted: #F18E00;
-    --tag-bg-color-low: #DBEAFE;
-    --tag-text-color-low: #1D4ED8;
-    --tag-bg-color-regular: var(--bg-accent-light);
-    --tag-text-color-regular: var(--text-primary);
 
-    /* button colors */
-    --button-bg-color: var(--bg-accent);
-    --button-text-color: var(--text-accent);
-    --button-bg-color-hover: var(--bg-accent-light);
-    --button-text-color-hover: var(--text-accent-light);
+	--tag-bg-color-low: #DBEAFE;
+	--tag-text-color-low: #1D4ED8;
+
+	--tag-bg-color-regular: var(--bg-accent-light);
+	--tag-text-color-regular: var(--text-primary);
+
+	--button-bg-color: var(--bg-accent);
+	--button-text-color: var(--text-accent);
+
+	--button-bg-color-hover: var(--bg-accent-light);
+	--button-text-color-hover: var(--text-accent-light);
 }
 
 :root.dark-mode {
@@ -108,122 +98,100 @@
 }
 
 :root.dark-mode {
-    --bg-primary: #1A1D24;
-    --bg-secondary: #1F2937;
+	--bg-primary: #1A1D24;
+	--bg-secondary: #1F2937;
 
-    --bg-accent: #10B981;
-    --bg-accent-light: #151e25;
+	--bg-accent: #10B981;
+	--bg-accent-light: #151e25;
 
-    --border-primary: #374151;
-    --border-secondary: #2A3441;
-    --border-radius-primary: 0.5rem;
-    --border-radius-small: 0.25rem;
-    --border-width: 1.5px;
+	--border-primary: #374151;
+	--border-secondary: #2A3441;
+	--border-radius-primary: 0.5rem;
+	--border-radius-small: 0.25rem;
+	--border-width: 1.5px;
 
-    --text-primary: #E2E8F0;
-    --text-secondary: #e3eefe;
-    --text-accent: #FFFFFF;
-    --text-accent-light: #34D399;
+	--text-primary: #E2E8F0;
+	--text-secondary: #e3eefe;
+	--text-accent: #FFFFFF;
+	--text-accent-light: #34D399;
 
-    --icon-primary: #34D399;
+	--icon-primary: #34D399;
 
-    --tag-bg-color-high: #451A1A;
-    --tag-text-color-high: #F87171;
-    --tag-bg-color-medium: #454219;
-    --tag-text-color-medium: #FBBF24;
-    --tag-bg-color-low: #1E3A8A;
-    --tag-text-color-low: #60A5FA;
-    --tag-bg-color-regular: var(--bg-accent-light);
-    --tag-text-color-regular: #34D399;
+	--tag-bg-color-high: #451A1A;
+	--tag-text-color-high: #F87171;
+	--tag-bg-color-medium: #454219;
+	--tag-text-color-medium: #FBBF24;
+	--tag-bg-color-low: #1E3A8A;
+	--tag-text-color-low: #60A5FA;
+	--tag-bg-color-regular: var(--bg-accent-light);
+	--tag-text-color-regular: #34D399;
 
-    --button-bg-color: var(--bg-accent);
-    --button-text-color: var(--text-accent);
-    --button-bg-color-hover: var(--bg-accent-light);
-    --button-text-color-hover: #34D399;
+	--button-bg-color: var(--bg-accent);
+	--button-text-color: var(--text-accent);
+	--button-bg-color-hover: var(--bg-accent-light);
+	--button-text-color-hover: #34D399;
 
 	--input-bg: #374151;
-    --input-text: #E2E8F0; 
-    --input-border: #4B5563;
-    --input-placeholder: #9CA3AF; 
+	--input-text: #E2E8F0;
+	--input-border: #4B5563;
+	--input-placeholder: #9CA3AF;
 }
 
 button {
-    padding: 0.5rem 0.75rem;
-    border-radius: var(--border-radius-primary);
-    border: var(--border-width) solid var(--border-primary);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    padding: 0.5rem 0.75rem;
-    border-radius: var(--border-radius-primary);
-    border: var(--border-width) solid var(--border-primary);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.25s ease;
+	padding: 0.5rem 0.75rem;
+	border-radius: var(--border-radius-primary);
+	border: var(--border-width) solid var(--border-primary);
+	font-size: 1rem;
+	cursor: pointer;
+	transition: all 0.25s ease;
 }
 
+/* give me button that does not have i or not only has i */
 button:not(:has(i)), button:has(i + *), button:has(* + i) {
-    padding: 0.5rem 1.5rem;
+	padding: 0.5rem 1.5rem;
 }
 
 .small-btn {
-    padding: 0.3rem 0.45rem;
-    padding: 0.3rem 0.45rem;
+	padding: 0.3rem 0.45rem;
 }
 
+/* button coloring */
+
 button, button.flipped:hover {
-    background-color: var(--button-bg-color);
-    color: var(--button-text-color);
-    background-color: var(--button-bg-color);
-    color: var(--button-text-color);
+	background-color: var(--button-bg-color);
+	color: var(--button-text-color);
 }
 
 button:hover, button.flipped {
-    background-color: var(--button-bg-color-hover);
-    color: var(--button-text-color-hover);
-    background-color: var(--button-bg-color-hover);
-    color: var(--button-text-color-hover);
+	background-color: var(--button-bg-color-hover);
+	color: var(--button-text-color-hover);
 }
 
 .tag {
-    padding: 0.25rem 0.5rem;
-    border-radius: var(--border-radius-primary);
-    background: var(--tag-bg-color-regular);
-    color: var(--tag-text-color-regular);
-    font-size: 0.75rem;
-    text-align: center;
-    padding: 0.25rem 0.5rem;
-    border-radius: var(--border-radius-primary);
-    background: var(--tag-bg-color-regular);
-    color: var(--tag-text-color-regular);
-    font-size: 0.75rem;
-    text-align: center;
+	padding: 0.25rem 0.5rem;
+	border-radius: var(--border-radius-primary);
+	background: var(--tag-bg-color-regular);
+	color: var(--tag-text-color-regular);
+	font-size: 0.75rem;
+	text-align: center;
 }
 
 .tag-priority-high {
-    background: var(--tag-bg-color-high);
-    color: var(--tag-text-color-high);
-    background: var(--tag-bg-color-high);
-    color: var(--tag-text-color-high);
+	background: var(--tag-bg-color-high);
+	color: var(--tag-text-color-high);
 }
 
 .tag-priority-medium {
-    background: var(--tag-bg-color-medium);
-    color: var(--tag-text-color-medium);
-    background: var(--tag-bg-color-medium);
-    color: var(--tag-text-color-medium);
+	background: var(--tag-bg-color-medium);
+	color: var(--tag-text-color-medium);
 }
 
 .tag-priority-low {
-    background: var(--tag-bg-color-low);
-    color: var(--tag-text-color-low);
-    background: var(--tag-bg-color-low);
-    color: var(--tag-text-color-low);
+	background: var(--tag-bg-color-low);
+	color: var(--tag-text-color-low);
 }
 
 .task-date {
-    margin-right: 0.5rem;
-    font-size: 0.9rem;
-    margin-right: 0.5rem;
-    font-size: 0.9rem;
+	margin-right: 0.5rem;
+	font-size: 0.9rem;
 }
