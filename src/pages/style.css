@@ -255,7 +255,6 @@ h2 {
 	cursor: pointer;
 	flex: 1 1 0%;
 	align-content: center;
-	justify-content: space-between;
 	}
   
   #link-list li:hover {
@@ -275,13 +274,14 @@ h2 {
     border: none;
     background-color: transparent;
     color: var(--button-bg-color);
-    width: 80px;
-    padding: 0.5rem 1rem 0.5rem 1rem;
+    width: 150px;
+    padding: 0.5rem 1rem 0.5rem 0rem;
     text-align: left;
     margin-right: 10px;
     display: flex;
     /* flex-direction: row; */
     align-items: center;
+
 }
 
 #link-list button:hover {
