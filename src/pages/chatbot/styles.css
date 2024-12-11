@@ -7,8 +7,10 @@ body {
     justify-content: center;
     align-items: flex-start;
     height: 100vh;
+    position: relative;
 }
 
+/* Home button styling */
 #home-button {
     position: absolute; /* Position it outside the chat container */
     top: 10px; /* Space from the top */
@@ -25,26 +27,30 @@ body {
 
 #home-button:hover {
     background: #D1FAE5;
-	color: #059669;
+    color: #059669;
 }
 
 #home-button:active {
     background-color: #3e8e41;
 }
 
+/* Chat container styling */
 .chat-container {
     background-color: #ffffff;
-    width: 70%;
+    width: 90%;
     max-width: 600px;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    height: 80%;
-    margin-top: 100px; /* No margin-top needed now */
+    height: 80vh;
+    margin-top: 20px;
     border: 2px solid #A8D5BA;
+    overflow: hidden; /* Prevent overflow */
+    margin-top: 100px;
 }
 
+/* Chat box styling */
 .chat-box {
     flex-grow: 1;
     overflow-y: auto;
@@ -53,8 +59,11 @@ body {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Input area styling */
 .input-container {
     display: flex;
     padding: 10px;
@@ -62,52 +71,104 @@ body {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     border-top: 1px solid #ddd;
+    justify-content: space-between;
+    align-items: center;
 }
 
+/* Input box styling */
 #input-box {
     width: 80%;
     padding: 10px;
     border: 1px solid #059669;
     border-radius: 20px;
+    font-size: 18px;
     margin-right: 10px;
-    font-size: 16px;
+    outline: none; /* No focus outline */
 }
 
+/* Send button styling */
 #submit-button {
     background-color: #059669; /* Green background */
     color: white;
-    border: 1px solid;
+    border: none;
     padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 16px;
+    border-radius: 20
+    px;
+    font-size: 18px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 #submit-button:hover {
     background: #D1FAE5;
-	color: #059669;
+    color: #059669;
 }
 
 #submit-button:active {
-    background: #D1FAE5;
-	color: #059669;
+    background: #3e8e41;
 }
 
-.duck-image {
-    width: 100%;
-    max-width: 750px;
-    height: 750px;
-    margin-left: 65px;
-    border-radius: 15px;
-    margin-top: 150px;
+/* Styling for user and bot messages */
+.user-message, .bot-message {
+    max-width: 70%;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 20px;
+    font-size: 18px;
+    line-height: 1.5;
 }
-h2 {
-        text-align: center;
-        font-size: 100px;
-        color: #059669;
-        margin-top: 20px; /* Add some space from the top */
-        width: 100%; /* Ensure it takes up full width */
+
+.user-message {
+    background-color: #DCF8C6; /* WhatsApp user message style */
+    align-self: flex-end;
+    text-align: left;
+}
+
+.bot-message {
+    background-color: #E5E5EA; /* WhatsApp bot message style */
+    align-self: flex-start;
+    text-align: left;
+    color: #333;
+}
+
+/* Make the website responsive */
+@media (max-width: 768px) {
+    .chat-container {
+        width: 100%;
+        height: 85%;
     }
-#input-box:focus {
-        outline: none; /* Removes the outline on focus */
+
+    #input-box {
+        font-size: 16px;
     }
+
+    #submit-button {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+
+    .user-message, .bot-message {
+        font-size: 16px;
+    }
+}
+
+
+/* Duck Image Styling */
+.duck-image {
+    width: auto;
+    max-width: 750px;
+    height: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+    display: block;
+    margin-top: 170px;
+}
+
+/* Additional Responsive Image Styling */
+@media (max-width: 768px) {
+    .duck-image {
+        max-width: 90%; /* Reduce max width on smaller screens */
+        height: auto; /* Keep aspect ratio intact */
+    }
+}

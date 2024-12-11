@@ -370,7 +370,8 @@ h2 {
   .popup-content {
 	background-color: #ffffff;
 	padding: 30px 10px;
-	border-radius: 10px;
+	border-radius: var(--border-radius-primary);
+	border: var(--border-width) solid var(--border-primary);
 	max-width: 450px; /* Constrain width */
 	width: 90%; /* Flexible for smaller screens */
 	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Add clean shadow */
@@ -456,11 +457,15 @@ h2 {
 	width: 36px;
 	height: 36px;
   }
+  .adddelete:hover {
+    background-color: #d1fae5;
+  }
   #toggle-delete-btn{
 	margin: 0px 0px 0px 60px;
 
   }
   #add-link-btn{
+	padding: inherit;
 	margin-bottom: 0px;
   }
   #url-error-message{
