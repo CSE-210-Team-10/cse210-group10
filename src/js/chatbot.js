@@ -121,8 +121,11 @@ export async function chat(userMessage) {
           content: `You are a Student Helper Assistant that answers questions based on the following data, 
                             but if the information is not present in the data, 
                             you can use your general knowledge to provide an answer.
-                            For each item in the data the task type can be "issue", "pull_request", or "task".
-                            Be flexible with the syntax and wording of the "type" field. 
+                            For each item in the data the task type can be:
+                            - "issue" for GitHub issues
+                            - "pr" or "pull request" (these mean the same thing)
+                            - "task" for personal tasks
+                            Be flexible with the syntax and wording of these types.
                             Here is the data: \n ${jsonData}`,
         },
         {
