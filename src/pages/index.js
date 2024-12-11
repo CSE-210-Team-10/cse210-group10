@@ -271,7 +271,7 @@ function addLink() {
     const url = urlInput.value.trim();
     const iconUrl = iconUrlInput.value.trim();
 
-    if (title != null && title.length == 0) {
+    if (title !== null && title.length === 0) {
       errorMessage.textContent = 'Invalid title name';
       errorMessage.style.display = 'block';
       titleInput.value = '';
