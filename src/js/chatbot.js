@@ -95,58 +95,67 @@ export async function chat(userMessage) {
  */
 async function generateChatbotContext() {
   try {
-    const personal = getAllTasks();
+    const personalTasks = getAllTasks();
+    let tasksString = '';
 
-    let tasksString = personal
-      .map(task => {
-        const type = task.type === 'personal' ? 'task' : 
-          task.type;
-        return `
-            ID: ${task.title}
-            Type: ${type}
-            CreatedAt: ${task.dueDate.toISOString()}
-            Title: ${task.title}
-            Status: ${task.done ? 'closed' : 'open'}
-            Description: ${task.description}
-            Due Date: ${task.dueDate}
-            Tags: ${task.tags.join(', ')}
-            Priority: ${task.priority}
-            Url: ${task.url}
-        `;
-      })
-      .join('\n');
+    if (personalTasks.length > 0) {
+      tasksString = personalTasks
+        .map(task => {
+          const type = task.type === 'personal' ? 'task' : 
+            task.type;
+          return `
+              ID: ${task.title}
+              Type: ${type}
+              CreatedAt: ${task.dueDate.toISOString()}
+              Title: ${task.title}
+              Status: ${task.done ? 'closed' : 'open'}
+              Description: ${task.description ? task.description : ''}
+              Due Date: ${task.dueDate ? task.dueDate : ''}
+              Tags: ${task.tags?.join(', ') || ''}
+              Priority: ${task.priority ? task.priority : ''}
+              Url: ${task.url ? task.url : ''}
+          `;
+        })
+        .join('\n');
+    }
 
     const githubToken = localStorage.getItem(PROVIDER_TOKEN_KEY);
     
     const issues = await getIssues(githubToken, GITHUB_OWNER, GITHUB_REPO);
-    tasksString += `\n ${ issues
-      .map(task => `
-            ID: ${task.title}
-            Type: ${task.type}
-            Title: ${task.title}
-            Status: ${task.done ? 'closed' : 'open'}
-            Description: ${task.description}
-            Due Date: ${task.dueDate}
-            Tags: ${task.tags.join(', ')}
-            Priority: ${task.priority}
-            Url: ${task.url}
-        `)
-      .join('\n')}`;
 
-    const pullRequests = await getPullRequests(githubToken, GITHUB_OWNER, GITHUB_REPO);
-    tasksString += `\n ${ pullRequests
-      .map(task => `
+    if (issues.length > 0){
+      tasksString += `\n ${ issues
+        .map(task => `
               ID: ${task.title}
               Type: ${task.type}
               Title: ${task.title}
               Status: ${task.done ? 'closed' : 'open'}
-              Description: ${task.description}
-              Due Date: ${task.dueDate}
-              Tags: ${task.tags.join(', ')}
-              Priority: ${task.priority}
-              Url: ${task.url}
+              Description: ${task.description ? task.description : ''}
+              Due Date: ${task.dueDate ? task.dueDate : ''}
+              Tags: ${task.tags?.join(', ') || ''}
+              Priority: ${task.priority ? task.priority : ''}
+              Url: ${task.url ? task.url : ''}
           `)
-      .join('\n')}`;
+        .join('\n')}`;
+    }
+
+    const pullRequests = await getPullRequests(githubToken, GITHUB_OWNER, GITHUB_REPO);
+
+    if (pullRequests.length > 0) {
+      tasksString += `\n ${ pullRequests
+        .map(task => `
+                ID: ${task.title}
+                Type: ${task.type}
+                Title: ${task.title}
+                Status: ${task.done ? 'closed' : 'open'}
+                Description: ${task.description ? task.description : ''}
+                Due Date: ${task.dueDate ? task.dueDate : ''}
+                Tags: ${task.tags?.join(', ') || ''}
+                Priority: ${task.priority ? task.priority : ''}
+                Url: ${task.url ? task.url : ''}
+            `)
+        .join('\n')}`;
+    }
     return tasksString;
   } catch (error) {
     console.error('Error reading JSON file:', error);
