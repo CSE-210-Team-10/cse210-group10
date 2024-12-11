@@ -4,6 +4,7 @@ import jsdoc from 'eslint-plugin-jsdoc';
 export default [
   js.configs.recommended,
   {
+    ignorePatterns: ['cypress/**/*.js', 'cypress/**/*.cy.js'],
     plugins: {
       jsdoc: jsdoc,
     },
