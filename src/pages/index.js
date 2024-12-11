@@ -230,9 +230,18 @@ function renderLinks() {
     /**
      *
      */
-    linkButton.onclick = function () {
-      window.open(link.url, '_blank');
-    };
+      // Update this to handle 'www.' URLs properly
+      linkButton.onclick = function () {
+        let validUrl = link.url;
+  
+        // If the URL starts with 'www.', prepend 'http://'
+        if (validUrl.startsWith('www.')) {
+          validUrl = 'http://' + validUrl;
+        }
+  
+        window.open(validUrl, '_blank');
+      };
+  
 
     // Create the delete icon (hidden initially)
     const deleteIcon = document.createElement('span');
@@ -317,9 +326,18 @@ function addLink() {
  * @returns {boolean} Returns true if the URL is valid, otherwise false.
  */
 function isValidUrl(url) {
-  const urlPattern = /^(https?:\/\/)([\w\d-]+\.)+[\w]{2,}(\/.*)*(\.(png|jpg|jpeg|gif|webp|svg))?$/i;
+   // Prepend 'http://' if the URL starts with 'www.'
+   if (url.startsWith('www.')) {
+    url = 'http://' + url;
+  }
+  console.log(url);
+  const urlPattern = /^(https?:\/\/|www\.)[^\s\/]+\.[a-z]{2,}(\S*)$/i;
+  console.log(url);
+
   return urlPattern.test(url);
 }
+
+
 
 /**
  * Function to toggle the visibility of delete icons in the sidebar.

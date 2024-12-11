@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f4f8;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+}
+
+#home-button {
+    position: absolute; /* Position it outside the chat container */
+    top: 10px; /* Space from the top */
+    left: 70px; /* Space from the left */
+    background-color: #059669; /* Green background */
+    color: white;
+    border: 1px solid;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 10; /* Keep the button on top */
+}
+
+#home-button:hover {
+    background: #D1FAE5;
+	color: #059669;
+}
+
+#home-button:active {
+    background-color: #3e8e41;
+}
+
+.chat-container {
+    background-color: #ffffff;
+    width: 70%;
+    max-width: 600px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    margin-top: 100px; /* No margin-top needed now */
+    border: 2px solid #A8D5BA;
+}
+
+.chat-box {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: #fafafa;
+}
+
+.input-container {
+    display: flex;
+    padding: 10px;
+    background-color: #ffffff;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-top: 1px solid #ddd;
+}
+
+#input-box {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #059669;
+    border-radius: 20px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+#submit-button {
+    background-color: #059669; /* Green background */
+    color: white;
+    border: 1px solid;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#submit-button:hover {
+    background: #D1FAE5;
+	color: #059669;
+}
+
+#submit-button:active {
+    background: #D1FAE5;
+	color: #059669;
+}
+
+.duck-image {
+    width: 100%;
+    max-width: 900px;
+    height: 900px;
+    margin-left: 65px;
+    border-radius: 15px;
+    margin-top: 150px;
+}
+h2 {
+        text-align: center;
+        font-size: 100px;
+        color: #059669;
+        margin-top: 20px; /* Add some space from the top */
+        width: 100%; /* Ensure it takes up full width */
+    }
+#input-box:focus {
+        outline: none; /* Removes the outline on focus */
+    }

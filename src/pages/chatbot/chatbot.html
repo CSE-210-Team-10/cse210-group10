@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="navigation-container">
+        <button id="home-button" onclick="window.location.href='../index.html'">&larr;</button>
+    </div>
+    <div class="chat-container">
+        <div id="chat-box" class="chat-box">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="input-container">
+            <input id="input-box" type="text" placeholder="Type your message here...">
+            <button id="submit-button">Send</button>
+        </div>
+    </div>
+    <img src="../../static/duck.png" alt="Rubber Duck" class="duck-image">
+</body>
+
+<script type = "module" src="../../js/chatbot-listener.js"></script>
+</html>

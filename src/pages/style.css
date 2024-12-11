@@ -371,7 +371,7 @@ h2 {
   /* Input fields styling */
   .add-link-form input[type="text"],
   .add-link-form input[type="url"] {
-	width: 75%;
+	width: 95%;
 	padding: 10px;
 	margin-bottom:solid #ddd;
 	font-size: 14px;
@@ -393,17 +393,19 @@ h2 {
   .add-link-form button {
 	width: 95%;
 	padding: 10px;
-	background-color: #4CAF50;
+	background-color: #059669;
 	color: white;
-	border: none;
+	border: 1px solid;
 	border-radius: 5px;
+	border-color: #059669;
 	cursor: pointer;
 	font-size: 14px;
 	margin-top: 10px;
   }
   
   .add-link-form button:hover {
-	background-color: #45a049;
+	background: var(--tag-bg-color-regular);
+	color: var(--tag-text-color-regular);
   }
 
 
