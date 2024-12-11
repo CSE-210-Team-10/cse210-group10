@@ -1,4 +1,4 @@
-import { PROVIDER_TOKEN_KEY } from './const.js';
+import { PROVIDER_TOKEN_KEY, THEME_KEY } from './const.js';
 import { isProviderTokenValid } from './github-api.js';
 
 /**
@@ -36,4 +36,23 @@ export function removeProviderToken() {
  */
 export function getProviderToken() {
   return localStorage.getItem(PROVIDER_TOKEN_KEY);
+}
+
+/**
+ * Set theme to localStorage
+ * @param { 'light' | 'dark' } theme theme of the application
+ */
+export function setTheme(theme) {
+  localStorage.setItem(THEME_KEY, theme);
+}
+
+/**
+ * Get theme from localStorage
+ * @returns { 'light' | 'dark' } theme of the application
+ */
+export function getTheme() {
+  const theme = localStorage.getItem(THEME_KEY);
+
+  if (theme === 'light' || theme === 'dark') return theme;
+  throw new Error('Theme unknown');
 }

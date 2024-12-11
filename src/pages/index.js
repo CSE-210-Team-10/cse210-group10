@@ -1,16 +1,14 @@
-import { authService } from '../js/auth.js';
+import TaskStore from '../js/task/crud.js';
 import { TaskItem } from '../components/task-item/index.js';
 import { TaskForm } from '../components/task-form/index.js';
-import TaskStore from '../js/task/crud.js';
+import { authService } from '../js/auth.js';
+import { setTheme, getTheme } from '../js/local-storage.js';
 
 import { main as filterMain } from './filters.js';
 import { renderTaskPanels } from './render.js';
 
 /** @typedef { import('../js/task/index.js').Task } Task */
 /** @typedef { import('../js/auth.js').UserData } User */
-
-const darkModeToggle = document.querySelector('button:has(i.fa-moon)');
-const lightModeToggle = document.querySelector('button:has(i.fa-sun)');
 
 /**
  * @typedef { object } TaskFormData
@@ -36,14 +34,44 @@ export function main() {
   /** @type { TaskForm } */
   const taskForm = document.querySelector('task-form');
 
+  const darkModeToggle = document.querySelector('button:has(i.fa-moon)');
+  const lightModeToggle = document.querySelector('button:has(i.fa-sun)');
   const createTaskBtn = document.querySelector('#create-task-btn');
+
   createTaskBtn.addEventListener('click', openTaskForm);
   taskForm.addEventListener(TaskForm.taskFormSubmitEvent, handleTaskFormSubmit);
   document.addEventListener(TaskItem.editTaskEvent, handleTaskEdit);
   document.addEventListener(TaskItem.deleteTaskEvent, handleTaskDelete);
   document.addEventListener(TaskItem.completeTaskEvent, handleTaskCompleted);
 
+  darkModeToggle.addEventListener('click', () => renderTheme('dark'));
+  lightModeToggle.addEventListener('click', () => renderTheme('light'));
+
   filterMain();
+  renderTheme(getTheme());
+}
+
+/**
+ * Set the theme to the one user wants
+ * @param { 'dark' | 'light' } theme The them that user wants to set
+ */
+function renderTheme(theme) {
+  /** @type { HTMLButtonElement } */
+  const darkModeToggle = document.querySelector('button:has(i.fa-moon)');
+
+  /** @type { HTMLButtonElement } */
+  const lightModeToggle = document.querySelector('button:has(i.fa-sun)');
+
+  const isDarkMode = theme === 'dark';
+
+  if (isDarkMode) document.documentElement.classList.add('dark-mode');
+  else document.documentElement.classList.remove('dark-mode');
+
+  darkModeToggle.ariaDisabled = String(!isDarkMode);
+
+  lightModeToggle.ariaDisabled = String(isDarkMode);
+
+  setTheme(theme);
 }
 
 /**
@@ -76,22 +104,6 @@ function authEventHandler(event, user) {
     redirectToLogin();
   }
 }
-
-darkModeToggle.addEventListener('click', () => {
-  document.documentElement.classList.toggle('dark-mode');
-  darkModeToggle.ariaDisabled = 'true';
-  darkModeToggle.disabled = true;
-  lightModeToggle.ariaDisabled = 'false';
-  lightModeToggle.disabled = false;
-});
-
-lightModeToggle.addEventListener('click', () => {
-  document.documentElement.classList.toggle('dark-mode');
-  darkModeToggle.ariaDisabled = 'false';
-  darkModeToggle.disabled = false;
-  lightModeToggle.ariaDisabled = 'true';
-  lightModeToggle.disabled = true;
-});
 
 /**
  * Open up the create task form for user to create a new task
