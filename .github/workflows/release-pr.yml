@@ -43,8 +43,44 @@ jobs:
         id: tests
         run: npm test
 
-  deploy:
+  cypress:
     needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Install Cypress
+        run: npx cypress install
+
+      - name: Start Development Server
+        run: |
+          npm run start & echo $! > .pidfile
+          npx wait-on http://localhost:3000
+
+      - name: Run Cypress Tests
+        working-directory: ./cypress
+        run: npx cypress run
+        env:
+          CYPRESS_BASE_URL: http://localhost:3000
+
+      - name: Shutdown Server
+        if: always()
+        run: |
+          if [ -f ".pidfile" ]; then
+            kill $(cat .pidfile)
+          fi
+
+  deploy:
+    needs: cypress
     if: startsWith(github.head_ref, 'dev/')
     runs-on: ubuntu-latest
     permissions: # to add permissions to write on PR
