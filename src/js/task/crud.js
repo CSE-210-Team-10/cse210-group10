@@ -80,7 +80,6 @@ function getAllTasks() {
   /** @type { Task[] } */
   const tasks = tasksJson ? JSON.parse(tasksJson) : [];
   const githubTasks = getGithubTasks();
-
   if (githubTasks.length > 0) {
     for (const task of githubTasks) {
       if (!task.id) task.id = getMaxId(tasks);

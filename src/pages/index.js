@@ -240,6 +240,11 @@ function openTaskForm() {
  * @returns { Omit<Task, 'id'> & { id?: string } } Formatted task data
  */
 function formatTaskData(formData) {
+  // Convert to local date
+  const utcDate = new Date(formData.dueDate);
+  const offset = utcDate.getTimezoneOffset();
+  const localDate = new Date(utcDate.getTime() + offset * 60000);
+
   return {
     id: formData.id,
     title: formData.taskName,
@@ -247,7 +252,7 @@ function formatTaskData(formData) {
     done: false,
     priority: formData.priority,
     tags: formData.tags,
-    dueDate: new Date(formData.dueDate),
+    dueDate: localDate,
     description: formData.description,
     url: '',
   };
@@ -262,7 +267,6 @@ function handleTaskFormSubmit(e) {
     throw new Error(
       'Task form mode should not be null when the task form is submitted.'
     );
-
   const taskData = formatTaskData(e.detail);
 
   try {
