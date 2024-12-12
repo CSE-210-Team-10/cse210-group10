@@ -131,10 +131,10 @@ function generateUpcomingDeadlines() {
   deadlinesContainer.innerHTML = '';
 
   // Render overdue section
-    const overdueElement = document.createElement('li');
-    overdueElement.classList.add('deadline');
-    overdueElement.id = 'deadline-overdue';
-    overdueElement.innerHTML = `
+  const overdueElement = document.createElement('li');
+  overdueElement.classList.add('deadline');
+  overdueElement.id = 'deadline-overdue';
+  overdueElement.innerHTML = `
         <div>Overdue</div>
         <ul class="deadline-tags">
             <li class="tag tag-priority-high">High: ${overdueTasks.high}</li>
@@ -142,28 +142,28 @@ function generateUpcomingDeadlines() {
             <li class="tag tag-priority-low">Low: ${overdueTasks.low}</li>
         </ul>
     `;
-    deadlinesContainer.appendChild(overdueElement);
+  deadlinesContainer.appendChild(overdueElement);
 
   // Render upcoming 7 days starting from today
   for (let i = 0; i < NUMBER_UPCOMING_DEADLINE_DAYS; i++) {
-      const currentDate = new Date(today);
-      currentDate.setDate(today.getDate() + i);
+    const currentDate = new Date(today);
+    currentDate.setDate(today.getDate() + i);
       
-      const dateTaskCounts = upcomingTasksByDate[currentDate.toISOString().split('T')[0]] || {
-          high: 0,
-          medium: 0,
-          low: 0
-      };
+    const dateTaskCounts = upcomingTasksByDate[currentDate.toISOString().split('T')[0]] || {
+      high: 0,
+      medium: 0,
+      low: 0
+    };
 
-      const formattedDate = currentDate.toLocaleDateString('en-US', {
-          weekday: 'long', 
-          month: 'short', 
-          day: 'numeric'
-      });
+    const formattedDate = currentDate.toLocaleDateString('en-US', {
+      weekday: 'long', 
+      month: 'short', 
+      day: 'numeric'
+    });
 
-      const deadlineElement = document.createElement('li');
-      deadlineElement.classList.add('deadline');
-      deadlineElement.innerHTML = `
+    const deadlineElement = document.createElement('li');
+    deadlineElement.classList.add('deadline');
+    deadlineElement.innerHTML = `
           <div>${formattedDate}</div>
           <ul class="deadline-tags">
               <li class="tag tag-priority-high">High: ${dateTaskCounts.high}</li>
@@ -172,7 +172,7 @@ function generateUpcomingDeadlines() {
           </ul>
       `;
 
-      deadlinesContainer.appendChild(deadlineElement);
+    deadlinesContainer.appendChild(deadlineElement);
   }
 }
 
@@ -180,45 +180,45 @@ function generateUpcomingDeadlines() {
 * Categorize tasks by date, separating overdue and upcoming tasks
 * @param {Task[]} tasks - Array of tasks
 * @param {Date} today - Current date
-* @returns {Object} Categorized tasks
+* @returns {object} Categorized tasks
 */
 function categorizeTasksByDate(tasks, today) {
   const overdueTasks = {
-      high: 0,
-      medium: 0,
-      low: 0
+    high: 0,
+    medium: 0,
+    low: 0
   };
 
   const upcomingTasksByDate = {};
 
   tasks.forEach(task => {
-      if (!task.dueDate) return;
+    if (!task.dueDate) return;
 
-      const taskDate = new Date(task.dueDate);
-      taskDate.setHours(0, 0, 0, 0); // Reset time to start of day
+    const taskDate = new Date(task.dueDate);
+    taskDate.setHours(0, 0, 0, 0); // Reset time to start of day
 
-      const dateKey = taskDate.toISOString().split('T')[0];
+    const [dateKey] = taskDate.toISOString().split('T');
 
-      // Categorize tasks
-      if (taskDate < today) {
-          // Overdue tasks
-          if (task.priority === 'high') overdueTasks.high++;
-          else if (task.priority === 'medium') overdueTasks.medium++;
-          else if (task.priority === 'low') overdueTasks.low++;
-      } else {
-          // Upcoming tasks
-          if (!upcomingTasksByDate[dateKey]) {
-              upcomingTasksByDate[dateKey] = {
-                  high: 0,
-                  medium: 0,
-                  low: 0
-              };
-          }
-
-          if (task.priority === 'high') upcomingTasksByDate[dateKey].high++;
-          else if (task.priority === 'medium') upcomingTasksByDate[dateKey].medium++;
-          else if (task.priority === 'low') upcomingTasksByDate[dateKey].low++;
+    // Categorize tasks
+    if (taskDate < today) {
+      // Overdue tasks
+      if (task.priority === 'high') overdueTasks.high++;
+      else if (task.priority === 'medium') overdueTasks.medium++;
+      else if (task.priority === 'low') overdueTasks.low++;
+    } else {
+      // Upcoming tasks
+      if (!upcomingTasksByDate[dateKey]) {
+        upcomingTasksByDate[dateKey] = {
+          high: 0,
+          medium: 0,
+          low: 0
+        };
       }
+
+      if (task.priority === 'high') upcomingTasksByDate[dateKey].high++;
+      else if (task.priority === 'medium') upcomingTasksByDate[dateKey].medium++;
+      else if (task.priority === 'low') upcomingTasksByDate[dateKey].low++;
+    }
   });
 
   return { overdueTasks, upcomingTasksByDate };
