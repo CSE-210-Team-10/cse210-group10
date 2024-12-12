@@ -2,6 +2,7 @@ dialog {
 	margin: auto;
 	border: var(--border-width) solid var(--border-primary);
 	border-radius: var(--border-radius-primary);
+	background: var(--bg-secondary);
 }
 
 dialog::backdrop {
@@ -94,6 +95,8 @@ select {
 	padding: calc(var(--padding) / 2);
 	border: var(--border-width) solid var(--border-secondary);
 	border-radius: var(--border-radius-primary);
+	background: var(--bg-accent-light);
+	color: var(--text-primary);
 }
 
 .buttons {
