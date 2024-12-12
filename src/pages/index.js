@@ -156,7 +156,7 @@ function generateUpcomingDeadlines() {
     };
 
     const formattedDate = currentDate.toLocaleDateString('en-US', {
-      weekday: 'long', 
+      weekday: 'short', 
       month: 'short', 
       day: 'numeric'
     });
@@ -164,7 +164,7 @@ function generateUpcomingDeadlines() {
     const deadlineElement = document.createElement('li');
     deadlineElement.classList.add('deadline');
     deadlineElement.innerHTML = `
-          <div>${formattedDate}</div>
+          <div class="deadline-date">${formattedDate}</div>
           <ul class="deadline-tags">
               <li class="tag tag-priority-high">High: ${dateTaskCounts.high}</li>
               <li class="tag tag-priority-medium">Medium: ${dateTaskCounts.medium}</li>
