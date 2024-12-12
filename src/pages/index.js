@@ -173,8 +173,48 @@ function generateUpcomingDeadlines() {
           </ul>
       `;
 
+    // Add event listener to the deadline element
+    deadlineElement.addEventListener('click', () => {
+      if (deadlineElement.classList.contains('selected')) {
+        deadlineElement.classList.remove('selected');
+
+        removeFilterByDate();
+      } else {
+        const allDeadlines = deadlinesContainer.querySelectorAll('.deadline');
+        allDeadlines.forEach(el => el.classList.remove('selected'));
+
+        deadlineElement.classList.add('selected');
+
+        const [date] = currentDate.toISOString().split('T');
+        filterTasksByDate(date);
+      }
+    });
+
     deadlinesContainer.appendChild(deadlineElement);
   }
+}
+
+/**
+ * Filter tasks by date
+ * @param {string} date The date to filter tasks by
+ */
+function filterTasksByDate(date) {
+  const tasks = TaskStore.getAllTasks().filter(task => task.type === 'personal');
+  const filteredTasks = tasks.filter(task => {
+    const taskDate = new Date(task.dueDate);
+    taskDate.setHours(0, 0, 0, 0);
+    return taskDate.toISOString().split('T')[0] === date;
+  });
+
+  renderTaskPanels(filteredTasks);
+}
+
+/**
+ * Remove filter by date
+ */
+function removeFilterByDate() {
+  const tasks = TaskStore.getAllTasks();
+  renderTaskPanels(tasks);
 }
 
 /**

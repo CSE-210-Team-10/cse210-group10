@@ -25,6 +25,10 @@
 	cursor: pointer;
 }
 
+.deadline.selected {
+	background-color: var(--bg-accent-light);
+	color: var(--text-primary);
+}
 
 .deadline:first-child {
 	margin-right: var(--padding);
