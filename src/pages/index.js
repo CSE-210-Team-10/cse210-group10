@@ -2,7 +2,7 @@ import TaskStore from '../js/task/crud.js';
 import { TaskItem } from '../components/task-item/index.js';
 import { TaskForm } from '../components/task-form/index.js';
 import { authService } from '../js/auth.js';
-import { setTheme, getTheme } from '../js/local-storage.js';
+import { setTheme, getTheme, refreshGithubTasks } from '../js/local-storage.js';
 
 import { main as filterMain } from './filters.js';
 import { renderTaskPanels } from './render.js';
@@ -53,7 +53,7 @@ export function main() {
       await authService.logout();
     });
   }
-  
+
   darkModeToggle.addEventListener('click', () => renderTheme('dark'));
   lightModeToggle.addEventListener('click', () => renderTheme('light'));
 
@@ -109,7 +109,8 @@ async function renderPage(user) {
  */
 function authEventHandler(event, user) {
   if (event === 'SIGNED_IN' && user) {
-    renderPage(authService.getGithubData());
+    refreshGithubTasks(user);
+    renderPage(user);
   } else if (event === 'SIGNED_OUT' || !user) {
     redirectToLogin();
   }

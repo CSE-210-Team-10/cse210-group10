@@ -1,4 +1,6 @@
 /** @typedef { import('../js/auth.js').UserData } User */
+/** @typedef { import('../js/task/index.js').Task } Task */
+
 /**
  * Verify if the GitHub provider token is still valid
  * @param { string } token github provider token
@@ -36,60 +38,127 @@ function parseAssigneesLogin(assignees) {
 }
 
 /**
- * Fetch specified GitHub data and package it into a Task object.
- * @param { User } user The user data object
- * @param { string } owner The owner of the repo
- * @param { string } repo The repo that the user wants to pull from
- * @param { string } flag Either 'pulls' or 'issues' to pull from
- * @returns { Promise<object[]> } returns the GitHub data in a Task object format
+ * Fetches all repositories accessible to the authenticated user
+ * @param { User } user User object containing authentication details
+ * @returns { Promise<Array<{name: string, owner: string}>> } Array of repository objects containing name and owner
+ * @throws { Error } If the API request fails
  */
-export async function getGithubData(user, owner, repo, flag) {
-  const url = `https://api.github.com/repos/${owner}/${repo}/${flag}`;
-
+async function getReposByUser(user) {
   try {
-    const response = await fetch(url, {
+    const response = await fetch('https://api.github.com/user/repos', {
       headers: {
-        'Authorization': `${user.accessToken}`,
-        'X-GitHub-Api-Version': '2022-11-28'
-      }
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${user.accessToken}`,
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
     });
+
     if (!response.ok) {
-      throw new Error('Failed to fetch GitHub data.');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
 
+    return data.map(repo => ({
+      name: repo.name,
+      owner: repo.owner.login,
+    }));
+  } catch (error) {
+    console.error('Error fetching repositories:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch all GitHub tasks (issues and PRs) from all accessible repositories
+ * @param { User } user User object containing authentication details
+ * @returns { Promise<Task[]> } Array of standardized task objects
+ * @throws {Error} If any API request fails
+ */
+export async function getTasksByUser(user) {
+  try {
+    // Use getRepo to fetch all repositories
+    const repos = await getReposByUser(user);
+
+    // Get tasks for each repo
+    const tasks = await Promise.all(
+      repos.map(repo => getTasksByRepoUser(user, repo))
+    );
+
+    return tasks.flat().filter(Boolean);
+  } catch (error) {
+    console.error('Error fetching GitHub data:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetch both issues and pull requests for a repository and return as tasks
+ * @param { User } user User object containing authentication details
+ * @param { {name: string, owner: string} } repo of repository objects containing name and owner
+ * @returns { Promise<Task[] >} Array of task objects
+ * @throws { Error } If the API request fails
+ */
+async function getTasksByRepoUser(user, repo) {
+  const urls = [
+    `https://api.github.com/repos/${repo.owner}/${repo.name}/issues`,
+    `https://api.github.com/repos/${repo.owner}/${repo.name}/pulls`,
+  ];
+
+  try {
+    const responses = await Promise.all(
+      urls.map(url =>
+        fetch(url, {
+          headers: {
+            Accept: 'application/vnd.github+json',
+            Authorization: `Bearer ${user.accessToken}`,
+            'X-GitHub-Api-Version': '2022-11-28',
+          },
+        })
+      )
+    );
+
+    if (!responses.every(res => res.ok)) {
+      throw new Error('Failed to fetch GitHub data');
+    }
+
+    const [issuesData, pullsData] = await Promise.all(
+      responses.map(res => res.json())
+    );
+
     const res = [];
 
-    for (let i = 0; i < data.length; i ++) {
-      const assignees = parseAssigneesLogin(data[i].assignees);
+    // Process both issues and PRs
+    [...issuesData, ...pullsData].forEach(item => {
+      const assignees = parseAssigneesLogin(item.assignees);
+
       if (assignees.includes(user.username)) {
-        const isPR = flag === 'pulls'; 
+        const isPR = 'pull_request' in item;
         const dueDate = isPR
-          ? (data[i].created_at instanceof Date 
-            ? data[i].created_at 
-            : new Date(data[i].created_at))
-          : (data[i].updated_at instanceof Date 
-            ? data[i].updated_at 
-            : new Date(data[i].updated_at));
-        const typeGit = isPR ? 'pr' : 'issue';
-        const url = isPR ? String(data[i].html_url) : String(data[i].url);
-        const parsedTask = {
-          type: typeGit,
-          title: String(data[i].title),
+          ? new Date(item.created_at)
+          : new Date(item.updated_at);
+
+        const type = isPR ? 'PR' : 'Issue';
+        const tags = [type, repo.name];
+
+        // if (repo.owner !== user.username) tags.push(repo.owner);
+
+        res.push({
+          type: isPR ? 'pr' : 'issue',
+          title: String(item.title),
           done: false,
-          dueDate: dueDate,
-          description: String(''),
-          url: url,
-          priority: String('high'),
-          tags: [owner, repo]
-        };
-        res.push(parsedTask);
+          dueDate,
+          description: '',
+          url: String(isPR ? item.html_url : item.url),
+          priority: 'high',
+          tags,
+        });
       }
-    }
+    });
+
     return res;
-  }
-  catch (error) {
-    console.error(error);
+  } catch (error) {
+    console.error('Error fetching GitHub data:', error);
+    throw error;
   }
 }
