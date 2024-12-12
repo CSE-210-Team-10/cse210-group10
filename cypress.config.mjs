@@ -9,8 +9,8 @@ export default defineConfig({
     },
     specPattern: './cypress/e2e/*.{js,jsx,ts,tsx}',
     supportFile: false,  // No support files
-    viewportWidth: 1280,
-    viewportHeight: 720,
+    viewportWidth: 1600,
+    viewportHeight: 1000,
     experimentalStudio: true,
   },
 });
