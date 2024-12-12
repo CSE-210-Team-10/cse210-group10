@@ -1,6 +1,8 @@
 /** @typedef { import('./index.js').Task } Task */
 
-const STORAGE_KEY = 'byteboard_tasks';
+import { getGithubTasks } from '../local-storage.js';
+
+const STORAGE_KEY = 'personal_tasks';
 
 /**
  * Get the maximum ID from existing tasks
@@ -8,8 +10,9 @@ const STORAGE_KEY = 'byteboard_tasks';
  * @returns { number }
  */
 function getMaxId(tasks) {
-  if (tasks.length === 0) return 0;
-  return Math.max(...tasks.map(task => task.id));
+  const filteredTasks = tasks.filter(task => task.id);
+  if (filteredTasks.length === 0) return 0;
+  return Math.max(...filteredTasks.map(task => task.id));
 }
 
 /**
@@ -73,7 +76,15 @@ function createTask(taskData) {
  */
 function getAllTasks() {
   const tasksJson = localStorage.getItem(STORAGE_KEY);
+
+  /** @type { Task[] } */
   const tasks = tasksJson ? JSON.parse(tasksJson) : [];
+  const githubTasks = Array.isArray(getGithubTasks()) ? getGithubTasks() : [];
+  if (githubTasks.length > 0) {
+    for (const task of githubTasks) {
+      if (!task.id) task.id = getMaxId(tasks);
+    }
+  }
 
   // Convert date strings back to Date objects
   return tasks.map(task => ({
@@ -108,6 +119,8 @@ function updateTask(id, updates) {
   const updatedTask = {
     ...tasks[taskIndex],
     ...updates,
+    // Only set a default priority if no priority exists
+    priority: updates.priority || tasks[taskIndex].priority || 'medium',
     // Ensure dueDate remains a Date object if it was updated
     dueDate: updates.dueDate
       ? new Date(updates.dueDate)
