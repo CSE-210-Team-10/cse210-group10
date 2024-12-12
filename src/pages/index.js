@@ -59,6 +59,7 @@ function redirectToLogin() {
  */
 async function renderPage(user) {
   console.log(user);
+  console.log(TaskStore.getAllTasks());
   renderTaskPanels(TaskStore.getAllTasks());
 }
 

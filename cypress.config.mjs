@@ -12,5 +12,6 @@ export default defineConfig({
     viewportWidth: 1600,
     viewportHeight: 1000,
     experimentalStudio: true,
+    includeShadowDom: true
   },
 });
