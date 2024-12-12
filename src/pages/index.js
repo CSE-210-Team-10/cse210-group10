@@ -177,15 +177,14 @@ function generateUpcomingDeadlines() {
       if (deadlineElement.classList.contains('selected')) {
         deadlineElement.classList.remove('selected');
 
-        const date = currentDate.toISOString().split('T')[0];
-        removeFilterByDate(date);
+        removeFilterByDate();
       } else {
         const allDeadlines = deadlinesContainer.querySelectorAll('.deadline');
         allDeadlines.forEach(el => el.classList.remove('selected'));
 
         deadlineElement.classList.add('selected');
 
-        const date = currentDate.toISOString().split('T')[0];
+        const [date] = currentDate.toISOString().split('T');
         filterTasksByDate(date);
       }
     });
@@ -198,7 +197,6 @@ function generateUpcomingDeadlines() {
  * Filter tasks by date
  * @param {string} date The date to filter tasks by
  */
-
 function filterTasksByDate(date) {
   const tasks = TaskStore.getAllTasks().filter(task => task.type === 'personal');
   const filteredTasks = tasks.filter(task => {
@@ -212,9 +210,8 @@ function filterTasksByDate(date) {
 
 /**
  * Remove filter by date
- * @param {string} date The date to remove the filter by
  */
-function removeFilterByDate(date) {
+function removeFilterByDate() {
   const tasks = TaskStore.getAllTasks();
   renderTaskPanels(tasks);
 }
