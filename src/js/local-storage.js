@@ -1,5 +1,8 @@
-import { PROVIDER_TOKEN_KEY, THEME_KEY } from './const.js';
-import { isProviderTokenValid } from './github-api.js';
+import { PROVIDER_TOKEN_KEY, THEME_KEY, GITHUB_TASKS_KEY } from './const.js';
+import { getTasksByUser, isProviderTokenValid } from './github-api.js';
+
+/** @typedef { import('./auth.js').UserData } User */
+/** @typedef { import('./task/index.js').Task } Task */
 
 /**
  * Validates and sets the provider token in localStorage
@@ -54,5 +57,22 @@ export function getTheme() {
   const theme = localStorage.getItem(THEME_KEY);
 
   if (theme === 'light' || theme === 'dark') return theme;
-  throw new Error('Theme unknown');
+  return 'light';
+}
+
+/**
+ * Refresh GitHub Tasks for the user
+ * @param { User } user to fetch tasks for
+ */
+export async function refreshGithubTasks(user) {
+  const tasks = await getTasksByUser(user);
+  localStorage.setItem(GITHUB_TASKS_KEY, JSON.stringify(tasks));
+}
+
+/**
+ * Get GitHub Tasks for the user
+ * @returns { Task[] } list of GitHub tasks
+ */
+export function getGithubTasks() {
+  return JSON.parse(localStorage.getItem(GITHUB_TASKS_KEY));
 }

@@ -4,3 +4,4 @@ export const GITHUB_REPO = 'group10-esc012'; //repo
 export const GITHUB_ISSUES_KEY = 'issues';
 export const GITHUB_PR_KEY = 'pulls';
 export const THEME_KEY = 'app_theme';
+export const GITHUB_TASKS_KEY = 'personal_tasks';

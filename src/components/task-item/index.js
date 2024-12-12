@@ -23,7 +23,7 @@ const UISelector = {
   deleteBtn: '.delete-btn',
   completeBtn: '.complete-btn',
   collapseBtn: '.collapse-btn',
-  controlBtns: 'button',
+  interactiveBtns: '.interactive-btn',
 };
 
 /**
@@ -95,10 +95,19 @@ export class TaskItem extends HTMLElement {
   }
 
   /**
-   * @returns {boolean} Whether the task item is interactive
+   * @returns { boolean } Whether the task item is interactive
    */
   get interactive() {
-    return this.hasAttribute(DataAttributeSelector.interactive);
+    return this.type !== 'issue' && this.type !== 'pr';
+  }
+
+  /**
+   * @returns { 'issue' | 'pr' | 'personal' } Type of the task item
+   */
+  get type() {
+    const { type } = this.dataset;
+    if (type === 'issue' || type === 'pr' || type === 'personal') return type;
+    throw new Error(`Invalid type: ${type}`);
   }
 
   /**
@@ -135,6 +144,26 @@ export class TaskItem extends HTMLElement {
   }
 
   /**
+   * Set the description of the task item
+   */
+  set description(value) {
+    /** @type { HTMLSlotElement } */
+    const slot = this.shadowRoot.querySelector(UISelector.slot);
+    const nodes = slot.assignedNodes();
+
+    // Find the text node(s)
+    const textNodes = nodes.filter(node => node.nodeType === Node.TEXT_NODE);
+
+    if (textNodes.length > 0) {
+      textNodes[0].textContent = value;
+    } else {
+      // Create new text node if none exists
+      const textNode = document.createTextNode(value);
+      slot.appendChild(textNode);
+    }
+  }
+
+  /**
    * @returns { string } the id of the task item
    */
   get id() {
@@ -156,27 +185,39 @@ export class TaskItem extends HTMLElement {
    */
   render() {
     // Get all attributes
-    const { title, priority, date, tags, interactive } = this;
+    let { title } = this;
+    const { priority, date, tags, interactive, type } = this;
+
     const details = this.shadowRoot.querySelector(UISelector.details);
 
     /** @type { NodeListOf<HTMLButtonElement> } */
-    const controls = this.shadowRoot.querySelectorAll(UISelector.controlBtns);
+    const interactiveBtns = this.shadowRoot.querySelectorAll(
+      UISelector.interactiveBtns
+    );
 
     if (details) {
       details.classList.toggle('non-interactive', !interactive);
     }
 
-    controls.forEach(btn => {
+    interactiveBtns.forEach(btn => {
       btn.style.display = interactive ? '' : 'none';
     });
+
+    // Handle GitHub Tasks
+    if (type === 'issue' || type === 'pr') {
+      this.description = title.length > 15 ? `Full Title: ${title}` : '';
+      title = title.length > 15 ? `${title.slice(0, 15)}...` : title;
+    }
 
     // Update title
     const titleElement = this.shadowRoot.querySelector(UISelector.title);
     if (titleElement) titleElement.textContent = title;
 
     // Update date
+    /** @type { HTMLSpanElement } */
     const dateElement = this.shadowRoot.querySelector(UISelector.date);
     if (dateElement) dateElement.textContent = date;
+    if (type === 'issue' || type === 'pr') dateElement.style.display = 'none';
 
     // Update tags
     const tagsContainer = this.shadowRoot.querySelector(UISelector.tags);
@@ -216,12 +257,6 @@ export class TaskItem extends HTMLElement {
     const deleteBtn = this.shadowRoot.querySelector(UISelector.deleteBtn);
     const completeBtn = this.shadowRoot.querySelector(UISelector.completeBtn);
     const collapseBtn = this.shadowRoot.querySelector(UISelector.collapseBtn);
-
-    details?.addEventListener('click', e => {
-      if (!this.interactive) {
-        e.preventDefault();
-      }
-    });
 
     editBtn?.addEventListener('click', e => {
       e.preventDefault();
