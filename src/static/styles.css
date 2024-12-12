@@ -174,10 +174,4 @@ body {
     margin-top: 150px;
 }
 
-/* Additional Responsive Image Styling */
-@media (max-width: 768px) {
-    .duck-image {
-        max-width: 90%; /* Reduce max width on smaller screens */
-        height: auto; /* Keep aspect ratio intact */
-    }
-}
+
