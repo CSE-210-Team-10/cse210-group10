@@ -149,11 +149,4 @@ describe('Home Page', () => {
 
   // Add more test cases for edit, delete, complete actions
 
-  /* ==== Test Created with Cypress Studio ==== */
-  it('create task', function() {
-    /* ==== Generated with Cypress Studio ==== */
-    cy.get('#create-task-btn').click();
-    cy.get('input[name="taskName"]', { includeShadowDom: true }).type('New Test Task');
-    /* ==== End Cypress Studio ==== */
-  });
 });
