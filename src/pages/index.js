@@ -65,6 +65,36 @@ export function main() {
   darkModeToggle.addEventListener('click', () => renderTheme('dark'));
   lightModeToggle.addEventListener('click', () => renderTheme('light'));
 
+  /** @type { NodeListOf<HTMLLIElement> } */
+  const elements = document.querySelectorAll('.deadline');
+
+  /** @type { Array<HTMLLIElement> } */
+  const deadlines = Array.from(elements).slice(1);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  for (const [index, deadline] of deadlines.entries()) {
+    const currentDate = new Date(today);
+    currentDate.setDate(today.getDate() + index);
+
+    deadline.addEventListener('click', () => {
+      deadline.classList.toggle('active');
+
+      if (deadline.classList.contains('active')) {
+        updateCurrentFilter({
+          beforeDate: currentDate,
+          afterDate: currentDate,
+        });
+      } else {
+        updateCurrentFilter({
+          beforeDate: null,
+          afterDate: null,
+        });
+      }
+    });
+  }
+
   // generateUpcomingDeadlines();
   filterMain();
   renderTheme(getTheme());

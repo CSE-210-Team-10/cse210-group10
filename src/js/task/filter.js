@@ -89,7 +89,8 @@ function sortByDate(direction, tasks = getAllTasks()) {
  */
 function filterByDateRange(dateFilters, tasks = getAllTasks()) {
   if (!dateFilters.beforeDate && !dateFilters.afterDate) {
-    throw new Error('At least one of beforeDate or afterDate must be provided');
+    console.log(tasks);
+    return tasks;
   }
 
   if (dateFilters.beforeDate && !(dateFilters.beforeDate instanceof Date)) {
@@ -101,13 +102,13 @@ function filterByDateRange(dateFilters, tasks = getAllTasks()) {
   }
 
   return tasks.filter(task => {
-    const isAfterEndDate =
-      dateFilters.beforeDate && task.dueDate > dateFilters.beforeDate;
+    const isBeforeEndDate =
+      !dateFilters.beforeDate || task.dueDate <= dateFilters.beforeDate;
 
-    const isBeforeStartDate =
-      dateFilters.afterDate && task.dueDate < dateFilters.afterDate;
+    const isAfterStartDate =
+      !dateFilters.afterDate || task.dueDate >= dateFilters.afterDate;
 
-    return !isAfterEndDate && !isBeforeStartDate;
+    return isBeforeEndDate && isAfterStartDate;
   });
 }
 
@@ -136,15 +137,17 @@ function filterTasks(filters = {}, tasks = getAllTasks()) {
     result = filterByPriorities(filters.priorities, result);
   }
 
-  if (filters.beforeDate || filters.afterDate) {
-    result = filterByDateRange(
-      {
-        beforeDate: filters.beforeDate,
-        afterDate: filters.afterDate,
-      },
-      result
-    );
-  }
+  console.log(`result: ${JSON.stringify(result)}`);
+
+  result = filterByDateRange(
+    {
+      beforeDate: filters.beforeDate,
+      afterDate: filters.afterDate,
+    },
+    result
+  );
+
+  console.log(`result: ${JSON.stringify(result)}`);
 
   if (filters.dateSort) {
     result = sortByDate(filters.dateSort, result);

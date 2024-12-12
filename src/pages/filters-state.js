@@ -19,6 +19,7 @@ export function updateCurrentFilter(updates) {
     ...updates,
   };
 
+  console.log(currentFilter);
   const filteredTasks = TaskFilter.filterTasks(currentFilter);
   renderTaskPanels(filteredTasks);
 }

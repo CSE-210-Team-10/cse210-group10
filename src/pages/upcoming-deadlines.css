@@ -25,6 +25,11 @@
 	cursor: pointer;
 }
 
+.deadline.active {
+	background-color: var(--bg-accent);
+	color: var(--text-accent);
+}
+
 
 .deadline:first-child {
 	margin-right: var(--padding);
