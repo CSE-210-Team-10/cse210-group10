@@ -6,10 +6,14 @@ import { authService } from './auth.js';
 /** @typedef { import('./task/index.js').Task } Task */
 
 /**
- * Communicates with the OpenAI API to fetch a chatbot response based on user input and task data.
+ * Communicates with a Lambda API to fetch a chatbot response based on user input and task data
  * 
- * @param {string} userMessage - The message input from the user.
- * @returns {Promise<string>} A promise that resolves to the chatbot's response.
+ * @async
+ * @param {string} userMessage - The message input from the user
+ * @returns {Promise<string>} A promise that resolves to:
+ *  - The chatbot's response message if successful
+ *  - An error message if the request fails
+ * @throws {Error} If there's an error in the API communication
  */
 export async function chat(userMessage) {
   const contextData = await generateChatbotContext();
@@ -27,7 +31,6 @@ export async function chat(userMessage) {
   
     const response = await fetch(API_URL, responseRequest);
     const groqResponse = await response.json();
-    console.log(groqResponse.message);
   
     return groqResponse.message;
   } catch (error) {
