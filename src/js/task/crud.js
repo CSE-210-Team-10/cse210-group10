@@ -2,7 +2,7 @@
 
 import { getGithubTasks } from '../local-storage.js';
 
-const STORAGE_KEY = 'personal_tasks';
+const PERSONAL_TASK_KEY = 'personal_tasks';
 
 /**
  * Get the maximum ID from existing tasks
@@ -53,11 +53,12 @@ function validateTask(task) {
  */
 function createTask(taskData) {
   const tasks = getAllTasks();
+  const personalTasks = tasks.filter(task => task.type === 'personal');
 
   // Generate new ID by incrementing max ID
   const newTask = {
     ...taskData,
-    id: getMaxId(tasks) + 1,
+    id: getMaxId(personalTasks) + 1,
     dueDate: new Date(taskData.dueDate), // Ensure dueDate is Date object
     tags: taskData.tags || [], // Ensure tags exists
     priority: taskData.priority, // Default to medium priority if not specified
@@ -65,8 +66,8 @@ function createTask(taskData) {
 
   validateTask(newTask);
 
-  tasks.push(newTask);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  personalTasks.push(newTask);
+  localStorage.setItem(PERSONAL_TASK_KEY, JSON.stringify(personalTasks));
   return newTask;
 }
 
@@ -75,14 +76,16 @@ function createTask(taskData) {
  * @returns { Task[] } Array of all tasks with parsed dates
  */
 function getAllTasks() {
-  const tasksJson = localStorage.getItem(STORAGE_KEY);
+  const tasksJson = localStorage.getItem(PERSONAL_TASK_KEY);
 
   /** @type { Task[] } */
   const tasks = tasksJson ? JSON.parse(tasksJson) : [];
-  const githubTasks = Array.isArray(getGithubTasks()) ? getGithubTasks() : [];
+  const githubTasks = getGithubTasks();
+
   if (githubTasks.length > 0) {
     for (const task of githubTasks) {
       if (!task.id) task.id = getMaxId(tasks);
+      tasks.push(task);
     }
   }
 
@@ -110,26 +113,27 @@ function getTask(id) {
  */
 function updateTask(id, updates) {
   const tasks = getAllTasks();
-  const taskIndex = tasks.findIndex(task => task.id === id);
+  const personalTasks = tasks.filter(task => task.type === 'personal');
+  const taskIndex = personalTasks.findIndex(task => task.id === id);
 
   if (taskIndex === -1) {
     return undefined;
   }
 
   const updatedTask = {
-    ...tasks[taskIndex],
+    ...personalTasks[taskIndex],
     ...updates,
     // Only set a default priority if no priority exists
-    priority: updates.priority || tasks[taskIndex].priority || 'medium',
+    priority: updates.priority || personalTasks[taskIndex].priority || 'medium',
     // Ensure dueDate remains a Date object if it was updated
     dueDate: updates.dueDate
       ? new Date(updates.dueDate)
-      : tasks[taskIndex].dueDate,
+      : personalTasks[taskIndex].dueDate,
   };
 
   validateTask(updatedTask);
-  tasks[taskIndex] = updatedTask;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  personalTasks[taskIndex] = updatedTask;
+  localStorage.setItem(PERSONAL_TASK_KEY, JSON.stringify(personalTasks));
 
   return updatedTask;
 }
@@ -141,13 +145,14 @@ function updateTask(id, updates) {
  */
 function deleteTask(id) {
   const tasks = getAllTasks();
-  const filteredTasks = tasks.filter(task => task.id !== id);
+  const personalTasks = tasks.filter(task => task.type === 'personal');
+  const filteredTasks = personalTasks.filter(task => task.id !== id);
 
-  if (filteredTasks.length === tasks.length) {
+  if (filteredTasks.length === personalTasks.length) {
     return false;
   }
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredTasks));
+  localStorage.setItem(PERSONAL_TASK_KEY, JSON.stringify(personalTasks));
   return true;
 }
 
