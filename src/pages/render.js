@@ -3,10 +3,9 @@
 /**
  * Creates a task-item element with the given task data
  * @param { Task } task - The task data to create an element for
- * @param { boolean } interactive - Whether this task is interactive
  * @returns { HTMLElement } The created task-item element
  */
-function createTaskElement(task, interactive) {
+function createTaskElement(task) {
   const li = document.createElement('li');
   const taskItem = document.createElement('task-item');
 
@@ -16,7 +15,7 @@ function createTaskElement(task, interactive) {
   taskItem.dataset.priority = task.priority;
   taskItem.dataset.tags = JSON.stringify(task.tags);
   taskItem.dataset.date = task.dueDate.toLocaleDateString();
-  if (interactive) taskItem.setAttribute('interactive', '');
+  taskItem.dataset.type = task.type;
 
   // Set the description as the content
   taskItem.textContent = task.description;
@@ -47,10 +46,10 @@ export function renderTaskPanels(tasks) {
 
     // Determine which list to add the task to
     if (task.type === 'personal') {
-      const taskElement = createTaskElement(task, true);
+      const taskElement = createTaskElement(task);
       personalTasksList.appendChild(taskElement);
     } else if (task.type === 'issue' || task.type === 'pr') {
-      const taskElement = createTaskElement(task, false);
+      const taskElement = createTaskElement(task);
       githubTasksList.appendChild(taskElement);
     }
   });

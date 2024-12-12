@@ -10,8 +10,9 @@ const STORAGE_KEY = 'personal_tasks';
  * @returns { number }
  */
 function getMaxId(tasks) {
-  if (tasks.length === 0) return 0;
-  return Math.max(...tasks.map(task => task.id));
+  const filteredTasks = tasks.filter(task => task.id);
+  if (filteredTasks.length === 0) return 0;
+  return Math.max(...filteredTasks.map(task => task.id));
 }
 
 /**
@@ -78,8 +79,13 @@ function getAllTasks() {
 
   /** @type { Task[] } */
   const tasks = tasksJson ? JSON.parse(tasksJson) : [];
+  const githubTasks = getGithubTasks();
 
-  tasks.concat(getGithubTasks());
+  if (githubTasks.length > 0) {
+    for (const task of githubTasks) {
+      if (!task.id) task.id = getMaxId(tasks);
+    }
+  }
 
   // Convert date strings back to Date objects
   return tasks.map(task => ({

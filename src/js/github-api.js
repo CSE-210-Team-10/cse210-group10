@@ -138,7 +138,8 @@ async function getTasksByRepoUser(user, repo) {
           ? new Date(item.created_at)
           : new Date(item.updated_at);
 
-        const tags = [repo.name];
+        const type = isPR ? 'PR' : 'Issue';
+        const tags = [type, repo.name];
 
         // if (repo.owner !== user.username) tags.push(repo.owner);
 
