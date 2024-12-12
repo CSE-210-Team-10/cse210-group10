@@ -3,7 +3,7 @@
   "scripts": {
     "build": "python3 ./scripts/build.py && bash ./scripts/build.sh",
     "build:dev": "python3 ./scripts/build.py --mode dev && bash ./scripts/build.sh --mode dev",
-    "serve": "npx live-server dist --port=3000 --no-browser",
+    "serve": "npx live-server dist --port=3000 --no-browser --reload",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "./node_modules/.bin/jest --watch",
     "start": "npm run dev",
