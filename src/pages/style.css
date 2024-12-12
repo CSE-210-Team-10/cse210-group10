@@ -375,7 +375,7 @@ h2 {
   
   /* Centered popup content container */
   .popup-content {
-	background-color: #ffffff;
+	background-color: var(--bg-secondary);
 	padding: 30px 10px;
 	border-radius: var(--border-radius-primary);
 	border: var(--border-width) solid var(--border-primary);
@@ -493,3 +493,20 @@ h2 {
 	font-family: 'Geologica', sans-serif;
   }
 
+  .formbox input {
+	background: var(--input-bg);
+  }
+
+  .formbox ::placeholder {
+	color: var(--input-placeholder);
+  }
+
+  .formbox button {
+	background: var(--button-bg-color);
+	color: var(--button-text-color);
+  }
+
+  .formbox button:hover {
+	background: var(--button-bg-color-hover);
+	color: var(--button-text-color-hover);
+  }
