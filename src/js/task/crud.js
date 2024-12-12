@@ -119,8 +119,8 @@ function updateTask(id, updates) {
   const updatedTask = {
     ...tasks[taskIndex],
     ...updates,
-        // Only set a default priority if no priority exists
-        priority: updates.priority || tasks[taskIndex].priority || 'medium',
+    // Only set a default priority if no priority exists
+    priority: updates.priority || tasks[taskIndex].priority || 'medium',
     // Ensure dueDate remains a Date object if it was updated
     dueDate: updates.dueDate
       ? new Date(updates.dueDate)

@@ -126,7 +126,7 @@ function generateUpcomingDeadlines() {
   const deadlinesContainer = document.querySelector('#upcoming-deadlines .deadlines');
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const allTasks = TaskStore.getAllTasks().filter(task => task.type == 'personal');
+  const allTasks = TaskStore.getAllTasks().filter(task => task.type === 'personal');
   const { overdueTasks, upcomingTasksByDate } = categorizeTasksByDate(allTasks, today);
   deadlinesContainer.innerHTML = '';
 
