@@ -7,6 +7,8 @@ import { setTheme, getTheme } from '../js/local-storage.js';
 import { main as filterMain } from './filters.js';
 import { renderTaskPanels } from './render.js';
 
+const NUMBER_UPCOMING_DEADLINE_DAYS = 7;
+
 /** @typedef { import('../js/task/index.js').Task } Task */
 /** @typedef { import('../js/auth.js').UserData } User */
 
@@ -57,6 +59,7 @@ export function main() {
   darkModeToggle.addEventListener('click', () => renderTheme('dark'));
   lightModeToggle.addEventListener('click', () => renderTheme('light'));
 
+  generateUpcomingDeadlines();
   filterMain();
   renderTheme(getTheme());
 }
@@ -116,6 +119,111 @@ function authEventHandler(event, user) {
 }
 
 /**
+ * Generate upcoming deadlines with their priority counts
+ */
+function generateUpcomingDeadlines() {
+  const deadlinesContainer = document.querySelector('#upcoming-deadlines .deadlines');
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const allTasks = TaskStore.getAllTasks();
+  const { overdueTasks, upcomingTasksByDate } = categorizeTasksByDate(allTasks, today);
+  deadlinesContainer.innerHTML = '';
+
+  // Render overdue section
+    const overdueElement = document.createElement('li');
+    overdueElement.classList.add('deadline');
+    overdueElement.id = 'deadline-overdue';
+    overdueElement.innerHTML = `
+        <div>Overdue</div>
+        <ul class="deadline-tags">
+            <li class="tag tag-priority-high">High: ${overdueTasks.high}</li>
+            <li class="tag tag-priority-medium">Medium: ${overdueTasks.medium}</li>
+            <li class="tag tag-priority-low">Low: ${overdueTasks.low}</li>
+        </ul>
+    `;
+    deadlinesContainer.appendChild(overdueElement);
+
+  // Render upcoming 7 days starting from today
+  for (let i = 0; i < NUMBER_UPCOMING_DEADLINE_DAYS; i++) {
+      const currentDate = new Date(today);
+      currentDate.setDate(today.getDate() + i);
+      
+      const dateTaskCounts = upcomingTasksByDate[currentDate.toISOString().split('T')[0]] || {
+          high: 0,
+          medium: 0,
+          low: 0
+      };
+
+      const formattedDate = currentDate.toLocaleDateString('en-US', {
+          weekday: 'long', 
+          month: 'short', 
+          day: 'numeric'
+      });
+
+      const deadlineElement = document.createElement('li');
+      deadlineElement.classList.add('deadline');
+      deadlineElement.innerHTML = `
+          <div>${formattedDate}</div>
+          <ul class="deadline-tags">
+              <li class="tag tag-priority-high">High: ${dateTaskCounts.high}</li>
+              <li class="tag tag-priority-medium">Medium: ${dateTaskCounts.medium}</li>
+              <li class="tag tag-priority-low">Low: ${dateTaskCounts.low}</li>
+          </ul>
+      `;
+
+      deadlinesContainer.appendChild(deadlineElement);
+  }
+}
+
+/**
+* Categorize tasks by date, separating overdue and upcoming tasks
+* @param {Task[]} tasks - Array of tasks
+* @param {Date} today - Current date
+* @returns {Object} Categorized tasks
+*/
+function categorizeTasksByDate(tasks, today) {
+  const overdueTasks = {
+      high: 0,
+      medium: 0,
+      low: 0
+  };
+
+  const upcomingTasksByDate = {};
+
+  tasks.forEach(task => {
+      if (!task.dueDate) return;
+
+      const taskDate = new Date(task.dueDate);
+      taskDate.setHours(0, 0, 0, 0); // Reset time to start of day
+
+      const dateKey = taskDate.toISOString().split('T')[0];
+
+      // Categorize tasks
+      if (taskDate < today) {
+          // Overdue tasks
+          if (task.priority === 'high') overdueTasks.high++;
+          else if (task.priority === 'medium') overdueTasks.medium++;
+          else if (task.priority === 'low') overdueTasks.low++;
+      } else {
+          // Upcoming tasks
+          if (!upcomingTasksByDate[dateKey]) {
+              upcomingTasksByDate[dateKey] = {
+                  high: 0,
+                  medium: 0,
+                  low: 0
+              };
+          }
+
+          if (task.priority === 'high') upcomingTasksByDate[dateKey].high++;
+          else if (task.priority === 'medium') upcomingTasksByDate[dateKey].medium++;
+          else if (task.priority === 'low') upcomingTasksByDate[dateKey].low++;
+      }
+  });
+
+  return { overdueTasks, upcomingTasksByDate };
+}
+
+/**
  * Open up the create task form for user to create a new task
  */
 function openTaskForm() {
@@ -160,6 +268,7 @@ function handleTaskFormSubmit(e) {
     if (taskFormMode === 'create') {
       TaskStore.createTask(taskData);
       renderTaskPanels(TaskStore.getAllTasks());
+      generateUpcomingDeadlines();
     } else if (taskFormMode === 'edit') {
       const taskId = taskData.id;
 
@@ -177,6 +286,7 @@ function handleTaskFormSubmit(e) {
 
       TaskStore.updateTask(Number(taskId), updates);
       renderTaskPanels(TaskStore.getAllTasks());
+      generateUpcomingDeadlines();
     }
   } catch (error) {
     console.error('Failed to process task:', error);
@@ -200,6 +310,7 @@ function handleTaskEdit(e) {
   });
   taskFormMode = 'edit';
   taskForm.show();
+  generateUpcomingDeadlines();
 }
 
 /**
@@ -214,6 +325,7 @@ function handleTaskDelete(e) {
   TaskStore.deleteTask(Number(taskId));
 
   renderTaskPanels(TaskStore.getAllTasks());
+  generateUpcomingDeadlines();
 }
 
 /**
@@ -227,4 +339,5 @@ function handleTaskCompleted(e) {
 
   TaskStore.updateTask(Number(taskId), { done: true });
   renderTaskPanels(TaskStore.getAllTasks());
+  generateUpcomingDeadlines();
 }
