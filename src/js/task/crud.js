@@ -152,7 +152,7 @@ function deleteTask(id) {
     return false;
   }
 
-  localStorage.setItem(PERSONAL_TASK_KEY, JSON.stringify(personalTasks));
+  localStorage.setItem(PERSONAL_TASK_KEY, JSON.stringify(filteredTasks));
   return true;
 }
 

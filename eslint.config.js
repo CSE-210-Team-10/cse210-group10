@@ -44,6 +44,7 @@ export default [
         HTMLImageElement: 'readonly',
         HTMLVideoElement: 'readonly',
         Node: 'readonly',
+        HTMLLIElement: 'readonly',
 
         // ES2021 globals
         Promise: 'readonly',

@@ -4,10 +4,16 @@ import { TaskForm } from '../components/task-form/index.js';
 import { authService } from '../js/auth.js';
 import { setTheme, getTheme, refreshGithubTasks } from '../js/local-storage.js';
 
+import {
+  getCurrentFilter,
+  updateCurrentFilter,
+  updateCurrentFilter as updateFilter,
+} from './filters-state.js';
+
 import { main as filterMain } from './filters.js';
 import { renderTaskPanels } from './render.js';
 
-const NUMBER_UPCOMING_DEADLINE_DAYS = 7;
+// const NUMBER_UPCOMING_DEADLINE_DAYS = 7;
 
 /** @typedef { import('../js/task/index.js').Task } Task */
 /** @typedef { import('../js/auth.js').UserData } User */
@@ -59,7 +65,7 @@ export function main() {
   darkModeToggle.addEventListener('click', () => renderTheme('dark'));
   lightModeToggle.addEventListener('click', () => renderTheme('light'));
 
-  generateUpcomingDeadlines();
+  // generateUpcomingDeadlines();
   filterMain();
   renderTheme(getTheme());
 }
@@ -96,12 +102,12 @@ function redirectToLogin() {
 
 /**
  * Render the page with user data
- * @param { User } user user data from auth service
  */
-async function renderPage(user) {
-  console.log(user);
-  console.log(TaskStore.getAllTasks());
-  renderTaskPanels(TaskStore.getAllTasks());
+async function renderPage() {
+  // console.log(user);
+  const tasks = TaskStore.getAllTasks();
+  renderTaskPanels(tasks);
+  renderDeadlines();
 }
 
 /**
@@ -114,115 +120,92 @@ async function renderPage(user) {
 function authEventHandler(event, user) {
   if (event === 'SIGNED_IN' && user) {
     refreshGithubTasks(user);
-    renderPage(user);
+    renderPage();
   } else if (event === 'SIGNED_OUT' || !user) {
     redirectToLogin();
   }
 }
 
 /**
- * Generate upcoming deadlines with their priority counts
+ *
  */
-function generateUpcomingDeadlines() {
-  const deadlinesContainer = document.querySelector('#upcoming-deadlines .deadlines');
+function renderDeadlines() {
+  // renderOverDue();
+
+  const personalTasks = TaskStore.getAllTasks().filter(
+    task => task.type === 'personal' && task.done === false
+  );
+
+  /** @type { NodeListOf<HTMLLIElement> } */
+  const elements = document.querySelectorAll('.deadline');
+
+  /** @type { Array<HTMLLIElement> } */
+  const deadlines = Array.from(elements).slice(1);
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const allTasks = TaskStore.getAllTasks().filter(task => task.type === 'personal');
-  const { overdueTasks, upcomingTasksByDate } = categorizeTasksByDate(allTasks, today);
-  deadlinesContainer.innerHTML = '';
 
-  // Render overdue section
-  const overdueElement = document.createElement('li');
-  overdueElement.classList.add('deadline');
-  overdueElement.id = 'deadline-overdue';
-  overdueElement.innerHTML = `
-        <div>Overdue</div>
-        <ul class="deadline-tags">
-            <li class="tag tag-priority-high">High: ${overdueTasks.high}</li>
-            <li class="tag tag-priority-medium">Medium: ${overdueTasks.medium}</li>
-            <li class="tag tag-priority-low">Low: ${overdueTasks.low}</li>
-        </ul>
-    `;
-  deadlinesContainer.appendChild(overdueElement);
-
-  // Render upcoming 7 days starting from today
-  for (let i = 0; i < NUMBER_UPCOMING_DEADLINE_DAYS; i++) {
+  for (const [index, deadline] of deadlines.entries()) {
     const currentDate = new Date(today);
-    currentDate.setDate(today.getDate() + i);
-      
-    const dateTaskCounts = upcomingTasksByDate[currentDate.toISOString().split('T')[0]] || {
-      high: 0,
-      medium: 0,
-      low: 0
-    };
+    currentDate.setDate(today.getDate() + index);
 
-    const formattedDate = currentDate.toLocaleDateString('en-US', {
-      weekday: 'short', 
-      month: 'short', 
-      day: 'numeric'
+    const currentDateString = currentDate.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
     });
 
-    const deadlineElement = document.createElement('li');
-    deadlineElement.classList.add('deadline');
-    deadlineElement.innerHTML = `
-          <div class="deadline-date">${formattedDate}</div>
-          <ul class="deadline-tags">
-              <li class="tag tag-priority-high">High: ${dateTaskCounts.high}</li>
-              <li class="tag tag-priority-medium">Medium: ${dateTaskCounts.medium}</li>
-              <li class="tag tag-priority-low">Low: ${dateTaskCounts.low}</li>
-          </ul>
-      `;
+    const count = countTasksByPriority(personalTasks, currentDate);
 
-    deadlinesContainer.appendChild(deadlineElement);
+    const deadlineDate = deadline.querySelector('.deadline-date');
+    const highCount = deadline.querySelector('.tag-high-count');
+    const mediumCount = deadline.querySelector('.tag-medium-count');
+    const lowCount = deadline.querySelector('.tag-low-count');
+
+    deadlineDate.textContent = currentDateString;
+    highCount.textContent = String(count.high);
+    mediumCount.textContent = String(count.medium);
+    lowCount.textContent = String(count.low);
   }
 }
 
 /**
-* Categorize tasks by date, separating overdue and upcoming tasks
-* @param {Task[]} tasks - Array of tasks
-* @param {Date} today - Current date
-* @returns {object} Categorized tasks
-*/
-function categorizeTasksByDate(tasks, today) {
-  const overdueTasks = {
-    high: 0,
-    medium: 0,
-    low: 0
-  };
+ *
+ */
+function renderOverDue() {
+  console.error('Implement This');
+}
 
-  const upcomingTasksByDate = {};
+/**
+ * Count tasks by priority for a specific date
+ * @param { Task[] } tasks - Array of tasks
+ * @param { Date } date - Date to check
+ * @returns { {high: number, medium: number, low: number} } Count of tasks by priority
+ */
+function countTasksByPriority(tasks, date) {
+  // Format the target date to compare only year, month, and day
+  const targetYear = date.getFullYear();
+  const targetMonth = date.getMonth();
+  const targetDate = date.getDate();
 
-  tasks.forEach(task => {
-    if (!task.dueDate) return;
+  const count = { high: 0, medium: 0, low: 0 };
 
-    const taskDate = new Date(task.dueDate);
-    taskDate.setHours(0, 0, 0, 0); // Reset time to start of day
+  for (const task of tasks) {
+    const taskYear = task.dueDate.getFullYear();
+    const taskMonth = task.dueDate.getMonth();
+    const taskDate = task.dueDate.getDate();
 
-    const [dateKey] = taskDate.toISOString().split('T');
-
-    // Categorize tasks
-    if (taskDate < today) {
-      // Overdue tasks
-      if (task.priority === 'high') overdueTasks.high++;
-      else if (task.priority === 'medium') overdueTasks.medium++;
-      else if (task.priority === 'low') overdueTasks.low++;
-    } else {
-      // Upcoming tasks
-      if (!upcomingTasksByDate[dateKey]) {
-        upcomingTasksByDate[dateKey] = {
-          high: 0,
-          medium: 0,
-          low: 0
-        };
-      }
-
-      if (task.priority === 'high') upcomingTasksByDate[dateKey].high++;
-      else if (task.priority === 'medium') upcomingTasksByDate[dateKey].medium++;
-      else if (task.priority === 'low') upcomingTasksByDate[dateKey].low++;
+    // Only count if dates match
+    if (
+      targetYear === taskYear &&
+      taskMonth === targetMonth &&
+      taskDate === targetDate
+    ) {
+      count[task.priority]++;
     }
-  });
+  }
 
-  return { overdueTasks, upcomingTasksByDate };
+  return count;
 }
 
 /**
@@ -273,8 +256,9 @@ function handleTaskFormSubmit(e) {
   try {
     if (taskFormMode === 'create') {
       TaskStore.createTask(taskData);
-      renderTaskPanels(TaskStore.getAllTasks());
-      generateUpcomingDeadlines();
+      renderPage();
+      // renderTaskPanels(TaskStore.getAllTasks());
+      // generateUpcomingDeadlines();
     } else if (taskFormMode === 'edit') {
       const taskId = taskData.id;
 
@@ -291,8 +275,10 @@ function handleTaskFormSubmit(e) {
       };
 
       TaskStore.updateTask(Number(taskId), updates);
-      renderTaskPanels(TaskStore.getAllTasks());
-      generateUpcomingDeadlines();
+      renderPage();
+
+      // renderTaskPanels(TaskStore.getAllTasks());
+      // generateUpcomingDeadlines();
     }
   } catch (error) {
     console.error('Failed to process task:', error);
@@ -316,7 +302,8 @@ function handleTaskEdit(e) {
   });
   taskFormMode = 'edit';
   taskForm.show();
-  generateUpcomingDeadlines();
+  // generateUpcomingDeadlines();
+  renderPage();
 }
 
 /**
@@ -330,8 +317,9 @@ function handleTaskDelete(e) {
 
   TaskStore.deleteTask(Number(taskId));
 
-  renderTaskPanels(TaskStore.getAllTasks());
-  generateUpcomingDeadlines();
+  // renderTaskPanels(TaskStore.getAllTasks());
+  // generateUpcomingDeadlines();
+  renderPage();
 }
 
 /**
@@ -344,8 +332,9 @@ function handleTaskCompleted(e) {
   if (!taskId) throw new Error('Task ID is required for completion mode');
 
   TaskStore.updateTask(Number(taskId), { done: true });
-  renderTaskPanels(TaskStore.getAllTasks());
-  generateUpcomingDeadlines();
+  // renderTaskPanels(TaskStore.getAllTasks());
+  // generateUpcomingDeadlines();
+  renderPage();
 }
 
 const STORAGE_KEY = 'byteboard_links';
@@ -427,7 +416,11 @@ function addLink() {
   const iconUrlInput = document.getElementById('link-icon-url');
   const errorMessage = document.getElementById('url-error-message');
 
-  if (titleInput instanceof HTMLInputElement && urlInput instanceof HTMLInputElement && iconUrlInput instanceof HTMLInputElement) {
+  if (
+    titleInput instanceof HTMLInputElement &&
+    urlInput instanceof HTMLInputElement &&
+    iconUrlInput instanceof HTMLInputElement
+  ) {
     const title = titleInput.value.trim();
     const url = urlInput.value.trim();
     const iconUrl = iconUrlInput.value.trim();
@@ -508,7 +501,10 @@ function isValidUrl(url) {
  */
 function formatUrl(url) {
   let formattedUrl = url.trim();
-  if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+  if (
+    !formattedUrl.startsWith('http://') &&
+    !formattedUrl.startsWith('https://')
+  ) {
     formattedUrl = `https://${formattedUrl}`;
   }
   if (!formattedUrl.includes('www.')) {
@@ -552,7 +548,8 @@ function deleteLink(linkId) {
  */
 document.getElementById('add-link-btn').addEventListener('click', () => {
   const addLinkForm = document.getElementById('add-link-form');
-  addLinkForm.style.display = addLinkForm.style.display === 'block' ? 'none' : 'block';
+  addLinkForm.style.display =
+    addLinkForm.style.display === 'block' ? 'none' : 'block';
 });
 
 /**
@@ -567,7 +564,7 @@ document.getElementById('close-popup-btn').addEventListener('click', () => {
  *  * "Add Link" form.
  * Closes the form if the user clicks outside of it.
  */
-window.addEventListener('click', (e) => {
+window.addEventListener('click', e => {
   const modal = document.getElementById('add-link-form');
   if (e.target === modal) {
     modal.style.display = 'none';
@@ -582,7 +579,9 @@ document.getElementById('save-link-btn').addEventListener('click', addLink);
 /**
  * Event listener for the "Toggle Delete" button.
  */
-document.getElementById('toggle-delete-btn').addEventListener('click', toggleDeleteMode);
+document
+  .getElementById('toggle-delete-btn')
+  .addEventListener('click', toggleDeleteMode);
 
 /**
  * Initial render of the links on page load.
