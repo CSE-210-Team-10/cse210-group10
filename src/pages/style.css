@@ -498,7 +498,7 @@ h2 {
   }
 
   .formbox ::placeholder {
-	color: var(--input-placeholder);
+	color: var(--input-text);
   }
 
   .formbox button {
