@@ -107,32 +107,30 @@
         </ul>
       </section>
       <aside id="links-section">
-        <h2>Links</h2>
-        <ul class="links">
-          <li>
-            <a href="https://github.com/davidtso1219" target="_blank">
-              <img src="/static/github-mark.svg" alt="Icon description" />
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/davidtso1219" target="_blank">
-              <img src="/static/github-mark.svg" alt="Icon description" />
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/davidtso1219" target="_blank">
-              <img src="/static/github-mark.svg" alt="Icon description" />
-              GitHub
-            </a>
-          </li>
-        </ul>
-        <div class="controls">
-          <button class="small-btn"><i class="fa-solid fa-pencil"></i></button>
-          <button class="small-btn"><i class="fa-solid fa-add"></i></button>
+        <h2>Links 
+        <input type="image" src="../static/Vector.png" class="submit adddelete1" id="toggle-delete-btn" />
+        <input type="image" src="../static/Add Square 04.png" class="submit adddelete" id="add-link-btn" /></h2>
+        <ul id="link-list"></ul>
+      
+        <!-- Initially hidden form for adding a new link -->
+        <div class="add-link-form" id="add-link-form" style="display: none;">
+          <div class="popup-content">
+            <span class="close-btn" id="close-popup-btn">&times;</span>
+            <div class="formbox">
+                <label for="link-title">Link Name</label>
+                <input type="text" id="link-title" placeholder="Enter Name" />
+                <label for="link-title">Link URL</label>
+                <input type="url" id="link-url" placeholder="Enter URL" />
+                <label for="link-title">Icon URL</label>
+                <input type="url" id="link-icon-url" placeholder="Enter Icon URL" />                
+              <button id="save-link-btn">Save Link</button>
+              <!-- Error message for invalid URL -->
+              <div id="url-error-message">Please enter a valid URL.</div>
+            </div>
+          </div>
         </div>
       </aside>
+      
       <div id="task-panels">
         <div id="tasks-filters">
           <button class="all-tasks-action-btn">
