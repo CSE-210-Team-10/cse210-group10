@@ -1,6 +1,5 @@
 import { getAllTasks } from './task/crud.js'; 
-import { getGithubData } from './github-api.js'; 
-import { GITHUB_OWNER, GITHUB_REPO, GITHUB_ISSUES_KEY, GITHUB_PR_KEY } from './const.js';
+import { getTasksByUser } from './github-api.js'; 
 import { authService } from './auth.js';
 
 /** @typedef { import('./task/index.js').Task } Task */
@@ -66,23 +65,18 @@ function formatTask(task) {
  */
 async function generateChatbotContext() {
   try {
-    const userData = authService.getGithubData();
     let tasksString = '';
 
     // Get and format personal tasks
     const personalTasks = getAllTasks();
     tasksString = personalTasks.map(formatTask).join('\n');
 
-    // Get and format GitHub issues
-    const issues = await getGithubData(userData, GITHUB_OWNER, GITHUB_REPO, GITHUB_ISSUES_KEY);
-    if (issues.length > 0) {
-      tasksString += `\n${ issues.map(formatTask).join('\n')}`;
-    }
+    const userData = authService.getGithubData();
 
-    // Get and format pull requests
-    const pullRequests = await getGithubData(userData, GITHUB_OWNER, GITHUB_REPO, GITHUB_PR_KEY);
-    if (pullRequests.length > 0) {
-      tasksString += `\n${ pullRequests.map(formatTask).join('\n')}`;
+    // Get and format GitHub issues/ pr
+    const githubIssues = await getTasksByUser(userData);
+    if (githubIssues.length > 0) {
+      tasksString += `\n${ githubIssues.map(formatTask).join('\n')}`;
     }
 
     return tasksString;
