@@ -1,10 +1,10 @@
 import { jest } from '@jest/globals';
 import {
   createTask,
-  // getTask,
-  // getAllTasks,
-  // updateTask,
-  // deleteTask
+  getTask,
+  getAllTasks,
+  updateTask,
+  deleteTask
 } from '../src/js/task/crud.js';
 import mockTasks from '../src/mock/mock-personal-tasks.json';
 
@@ -94,161 +94,161 @@ describe('Task Management Module', () => {
     });
   });
 
-  // /**
-  //  * Test suite for getAllTasks function
-  //  * @group Task Retrieval
-  //  */
-  // describe('getAllTasks', () => {
-  //   beforeEach(() => {
-  //     localStorageMock.clear();
-  //     localStorage.setItem('personal_tasks', JSON.stringify(tasks));
-  //   });
+  /**
+   * Test suite for getAllTasks function
+   * @group Task Retrieval
+   */
+  describe('getAllTasks', () => {
+    beforeEach(() => {
+      localStorageMock.clear();
+      localStorage.setItem('personal_tasks', JSON.stringify(tasks));
+    });
 
-  //   /**
-  //    * Verifies that all tasks are retrieved with parsed dates
-  //    * @test
-  //    */
-  //   test('should return all tasks with parsed dates', () => {
-  //     const retrievedTasks = getAllTasks();
+    /**
+     * Verifies that all tasks are retrieved with parsed dates
+     * @test
+     */
+    test('should return all tasks with parsed dates', () => {
+      const retrievedTasks = getAllTasks();
 
-  //     expect(retrievedTasks.length).toBe(tasks.length);
-  //     retrievedTasks.forEach(task => {
-  //       expect(task.dueDate).toBeInstanceOf(Date);
-  //     });
-  //   });
+      expect(retrievedTasks.length).toBe(tasks.length);
+      retrievedTasks.forEach(task => {
+        expect(task.dueDate).toBeInstanceOf(Date);
+      });
+    });
 
-  //   /**
-  //    * Verifies that an empty array is returned when no tasks exist
-  //    * @test
-  //    */
-  //   test('should return an empty array when no tasks exist', () => {
-  //     localStorageMock.clear();
-  //     const retrievedTasks = getAllTasks();
+    /**
+     * Verifies that an empty array is returned when no tasks exist
+     * @test
+     */
+    test('should return an empty array when no tasks exist', () => {
+      localStorageMock.clear();
+      const retrievedTasks = getAllTasks();
 
-  //     expect(retrievedTasks).toHaveLength(0);
-  //   });
-  // });
+      expect(retrievedTasks).toHaveLength(0);
+    });
+  });
 
-  // /**
-  //  * Test suite for getTask function
-  //  * @group Task Retrieval
-  //  */
-  // describe('getTask', () => {
-  //   beforeEach(() => {
-  //     localStorageMock.clear();
-  //     localStorage.setItem('personal_tasks', JSON.stringify(tasks));
-  //   });
+  /**
+   * Test suite for getTask function
+   * @group Task Retrieval
+   */
+  describe('getTask', () => {
+    beforeEach(() => {
+      localStorageMock.clear();
+      localStorage.setItem('personal_tasks', JSON.stringify(tasks));
+    });
 
-  //   /**
-  //    * Verifies that a specific task can be retrieved by ID
-  //    * @test
-  //    */
-  //   test('should retrieve a specific task by ID', () => {
-  //     const firstTaskId = tasks[0].id;
-  //     const task = getTask(firstTaskId);
+    /**
+     * Verifies that a specific task can be retrieved by ID
+     * @test
+     */
+    test('should retrieve a specific task by ID', () => {
+      const firstTaskId = tasks[0].id;
+      const task = getTask(firstTaskId);
 
-  //     expect(task).toEqual(expect.objectContaining({
-  //       id: firstTaskId,
-  //       title: tasks[0].title
-  //     }));
-  //   });
+      expect(task).toEqual(expect.objectContaining({
+        id: firstTaskId,
+        title: tasks[0].title
+      }));
+    });
 
-  //   /**
-  //    * Verifies that undefined is returned for non-existent task
-  //    * @test
-  //    */
-  //   test('should return undefined for non-existent task', () => {
-  //     const task = getTask(999);
+    /**
+     * Verifies that undefined is returned for non-existent task
+     * @test
+     */
+    test('should return undefined for non-existent task', () => {
+      const task = getTask(999);
 
-  //     expect(task).toBeUndefined();
-  //   });
-  // });
+      expect(task).toBeUndefined();
+    });
+  });
 
-  // /**
-  //  * Test suite for updateTask function
-  //  * @group Task Update
-  //  */
-  // describe('updateTask', () => {
-  //   beforeEach(() => {
-  //     localStorageMock.clear();
-  //     localStorage.setItem('personal_tasks', JSON.stringify(tasks));
-  //   });
+  /**
+   * Test suite for updateTask function
+   * @group Task Update
+   */
+  describe('updateTask', () => {
+    beforeEach(() => {
+      localStorageMock.clear();
+      localStorage.setItem('personal_tasks', JSON.stringify(tasks));
+    });
 
-  //   /**
-  //    * Verifies that an existing task can be updated
-  //    * @test
-  //    */
-  //   test('should update an existing task', () => {
-  //     const firstTaskId = tasks[0].id;
-  //     const updatedTask = updateTask(firstTaskId, {
-  //       title: 'Updated Task Title',
-  //       done: true
-  //     });
+    /**
+     * Verifies that an existing task can be updated
+     * @test
+     */
+    test('should update an existing task', () => {
+      const firstTaskId = tasks[0].id;
+      const updatedTask = updateTask(firstTaskId, {
+        title: 'Updated Task Title',
+        done: true
+      });
 
-  //     expect(updatedTask).toEqual(expect.objectContaining({
-  //       id: firstTaskId,
-  //       title: 'Updated Task Title',
-  //       done: true
-  //     }));
-  //   });
+      expect(updatedTask).toEqual(expect.objectContaining({
+        id: firstTaskId,
+        title: 'Updated Task Title',
+        done: true
+      }));
+    });
 
-  //   /**
-  //    * Verifies that update fails with invalid data
-  //    * @test
-  //    */
-  //   test('should throw error when updating with invalid data', () => {
-  //     const firstTaskId = tasks[0].id;
+    /**
+     * Verifies that update fails with invalid data
+     * @test
+     */
+    test('should throw error when updating with invalid data', () => {
+      const firstTaskId = tasks[0].id;
 
-  //     expect(() => updateTask(firstTaskId, { type: 'invalid' })).toThrow();
-  //   });
+      expect(() => updateTask(firstTaskId, { type: 'invalid' })).toThrow();
+    });
 
-  //   /**
-  //    * Verifies that updating a non-existent task returns undefined
-  //    * @test
-  //    */
-  //   test('should return undefined for non-existent task', () => {
-  //     const result = updateTask(999, { title: 'Test Update' });
+    /**
+     * Verifies that updating a non-existent task returns undefined
+     * @test
+     */
+    test('should return undefined for non-existent task', () => {
+      const result = updateTask(999, { title: 'Test Update' });
 
-  //     expect(result).toBeUndefined();
-  //   });
-  // });
+      expect(result).toBeUndefined();
+    });
+  });
 
-  // /**
-  //  * Test suite for deleteTask function
-  //  * @group Task Deletion
-  //  */
-  // describe('deleteTask', () => {
-  //   beforeEach(() => {
-  //     localStorageMock.clear();
-  //     localStorage.setItem('personal_tasks', JSON.stringify(tasks));
-  //   });
+  /**
+   * Test suite for deleteTask function
+   * @group Task Deletion
+   */
+  describe('deleteTask', () => {
+    beforeEach(() => {
+      localStorageMock.clear();
+      localStorage.setItem('personal_tasks', JSON.stringify(tasks));
+    });
 
-  //   /**
-  //    * Verifies that an existing task can be deleted
-  //    * @test
-  //    */
-  //   test('should delete an existing task', () => {
-  //     const firstTaskId = tasks[0].id;
-  //     const deleteResult = deleteTask(firstTaskId);
+    /**
+     * Verifies that an existing task can be deleted
+     * @test
+     */
+    test('should delete an existing task', () => {
+      const firstTaskId = tasks[0].id;
+      const deleteResult = deleteTask(firstTaskId);
 
-  //     expect(deleteResult).toBe(true);
+      expect(deleteResult).toBe(true);
 
-  //     const remainingTasks = getAllTasks();
-  //     expect(remainingTasks).toHaveLength(tasks.length - 1);
-  //     expect(remainingTasks.some(task => task.id === firstTaskId)).toBe(false);
-  //   });
+      const remainingTasks = getAllTasks();
+      expect(remainingTasks).toHaveLength(tasks.length - 1);
+      expect(remainingTasks.some(task => task.id === firstTaskId)).toBe(false);
+    });
 
-  //   /**
-  //    * Verifies that deleting a non-existent task returns false
-  //    * @test
-  //    */
-  //   test('should return false when deleting non-existent task', () => {
-  //     const deleteResult = deleteTask(999);
+    /**
+     * Verifies that deleting a non-existent task returns false
+     * @test
+     */
+    test('should return false when deleting non-existent task', () => {
+      const deleteResult = deleteTask(999);
 
-  //     expect(deleteResult).toBe(false);
+      expect(deleteResult).toBe(false);
 
-  //     const remainingTasks = getAllTasks();
-  //     expect(remainingTasks).toHaveLength(tasks.length);
-  //   });
-  // });
+      const remainingTasks = getAllTasks();
+      expect(remainingTasks).toHaveLength(tasks.length);
+    });
+  });
 });
