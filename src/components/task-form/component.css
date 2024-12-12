@@ -2,6 +2,7 @@ dialog {
 	margin: auto;
 	border: var(--border-width) solid var(--border-primary);
 	border-radius: var(--border-radius-primary);
+	background: var(--bg-secondary);
 }
 
 dialog::backdrop {
@@ -26,6 +27,20 @@ input, select, textarea {
 	border: var(--border-width) solid var(--border-secondary);
 	border-radius: var(--border-radius-primary);
 	margin-bottom: calc(var(--gap) / 2);
+	background: var(--input-bg);
+	color: var(--input-text);
+}
+
+input > *, select > *, textarea > * {
+	color: var(--input-text);
+}
+
+input::placeholder, select::placeholder, textarea::placeholder {
+	color: var(--input-text);
+}
+
+.tags-wrapper > input {
+	padding-left: calc(var(--gap) / 2);
 }
 
 .tags-wrapper {
