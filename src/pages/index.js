@@ -4,11 +4,7 @@ import { TaskForm } from '../components/task-form/index.js';
 import { authService } from '../js/auth.js';
 import { setTheme, getTheme, refreshGithubTasks } from '../js/local-storage.js';
 
-import {
-  getCurrentFilter,
-  updateCurrentFilter,
-  updateCurrentFilter as updateFilter,
-} from './filters-state.js';
+import { updateCurrentFilter } from './filters-state.js';
 
 import { main as filterMain } from './filters.js';
 import { renderTaskPanels } from './render.js';
@@ -199,12 +195,12 @@ function renderDeadlines() {
   }
 }
 
-/**
- *
- */
-function renderOverDue() {
-  console.error('Implement This');
-}
+// /**
+//  *
+//  */
+// function renderOverDue() {
+//   console.error('Implement This');
+// }
 
 /**
  * Count tasks by priority for a specific date
