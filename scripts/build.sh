@@ -36,7 +36,6 @@ if [ "$MODE" == "dev" ]; then
     cp -r ./tmp/static ./dist/
     cp -r ./tmp/styles ./dist/
     cp -r ./tmp/js ./dist/
-    cp -r ./tmp/chatbot ./dist/
 
     # Copy pages content to dist, maintaining directory structure
     cp -r ./tmp/pages/* ./dist/
@@ -56,7 +55,6 @@ else
     cp -r ./components ../dist/
     cp -r ./static ../dist/
     cp -r ./styles ../dist/
-    cp -r ./chatbot ../dist/ 
 
     # 2. Copy and process HTML files from pages
     echo "Processing HTML files..."
