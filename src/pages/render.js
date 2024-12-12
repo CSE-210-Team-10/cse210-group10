@@ -3,10 +3,9 @@
 /**
  * Creates a task-item element with the given task data
  * @param { Task } task - The task data to create an element for
- * @param { boolean } interactive - Whether this task is interactive
  * @returns { HTMLElement } The created task-item element
  */
-function createTaskElement(task, interactive) {
+function createTaskElement(task) {
   const li = document.createElement('li');
   const taskItem = document.createElement('task-item');
 
@@ -16,7 +15,7 @@ function createTaskElement(task, interactive) {
   taskItem.dataset.priority = task.priority;
   taskItem.dataset.tags = JSON.stringify(task.tags);
   taskItem.dataset.date = task.dueDate.toLocaleDateString();
-  if (interactive) taskItem.setAttribute('interactive', '');
+  taskItem.dataset.type = task.type;
 
   // Set the description as the content
   taskItem.textContent = task.description;
@@ -36,19 +35,22 @@ export function renderTaskPanels(tasks) {
     '#personal-task-panel .tasks'
   );
 
+  const githubTasksList = document.querySelector('#github-task-panel .tasks');
+
   personalTasksList.innerHTML = '';
+  githubTasksList.innerHTML = '';
 
   // Sort tasks into appropriate lists
   tasks.forEach(task => {
     if (task.done) return;
 
-    const taskElement = createTaskElement(task, true);
-
     // Determine which list to add the task to
     if (task.type === 'personal') {
+      const taskElement = createTaskElement(task);
       personalTasksList.appendChild(taskElement);
     } else if (task.type === 'issue' || task.type === 'pr') {
-      // githubTasksList.appendChild(taskElement);
+      const taskElement = createTaskElement(task);
+      githubTasksList.appendChild(taskElement);
     }
   });
 }
