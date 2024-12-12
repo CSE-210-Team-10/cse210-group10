@@ -53,7 +53,7 @@ function filterByText(text, tasks = getAllTasks()) {
 function filterByTags(tags, tasks = getAllTasks()) {
   if (!tags.length) return tasks;
   return tasks.filter(task =>
-    task.tags.some(taskTag => tags.includes(taskTag))
+    task.tags.some(taskTag => tags.includes(taskTag.toLowerCase()))
   );
 }
 
