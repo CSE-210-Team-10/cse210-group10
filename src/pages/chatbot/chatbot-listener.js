@@ -1,4 +1,4 @@
-import { chat } from './chatbot.js';
+import { chat } from '../../js/chatbot.js';
 
 /**
  *event listener - button click
