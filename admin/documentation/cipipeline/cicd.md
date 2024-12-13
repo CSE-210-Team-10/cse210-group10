@@ -25,10 +25,3 @@ Next, a human reviewer can inspect the code and the preview site and ensure visu
 After this, the staging branch is merged with the main (production) branch at a given time interval.
 
 Notes: The decisions behind using these technologies are detailed in their respective ADRs.
-
-## Future Functionality
-
-In the future, a few key needs have been identified that will be built out. These are listed below in order of priority:
-
-1. Backend Unit Tests for Web Server
-2. Backend Unit Tests for Database
