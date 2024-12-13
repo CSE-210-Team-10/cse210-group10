@@ -17,7 +17,7 @@ This implementation focused on features that student developers would find usefu
 ## Demo
 The demo for this project can be found hosted [here](dummy). Here is a video of the demo showcasing key functionality:
 
-[**Video goes here**](https://drive.google.com/file/d/1QYYCoxrNttyC1kOY9RoGV8UVvFy7259k/view?usp=sharing)
+![](https://youtu.be/HsUoUxZL3rQ)
 
 ## How to Use
 A valid GitHub account is required to use ByteBoard. For detailed steps on how to use ByteBoard, please refer to the onboarding document for new users [here](https://github.com/CSE-210-Team-10/cse210-group10/blob/main/admin/documentation/onboarding.md).
