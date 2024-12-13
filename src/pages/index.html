@@ -16,12 +16,12 @@
         <img src="/static/logo.svg" alt="Logo" />
         <h1>ByteBoard</h1>
       </div>
-      <button>Sign Out</button>
+      <button class="signout-btn">Sign Out</button>
       <div id="view-toggle">
-        <button class="all-tasks-action-btn" aria-disabled="false">
+        <button class="all-tasks-action-btn" aria-disabled="true" disable>
           <i class="fa-solid fa-sun"></i>
         </button>
-        <button class="all-tasks-action-btn" aria-disabled="true">
+        <button class="all-tasks-action-btn" aria-disabled="false">
           <i class="fa-solid fa-moon"></i>
         </button>
       </div>
@@ -44,9 +44,9 @@
         </ul>
       </nav>
       <section id="upcoming-deadlines">
-        <h2>Upcoming Deadlines</h2>
+        <!-- <h2>Upcoming Deadlines</h2> -->
         <ul class="deadlines">
-          <li class="deadline" id="deadline-overdue">
+          <!-- <li class="deadline" id="deadline-overdue">
             <div>Overdue</div>
             <ul class="deadline-tags">
               <li class="tag tag-priority-high">High: 2</li>
@@ -103,36 +103,34 @@
               <li class="tag tag-priority-medium">Medium: 4</li>
               <li class="tag tag-priority-low">Low: 1</li>
             </ul>
-          </li>
+          </li> -->
         </ul>
       </section>
       <aside id="links-section">
-        <h2>Links</h2>
-        <ul class="links">
-          <li>
-            <a href="https://github.com/davidtso1219" target="_blank">
-              <img src="/static/github-mark.svg" alt="Icon description" />
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/davidtso1219" target="_blank">
-              <img src="/static/github-mark.svg" alt="Icon description" />
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/davidtso1219" target="_blank">
-              <img src="/static/github-mark.svg" alt="Icon description" />
-              GitHub
-            </a>
-          </li>
-        </ul>
-        <div class="controls">
-          <button class="small-btn"><i class="fa-solid fa-pencil"></i></button>
-          <button class="small-btn"><i class="fa-solid fa-add"></i></button>
+        <h2>Links 
+        <input type="image" src="../static/Vector.png" class="submit adddelete1" id="toggle-delete-btn" />
+        <input type="image" src="../static/Add Square 04.png" class="submit adddelete" id="add-link-btn" /></h2>
+        <ul id="link-list"></ul>
+      
+        <!-- Initially hidden form for adding a new link -->
+        <div class="add-link-form" id="add-link-form" style="display: none;">
+          <div class="popup-content">
+            <span class="close-btn" id="close-popup-btn">&times;</span>
+            <div class="formbox">
+                <label for="link-title">Link Name</label>
+                <input type="text" id="link-title" placeholder="Enter Name" />
+                <label for="link-title">Link URL</label>
+                <input type="url" id="link-url" placeholder="Enter URL" />
+                <label for="link-title">Icon URL</label>
+                <input type="url" id="link-icon-url" placeholder="Enter Icon URL" />                
+              <button id="save-link-btn">Save Link</button>
+              <!-- Error message for invalid URL -->
+              <div id="url-error-message">Please enter a valid URL.</div>
+            </div>
+          </div>
         </div>
       </aside>
+      
       <div id="task-panels">
         <div id="tasks-filters">
           <button class="all-tasks-action-btn">
@@ -147,47 +145,7 @@
 
         <section id="github-task-panel">
           <h2>GitHub Tasks</h2>
-          <ul class="tasks">
-            <li>
-              <task-item
-                data-id="0"
-                data-title="Review PR #1"
-                data-priority="High"
-                data-tags="['PR', 'Repo #1']"
-                data-date="11/20/2024"
-              >
-                Read through Chapter 8: Data Structures and Algorithms. Focus on
-                sections covering Red-Black Trees and B-Trees. Prepare summary
-                notes for discussion.
-              </task-item>
-            </li>
-            <li>
-              <task-item
-                data-id="1"
-                data-title="Review PR #1"
-                data-priority="High"
-                data-tags="['PR', 'Repo #1']"
-                data-date="11/20/2024"
-              >
-                Read through Chapter 8: Data Structures and Algorithms. Focus on
-                sections covering Red-Black Trees and B-Trees. Prepare summary
-                notes for discussion.
-              </task-item>
-            </li>
-            <li>
-              <task-item
-                data-id="1"
-                data-title="Review PR #1"
-                data-priority="High"
-                data-tags="['PR', 'Repo #1']"
-                data-date="11/20/2024"
-              >
-                Read through Chapter 8: Data Structures and Algorithms. Focus on
-                sections covering Red-Black Trees and B-Trees. Prepare summary
-                notes for discussion.
-              </task-item>
-            </li>
-          </ul>
+          <ul class="tasks"></ul>
         </section>
 
         <section id="personal-task-panel">

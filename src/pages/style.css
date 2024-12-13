@@ -1,4 +1,4 @@
-@import '../styles/root.css';
+@import "../styles/root.css";
 @import './upcoming-deadlines.css';
 
 body {
@@ -46,34 +46,14 @@ header #logo-heading {
 	border-radius: 0 var(--border-radius-primary) var(--border-radius-primary) 0;
 }
 
-#view-toggle button:disabled {
+#view-toggle button[aria-disabled="true"] {
 	background-color: var(--bg-accent-light);
 	color: var(--text-accent-light);
 }
 
-#view-toggle button:disabled:hover {
-	background-color: var(--bg-accent);
-	color: var(--text-accent);
-}
-
-#view-toggle button:not(:disabled):hover {
-	background-color: var(--bg-accent);
-	color: var(--text-accent);
-}
-
-#view-toggle button[aria-disabled="true"] {
-    background-color: var(--bg-accent-light);
-    color: var(--text-accent-light);
-}
-
 #view-toggle button[aria-disabled="true"]:hover {
-    background-color: var(--bg-accent);
-    color: var(--text-accent);
-}
-
-#view-toggle button[aria-disabled="true"] {
-    background-color: var(--bg-accent-light);
-    color: var(--text-accent-light);
+	background-color: var(--bg-accent);
+	color: var(--text-accent);
 }
 
 #view-toggle button:not([aria-disabled="true"]):hover {
@@ -135,6 +115,9 @@ section h2, aside h2 {
 aside {
 	position: relative;
 	height: auto;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 }
 
 aside .controls {
@@ -246,3 +229,284 @@ aside .controls {
 	background-color: #878787;
 	gap: var(--gap);
 }
+
+  
+h2 {
+	text-align: center;
+  }
+  .link-item img {
+	margin-right: 10px;  /* Space between the icon and link title */
+	border-radius: 50%;  /* Make the icon circular */
+  }
+  #link-title {
+	color: green;
+  }
+  
+  #link-list {
+	list-style-type: none;
+	padding-left: 0;
+  }
+
+  .url-link {
+	text-decoration: none;
+    color: green;
+  }
+  
+  #link-list li {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	margin: 5px 0;
+	background-color: var(--bg-accent-light);
+	border-radius: 5px;
+	cursor: pointer;
+	align-content: center;
+	flex: 1 1 calc(25% - 10px);
+	}
+  
+  #link-list li:hover {
+	border-color: #1abc9c;
+  }
+    
+  .formbox input {
+	padding: 5px;
+	font-size: 16px;
+	width: 100%;
+	margin-bottom: 10px;
+	border: 2px solid #ccc;
+	border-radius: 5px;
+  }
+  
+ #link-list button {
+    border: none;
+    background-color: transparent;
+    color: var(--button-bg-color);
+    width: 150px;
+    padding: 0.5rem 1rem 0.5rem 0rem;
+    text-align: left;
+    margin-right: 10px;
+    display: flex;
+    /* flex-direction: row; */
+    align-items: center;
+
+}
+
+#link-list button:hover {
+	background: var(--tag-bg-color-regular);
+	color: var(--tag-text-color-regular);
+}
+
+#link-list button.delete-btn {
+	display: none;
+	color: #EF4444;
+}
+
+#link-list button.delete-btn:hover {
+	background: var(--tag-bg-color-high);
+	color: var(--tag-text-color-high);
+}
+
+
+.header-with-button, .edit-button {
+    display: inline-block; /* Ensures both elements are inline */
+    vertical-align: middle; /* Aligns elements vertically */
+    margin: 0; /* Removes default margins */
+}
+
+/* Optional: Add spacing between the header and the button */
+.edit-button {
+    margin-left: 10px; /* Adjust spacing as needed */
+    background: none; /* Remove default button background */
+    border: none; /* Remove default border */
+    cursor: pointer; /* Show pointer cursor on hover */
+    color: inherit; /* Inherit text color */
+    font-size: 1em; /* Adjust icon size if needed */
+}
+
+.edit-button:hover {
+    color: #007bff; /* Add hover effect, optional */
+}
+  
+  /* Adjust position of 'Add Link' and 'Delete' buttons */
+  #links-section h2 {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	}
+  
+  #link-list {
+	list-style-type: none;
+	padding-left: 0;
+	display: flex;
+	flex: 1;
+	align-content: flex-start;
+	flex-wrap: wrap;
+	}
+  .link-item img {
+	width: 24px; /* Set the width of the icon */
+	height: 24px; /* Set the height of the icon */
+	margin-right: 10px; /* Add some space between the icon and the title */
+	vertical-align: middle; /* Align the icon vertically with the text */
+	/* margin-right: 10px; */
+	vertical-align: middle;
+	/* margin-left: 30px; */
+	}
+  
+  /* Optional: If you want to make the icon more prominent */
+  .link-button img {
+	width: 32px; /* Increase the width for better visibility */
+	height: 32px; /* Increase the height */
+  }
+  /* Popup modal styles */
+  .add-link-form {
+	display: none; /* Hidden by default */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+	/*justify-content: center;
+	align-items: center;*/
+	z-index: 1000;
+	overflow: hidden; /* Prevent scrolling while popup is open */
+  }
+  
+  /* Centered popup content container */
+  .popup-content {
+	background-color: var(--bg-secondary);
+	padding: 30px 10px;
+	border-radius: var(--border-radius-primary);
+	border: var(--border-width) solid var(--border-primary);
+	max-width: 450px; /* Constrain width */
+	width: 90%; /* Flexible for smaller screens */
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Add clean shadow */
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform:translate(-50%, -50%);
+
+  }
+
+  /* Input fields styling */
+  .add-link-form input[type="text"],
+  .add-link-form input[type="url"] {
+	width: 95%;
+	padding: 10px;
+	margin-bottom:solid #ddd;
+	font-size: 14px;
+	box-sizing: border-box;
+	outline: none;
+  }
+  
+  .add-link-form input[type="text"]:focus,
+  .add-link-form input[type="url"]:focus {
+	border-color: #4CAF50; /* Highlighted border on focus */
+	box-shadow: 0 0 4px #4CAF50;
+  }
+  
+  .formbox{
+	padding: 0.5rem 0.5rem;
+  
+  }
+  /* Buttons styling */
+  .add-link-form button {
+	width: 95%;
+	padding: 10px;
+	background-color: #059669;
+	color: white;
+	border: 1px solid;
+	border-radius: 5px;
+	border-color: #059669;
+	cursor: pointer;
+	font-size: 14px;
+	margin-top: 10px;
+  }
+  
+  .add-link-form button:hover {
+	background: var(--tag-bg-color-regular);
+	color: var(--tag-text-color-regular);
+  }
+
+
+
+  
+  .close-btn {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 20px;
+	cursor: pointer;
+	color: #555;
+  }
+
+  .imginput{
+	border:#45a049 solid 1.5px;
+	border-radius: var(--border-radius-primary);
+	margin: 10px;
+  }
+
+  .imginput img{
+	/* padding-top: 10px; */
+	vertical-align: middle;
+  }
+  
+  .imginput input{
+	border: 0px;
+	margin-top:10px;
+	/* width: 70%; */
+  }
+  .adddelete1{
+	border: 0px;
+	width: 28px;
+	height: 28px;
+  }
+
+  .adddelete{
+	border: 0px;
+	width: 36px;
+	height: 36px;
+  }
+
+  #toggle-delete-btn{
+	margin: 0px 0px 0px 60px;
+
+  }
+  #add-link-btn{
+	padding: inherit;
+	margin-bottom: 0px;
+  }
+  #url-error-message{
+	color:#45a049; display: none;
+  }
+
+
+  .formbox label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: var(--text-secondary);
+    text-align: left;
+    margin-left: 10px;
+	font-family: 'Geologica', sans-serif;
+  }
+
+  .formbox input {
+	background: var(--input-bg);
+  }
+
+  .formbox ::placeholder {
+	color: var(--input-text);
+  }
+
+  .formbox button {
+	background: var(--button-bg-color);
+	color: var(--button-text-color);
+  }
+
+  .formbox button:hover {
+	background: var(--button-bg-color-hover);
+	color: var(--button-text-color-hover);
+  }

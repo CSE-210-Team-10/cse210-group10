@@ -25,7 +25,7 @@ def check_script_location():
     script_path = os.path.abspath(sys.argv[0])
     script_rel_path = os.path.relpath(script_path, os.getcwd())
 
-    if script_rel_path.startswith("scripts/") or script_rel_path.startswith(
+    if script_rel_path.startswith("scripts") or script_rel_path.startswith(
         "./scripts/"
     ):
         print("Running build script from root level")
