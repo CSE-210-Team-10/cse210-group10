@@ -15,7 +15,7 @@ This implementation focused on features that student developers would find usefu
 - The Rubber Duck (a chatbot specialized for [rubber duck debugging](https://rubberduckdebugging.com/))
 
 ## Demo
-The demo for this project can be found hosted [here](dummy). Here is a video of the demo showcasing key functionality:
+The demo for this project can be found hosted [here](https://student-dev-dashboard.pages.dev/). Here is a video of the demo showcasing key functionality:
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/HsUoUxZL3rQ)](https://youtu.be/HsUoUxZL3rQ)
 
