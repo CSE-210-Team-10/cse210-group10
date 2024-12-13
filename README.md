@@ -19,6 +19,8 @@ The demo for this project can be found hosted [here](https://student-dev-dashboa
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/HsUoUxZL3rQ)](https://youtu.be/HsUoUxZL3rQ)
 
+Music by [Sonican](https://pixabay.com/users/sonican-38947841/).
+
 ## How to Use
 A valid GitHub account is required to use ByteBoard. For detailed steps on how to use ByteBoard, please refer to the onboarding document for new users [here](https://github.com/CSE-210-Team-10/cse210-group10/blob/main/admin/documentation/onboarding.md).
 
