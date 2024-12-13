@@ -19,8 +19,16 @@ The demo for this project can be found hosted [here](https://student-dev-dashboa
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/HsUoUxZL3rQ)](https://youtu.be/HsUoUxZL3rQ)
 
+Music by [Sonican](https://pixabay.com/users/sonican-38947841/).
+
 ## How to Use
 A valid GitHub account is required to use ByteBoard. For detailed steps on how to use ByteBoard, please refer to the onboarding document for new users [here](https://github.com/CSE-210-Team-10/cse210-group10/blob/main/admin/documentation/onboarding.md).
 
 ## Roadmap
 The project roadmap can be found [here](https://github.com/CSE-210-Team-10/cse210-group10/blob/main/spec/supplemental/Project%20Roadmap/CSE210_Team10_ProjectRoadMap.jpg).
+
+## Figma Design
+The Figma design for our project can be found [here](https://www.figma.com/design/vmR73ilvmkx0uk6126HwOk/CSE-210-Design?node-id=1629-363&t=B4jDyR6kxwGMAkyP-1).
+
+## Future Works
+The future directions for our project can be found [here](https://github.com/CSE-210-Team-10/cse210-group10/blob/main/admin/documentation/future-works.md).
