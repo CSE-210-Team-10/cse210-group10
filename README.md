@@ -29,3 +29,6 @@ The project roadmap can be found [here](https://github.com/CSE-210-Team-10/cse21
 
 ## Figma Design
 The Figma design for our project can be found [here](https://www.figma.com/design/vmR73ilvmkx0uk6126HwOk/CSE-210-Design?node-id=1629-363&t=B4jDyR6kxwGMAkyP-1).
+
+## Future Works
+The future directions for our project can be found [here](https://github.com/CSE-210-Team-10/cse210-group10/blob/main/admin/documentation/future-works.md).
