@@ -23,7 +23,4 @@ The demo for this project can be found hosted [here](dummy). Here is a video of 
 A valid GitHub account is required to use ByteBoard. For detailed steps on how to use ByteBoard, please refer to the onboarding document for new users [here](https://github.com/CSE-210-Team-10/cse210-group10/blob/main/admin/documentation/onboarding.md).
 
 ## Roadmap
-The project roadmap can be found [here](https://github.com/CSE-210-Team-10/cse210-group10/blob/main/spec/supplemental/Project%20Roadmap/CSE210_Team10_ProjectRoadMap.jpg). Below is a summary of the major tasks and status.
-
-
-See the [open issues](https://github.com/CSE-210-Team-10/cse210-group10/issues) for a full list of future changes to be made.
+The project roadmap can be found [here](https://github.com/CSE-210-Team-10/cse210-group10/blob/main/spec/supplemental/Project%20Roadmap/CSE210_Team10_ProjectRoadMap.jpg).
